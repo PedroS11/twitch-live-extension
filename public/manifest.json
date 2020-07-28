@@ -1,0 +1,18 @@
+{
+  "name": "Twitch Live Extension",
+  "version": "1.0.0",
+  "author": "Pedro Silva",
+  "permission": [
+    "storage"
+  ],
+  "browser_action": {
+    "default_title": "Twitch Live",
+    "default_popup": "index.html"
+  },
+  "manifest_version": 2,
+  "icons": {
+    "16": "assets/logo192.png",
+    "48": "assets/logo192.png",
+    "128": "assets/logo192.png"
+  }
+}
