@@ -1,0 +1,12 @@
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+    color: rgb(19 17 17)
+}
+
+a:hover > div{
+    text-decoration: none;
+}

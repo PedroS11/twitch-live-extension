@@ -1,0 +1,15 @@
+li {
+    padding-left: 1px;
+}
+
+li:not(:last-child) {
+    padding-bottom: 1px;
+}
+
+ul {
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 200px;
+    margin-bottom: 0;
+    padding-inline-start: 0
+}
