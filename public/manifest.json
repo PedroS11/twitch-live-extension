@@ -10,9 +10,9 @@
     "default_popup": "index.html"
   },
   "manifest_version": 2,
-  "icons": {
+  "icons": [{
     "16": "assets/logo192.png",
     "48": "assets/logo192.png",
     "128": "assets/logo192.png"
-  }
+  }]
 }

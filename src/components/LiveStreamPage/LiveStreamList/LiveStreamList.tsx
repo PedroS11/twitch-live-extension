@@ -1,21 +1,15 @@
-import React, {useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-
-import {getLiveStreams} from '../../../store/reducers/twitchReducer';
-import {RootState} from "../../../store/reducers/rootReducer";
+import React from 'react'
 import {TwitchLiveInfo} from "../../../infrastructure/twitch/twitchApi";
 import {LiveStreamListItem} from "../LiveStreamListItem/LiveStreamListItem";
 
 import './LiveStreamList.css';
-import {LiveStreamFooter} from "../LiveStreamFooter/LiveStreamFooter";
 
-export const LiveStreamList = () => {
-    const dispatch = useDispatch();
+interface LiveStreamListProps {
+    liveStreams: TwitchLiveInfo[],
+    loading: Boolean
+}
 
-    const {loading} = useSelector((state: RootState) => state.common);
-    const {liveStreams, streamerNames} = useSelector((state: RootState) => state.twitch);
-
-
+export const LiveStreamList = ({liveStreams, loading}: LiveStreamListProps) => {
     return (
         <div>
             {liveStreams.length > 0

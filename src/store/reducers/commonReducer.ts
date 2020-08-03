@@ -6,7 +6,7 @@ interface CommonStore {
 }
 
 const initialState: CommonStore = {
-    loading: true,
+    loading: false,
     page: "LIVE"
 };
 
