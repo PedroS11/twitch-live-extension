@@ -1,5 +1,5 @@
 li {
-    padding-left: 1px;
+    padding-left: 0px;
 }
 
 li:not(:last-child) {
@@ -9,7 +9,15 @@ li:not(:last-child) {
 ul {
     overflow: hidden;
     overflow-y: scroll;
-    height: 200px;
+    max-height: 200px;
     margin-bottom: 0;
+    padding-bottom: 6px;
     padding-inline-start: 0
+}
+
+a {
+    color: #a96fff !important;
+}
+a:hover {
+    color: #910de0 !important;
 }

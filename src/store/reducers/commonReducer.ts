@@ -2,10 +2,12 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface CommonStore {
     loading: boolean;
+    page: 'LIVE'|'SETTINGS';
 }
 
 const initialState: CommonStore = {
-    loading: false
+    loading: true,
+    page: "LIVE"
 };
 
 const commomnSlice = createSlice({
@@ -15,12 +17,14 @@ const commomnSlice = createSlice({
         setLoading(state: CommonStore) {
             state.loading = !state.loading;
         },
-        updateLoading(state: CommonStore, {payload}: PayloadAction<boolean>) {
-            state.loading = payload
+        goToSettings(state: CommonStore) {
+            if(state.page !== 'SETTINGS') {
+                state.page = 'SETTINGS';
+            }
         }
     }
 });
 
 export const {reducer: commonReducer} = commomnSlice;
 
-export const {setLoading, updateLoading} = commomnSlice.actions;
+export const {setLoading, goToSettings} = commomnSlice.actions;

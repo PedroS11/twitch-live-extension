@@ -1,0 +1,22 @@
+.logo {
+    padding-left: 15px;
+    padding-right: 5px;
+}
+
+.viewer {
+    padding-right: 20px;
+}
+
+.viewer-logo {
+    vertical-align: text-bottom;
+    padding-left: 1px;
+}
+
+.stream-list-item {
+    background-color: white;
+    color: rgb(19 17 17);
+}
+
+.stream-list-item:hover {
+    background-color: #b0b0b0;
+}
