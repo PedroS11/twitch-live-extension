@@ -2,17 +2,24 @@
   "name": "Twitch Live Extension",
   "version": "1.0.0",
   "author": "Pedro Silva",
-  "permission": [
+  "permissions": [
     "storage"
   ],
   "browser_action": {
     "default_title": "Twitch Live",
     "default_popup": "index.html"
   },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+
+  "content_security_policy": "script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com; object-src 'self'",
+
   "manifest_version": 2,
-  "icons": [{
+  "icons": {
     "16": "assets/logo192.png",
     "48": "assets/logo192.png",
     "128": "assets/logo192.png"
-  }]
+  }
 }

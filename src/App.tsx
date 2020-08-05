@@ -1,20 +1,22 @@
-import React from 'react';
+/*global chrome*/
+import React, {useEffect} from 'react';
 import './App.css';
-import {LiveStreamList} from "./components/LiveStreamPage/LiveStreamList/LiveStreamList";
 import {Header} from "./components/Common/Header/Header";
-import {RootState} from "./store/reducers/rootReducer";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {LiveStreamPage} from "./components/LiveStreamPage/LiveStreamPage";
-import {SettingsPage} from "./components/SettingsPage/SettingsPage";
+import {getLiveStreams} from "./store/reducers/twitchReducer";
 
 function App() {
-    const {page} = useSelector((state: RootState) => state.common)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getLiveStreams());
+    }, []);
+
     return (
         <div className="container">
             <Header/>
-            {page==='SETTINGS'
-                ? <SettingsPage/>
-                : <LiveStreamPage/>}
+            <LiveStreamPage/>
         </div>
     );
 }
