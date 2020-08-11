@@ -21,3 +21,9 @@ a {
 a:hover {
     color: #910de0 !important;
 }
+
+.stream-list {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 200px;
+}

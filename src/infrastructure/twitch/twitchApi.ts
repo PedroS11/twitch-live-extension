@@ -14,7 +14,7 @@ interface TwitchGetUserInfo {
 }
 
 export interface TwitchLiveInfo {
-    _id: string,
+    _id: number,
     game: string,
     viewers: number,
     channel: {
