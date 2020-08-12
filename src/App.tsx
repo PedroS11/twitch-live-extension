@@ -2,7 +2,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {Header} from "./components/Common/Header/Header";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {LiveStreamPage} from "./components/LiveStreamPage/LiveStreamPage";
 import {getLiveStreams} from "./store/reducers/twitchReducer";
 

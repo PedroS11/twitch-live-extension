@@ -13,9 +13,6 @@
     "page": "options.html",
     "open_in_tab": false
   },
-
-  "content_security_policy": "script-src 'self' https://code.jquery.com https://stackpath.bootstrapcdn.com; object-src 'self'",
-
   "manifest_version": 2,
   "icons": {
     "16": "assets/logo192.png",

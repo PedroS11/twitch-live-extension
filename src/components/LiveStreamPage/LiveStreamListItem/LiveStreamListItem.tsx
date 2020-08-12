@@ -1,24 +1,24 @@
 import React from 'react'
 import {TwitchLiveInfo} from "../../../infrastructure/twitch/twitchApi";
+import {formatViewers} from "../../../utils/formatter";
 
 import './LiveStreamListItem.css'
-import {formatViewers} from "../../../utils/formatter";
 
 export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
     return (
         <a target="_blank" rel="noopener noreferrer" href={elem.channel.url}>
-            <div className="card">
+            <div className="card stream-list-item">
                 <div className="row no-gutters">
                     <div className="col-auto">
                         <img height={50} src={elem.channel.logo}/>
                     </div>
                     <div className="col">
                         <div className="card-block px-2">
-                            <p className="stream-display-name card-title truncate ">{elem.channel.display_name}{elem.channel.display_name}</p>
+                            <p className="stream-display-name card-title truncate ">{elem.channel.display_name}</p>
                             <p className="card-text truncate stream-game">{elem.game}</p>
                         </div>
                     </div>
-                    <div className="col-auto align-self-center">
+                    <div className="col-auto align-self-center viewers">
                         {formatViewers(elem.viewers)}
                         <svg width="1.1em" height="1.1em" viewBox="0 0 16 16" className="bi bi-person viewer-logo"
                              fill="red"

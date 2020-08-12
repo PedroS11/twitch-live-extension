@@ -13,10 +13,10 @@ export const LiveStreamFooter = () => {
 
     return (
         <div>
-            <div className="d-flex justify-content-center" style={{paddingTop: 4}}>
-                <button type="button" disabled={loading} id="refresh-button" className="btn btn-primary"
+            <div className="d-flex justify-content-center refresh-button-div">
+                <button type="button" disabled={loading} className="btn btn-dark"
                         onClick={() => dispatch(getLiveStreams())}>
-                    Check if anyone goes live
+                    Check if anyone went live
                 </button>
             </div>
         </div>

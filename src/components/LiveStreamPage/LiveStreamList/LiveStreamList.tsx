@@ -13,13 +13,13 @@ export const LiveStreamList = ({liveStreams, loading}: LiveStreamListProps) => {
     return (
         <div>
             {liveStreams.length > 0
-                ? <div  style={{paddingBottom: 4}} className="stream-list">
+                ? <div className="stream-list">
                     {liveStreams.map((elem: TwitchLiveInfo) =>
-                            <LiveStreamListItem {...elem}/>
+                        <LiveStreamListItem {...elem} key={elem._id}/>
                     )}
                 </div>
-                : <div style={{textAlign: "center"}}>All the channels are offline :(</div>
-                }
+                : <div className="no-streams-message">All the channels are offline :(</div>
+            }
 
             {loading && (
                 <div className="d-flex justify-content-center">

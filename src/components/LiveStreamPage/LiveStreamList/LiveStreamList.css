@@ -1,29 +1,10 @@
-li {
-    padding-left: 0px;
-}
-
-li:not(:last-child) {
-    padding-bottom: 1px;
-}
-
-ul {
-    overflow: hidden;
-    overflow-y: scroll;
-    max-height: 200px;
-    margin-bottom: 0;
-    padding-bottom: 6px;
-    padding-inline-start: 0
-}
-
-a {
-    color: #a96fff !important;
-}
-a:hover {
-    color: #910de0 !important;
-}
-
 .stream-list {
     overflow: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 200px;
+}
+
+.no-streams-message {
+    text-align: center;
+    padding-bottom: 5px;
 }
