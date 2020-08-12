@@ -26,11 +26,12 @@ const twitchSlice = createSlice({
 const {addStream, resetLiveStreams} = twitchSlice.actions;
 
 export const getLiveStreams = (): AppThunk => async dispatch => {
-    const streamNamesList: string[] = await getStorageData("streamNamesList");
+    dispatch(resetLiveStreams());
+
+    const streamNamesList: string[] = await getStorageData("streamNamesList") || [];
     if(!streamNamesList.length) return;
 
     dispatch(setLoading());
-    dispatch(resetLiveStreams());
 
     const results = await Promise.allSettled(streamNamesList.map((streamer: string) => getStreamInfo(streamer)));
 

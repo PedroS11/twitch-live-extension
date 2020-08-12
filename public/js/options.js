@@ -1,4 +1,5 @@
 let streamNames = [];
+
 $(document).ready(function () {
     loadStreamNames();
     createAddStreamEvent();
@@ -8,15 +9,16 @@ $(document).ready(function () {
 function createRemoveStreamEvent() {
     $(".container").on("click", "#remove-stream", function () {
         const stream = $(this).prev().text();
-        streamNames = streamNames.filter(elem => elem !== stream);
-        chrome.storage.sync.set({"streamNamesList": streamNames}, function () {
+        streamNames = streamNames.filter(elem => elem.toLowerCase() !== stream.toLowerCase());
+        chrome.storage.sync.set({"streamNamesList": streamNames},  () => {
+            if(chrome.runtime.lastError) console.log(chrome.runtime.lastError.message);
             $(this).closest("#stream-item").remove();
         });
     });
 }
 
 function createAddStreamEvent() {
-    $("#add-stream").on("click", function () {
+    $("#addStream").on("click", function () {
         const stream = $("#inputStream").val();
 
         if (!stream || streamNames.includes(stream)) {
@@ -30,6 +32,14 @@ function createAddStreamEvent() {
         streamNames.push(stream);
         chrome.storage.sync.set({"streamNamesList": streamNames})
     });
+
+    $("#inputStream").on("keyup", (event) => {
+        // Leave enter
+        if(event.keyCode === 13) {
+            event.preventDefault();
+            $("#addStream").click();
+        }
+    })
 }
 
 function loadStreamNames() {
