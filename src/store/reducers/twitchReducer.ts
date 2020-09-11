@@ -19,11 +19,14 @@ const twitchSlice = createSlice({
         },
         resetLiveStreams: (state: Twitchtore) => {
             state.liveStreams = []
+        },
+        sortByViewers: (state: Twitchtore) => {
+            state.liveStreams.sort((a: TwitchLiveInfo, b: TwitchLiveInfo) => b.viewers - a.viewers);
         }
     }
 });
 
-const {addStream, resetLiveStreams} = twitchSlice.actions;
+const {addStream, resetLiveStreams, sortByViewers} = twitchSlice.actions;
 
 export const getLiveStreams = (): AppThunk => async dispatch => {
     dispatch(resetLiveStreams());
@@ -41,6 +44,8 @@ export const getLiveStreams = (): AppThunk => async dispatch => {
         }
         else console.error(response)
     });
+
+    dispatch(sortByViewers());
 
     dispatch(setLoading());
 };

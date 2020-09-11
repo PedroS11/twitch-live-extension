@@ -1,0 +1,11 @@
+.options-title {
+    color: #a96fff !important;
+}
+
+.options-title:hover {
+    color: #910de0 !important;
+}
+
+.add-stream {
+    padding-top: 10px;
+}

@@ -1,5 +1,10 @@
+.card.stream-list-item {
+    border-radius: 10px;
+    border: 1px solid #9a9a9a;
+}
+
 .card.stream-list-item:hover {
-    background-color: #b0b0b0;
+    background-color: #e7e7e7;
     cursor: pointer;
 }
 
