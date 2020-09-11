@@ -1,6 +1,7 @@
 .card.stream-list-item {
     border-radius: 10px;
     border: 1px solid #9a9a9a;
+    margin-bottom: 1px;
 }
 
 .card.stream-list-item:hover {
@@ -33,4 +34,8 @@
 
 .viewer-logo {
     vertical-align: text-bottom;
+}
+
+img {
+    border-radius: 18%;
 }

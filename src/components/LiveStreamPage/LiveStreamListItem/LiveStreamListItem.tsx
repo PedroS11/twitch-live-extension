@@ -10,7 +10,7 @@ export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
             <div className="card stream-list-item">
                 <div className="row no-gutters">
                     <div className="col-auto">
-                        <img height={50} src={elem.channel.logo}/>
+                        <img height={48} src={elem.channel.logo}/>
                     </div>
                     <div className="col">
                         <div className="card-block px-2">
