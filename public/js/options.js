@@ -31,6 +31,7 @@ function createAddStreamEvent() {
 
         streamNames.push(stream);
         chrome.storage.sync.set({"streamNamesList": streamNames})
+        $("html, body").animate({ scrollTop: $(document).height()-$(window).height() });
     });
 
     $("#inputStream").on("keyup", (event) => {
