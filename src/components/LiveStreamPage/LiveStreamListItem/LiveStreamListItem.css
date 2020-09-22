@@ -1,12 +1,17 @@
 .card.stream-list-item {
-    border-radius: 10px;
-    border: 1px solid #9a9a9a;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #9a9a9a;
     margin-bottom: 1px;
 }
 
 .card.stream-list-item:hover {
     background-color: #e7e7e7;
     cursor: pointer;
+}
+
+.stream-list-item-img {
+    border-radius: 2px;
 }
 
 .truncate {
@@ -34,8 +39,4 @@
 
 .viewer-logo {
     vertical-align: text-bottom;
-}
-
-img {
-    border-radius: 18%;
 }
