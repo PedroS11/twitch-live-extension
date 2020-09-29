@@ -1,7 +1,8 @@
 # Twitch Live Extension
 
 Chrome extension that shows your favorite streamers live on Twitch.
-![100x100](./assets/extension.png "Extension")
+
+![100x100](./assets/extension_small.png "Extension")
 
 
 ### Add a stream
@@ -9,11 +10,11 @@ Chrome extension that shows your favorite streamers live on Twitch.
 - Press right click on the extension icon
 - Select **_Options_**
 
-![100x100](./assets/options_menu.png "Options menu")
+![100x100](./assets/options_menu_small.png "Options menu")
 
 - Add the stream name to the list by pressing `Enter` or clicking `Add` button
 
-![alt text](./assets/options.png "Options")
+![alt text](./assets/options_small.png "Options")
 
 ### Remove stream
 - Press right click on the extension icon
