@@ -1,13 +1,19 @@
 # Twitch Live Extension
 
-Chrome extension that shows Twitch live streams. 
-For a list of streams, on extension open, it gets the live ones.
+Chrome extension that shows your favorite streamers live on Twitch.
+![100x100](./assets/extension.png "Extension")
+
 
 ### Add a stream
 
 - Press right click on the extension icon
 - Select **_Options_**
+
+![100x100](./assets/options_menu.png "Options menu")
+
 - Add the stream name to the list by pressing `Enter` or clicking `Add` button
+
+![alt text](./assets/options.png "Options")
 
 ### Remove stream
 - Press right click on the extension icon
@@ -27,10 +33,6 @@ To get one, go to the [Twitch Api page](https://dev.twitch.tv/docs/authenticatio
 Runs the app in the development mode with reloading.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### `yarn test`
-
-Run all tests in the interactive watch mode.<br />
-
 ### `yarn build`
 
 Builds the app for production to the `build` folder without inline scripts.<br />
@@ -41,3 +43,7 @@ Builds the app for production to the `build` folder without inline scripts.<br /
 - Open [chrome://extensions](chrome://extensions)
 - Enable `Developer mode`
 - Press ``Load unpacked`` and upload the ``build`` folder 
+
+## Frameworks
+
+This extension was developed using [React](https://reactjs.org/) and [Redux Toolkit](https://redux-toolkit.js.org/). For the options page, it was used [Jquery](https://jquery.com/).
