@@ -1,6 +1,6 @@
 # Twitch Live Extension
 
-Chrome extension that shows your favorite streamers live on Twitch.
+Chrome extension that shows your favorite streamers live on Twitch. Everytime you add/remove a stream, it will sync with your Google account so that you have access to the updated list in any computer that you have logged in.
 
 ![100x100](./assets/extension_small.png "Extension")
 
