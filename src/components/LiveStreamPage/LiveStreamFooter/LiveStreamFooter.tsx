@@ -35,7 +35,7 @@ export const LiveStreamFooter = () => {
                 disabled={loading}
                 startIcon={<SyncIcon />}
                 onClick={() => dispatch(getLiveStreams())}>
-                Refresh list
+                Refresh
             </Button>
         </div>
     )
