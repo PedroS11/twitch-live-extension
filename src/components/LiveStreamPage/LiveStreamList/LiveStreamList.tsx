@@ -3,30 +3,64 @@ import {TwitchLiveInfo} from "../../../infrastructure/twitch/twitchApi";
 import {LiveStreamListItem} from "../LiveStreamListItem/LiveStreamListItem";
 
 import './LiveStreamList.css';
+import {CircularProgress, List, Typography} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
 interface LiveStreamListProps {
     liveStreams: TwitchLiveInfo[],
     loading: Boolean
 }
 
+const useStyles = makeStyles({
+    root: {
+        paddingTop: 5,
+        paddingBottom: 10
+    },
+    list: {
+        overflow: 'auto',
+        maxHeight: 400,
+        paddingTop: 0,
+        paddingBottom: 0,
+        '&::-webkit-scrollbar': {
+            width: '0.6em'
+        },
+        '&::-webkit-scrollbar-track': {
+            borderRadius: 10
+        },
+        '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'grey',
+            borderRadius: 10
+
+        }
+    },
+    loadingDiv: {
+        display: 'flex',
+        justifyContent: 'center',
+        paddingTop: 10,
+        paddingBottom: 10
+    },
+    loadingElem: {
+        color: '#FFFFFF'
+    }
+});
+
 export const LiveStreamList = ({liveStreams, loading}: LiveStreamListProps) => {
+    const classes = useStyles();
     return (
-        <div>
-            {liveStreams.length > 0
-            && <div className="stream-list">
+        <div className={classes.root}>
+            {!loading && liveStreams.length > 0
+            && <List className={classes.list}>
                 {liveStreams.map((elem: TwitchLiveInfo) =>
                     <LiveStreamListItem {...elem} key={elem._id}/>
                 )}
-            </div>
+            </List>
             }
             {!loading && liveStreams.length === 0 &&
-            <div className="no-streams-message">All the channels are offline :(</div>}
+            <Typography align={"center"}>Your favorite channels are all offline...</Typography>}
 
             {loading && (
-                <div className="d-flex justify-content-center loading-div">
-                    <div className="spinner-border spinner-border-sm" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
+                <div className={classes.loadingDiv}>
+                    <CircularProgress className={classes.loadingElem} size={30}/>
                 </div>
             )}
         </div>

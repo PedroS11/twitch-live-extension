@@ -15,8 +15,8 @@
   },
   "manifest_version": 2,
   "icons": {
-    "16": "assets/logo192.png",
-    "48": "assets/logo192.png",
-    "128": "assets/logo192.png"
+    "16": "assets/logoTwitch.png",
+    "48": "assets/logoTwitch.png",
+    "128": "assets/logoTwitch.png"
   }
 }
