@@ -47,4 +47,4 @@ Builds the app for production to the `build` folder without inline scripts.<br /
 
 ## Frameworks
 
-This extension was developed using [React](https://reactjs.org/) and [Redux Toolkit](https://redux-toolkit.js.org/). For the options page, it was used [Jquery](https://jquery.com/).
+This extension was developed using [React](https://reactjs.org/), [Redux Toolkit](https://redux-toolkit.js.org/) and [Material-UI](https://material-ui.com/). For the options page, it was used [Jquery](https://jquery.com/).

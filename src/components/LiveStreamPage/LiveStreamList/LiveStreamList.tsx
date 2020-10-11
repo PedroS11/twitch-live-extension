@@ -14,7 +14,7 @@ interface LiveStreamListProps {
 const useStyles = makeStyles({
     root: {
         paddingTop: 5,
-        paddingBottom: 10
+        paddingBottom: 5
     },
     list: {
         overflow: 'auto',

@@ -12,8 +12,8 @@ const useStyles = makeStyles({
     root: {
         display: 'flex',
         justifyContent: 'center',
-        paddingTop: 5,
-        paddingBottom: 10
+        paddingTop: 3,
+        paddingBottom: 8
     },
     button: {
         textTransform: 'none'
