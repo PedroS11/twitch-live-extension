@@ -6,9 +6,9 @@ import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
     title: {
-        color: '#a96fff',
+        color: '#FFF',
         '&:hover': {
-            color: '#590d92'
+            color: '#aaaaaa'
         }
     }
 });

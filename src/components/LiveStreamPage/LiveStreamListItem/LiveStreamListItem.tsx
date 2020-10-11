@@ -15,20 +15,22 @@ import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
     root: {
-        backgroundColor: '#4c4c4c'
+        backgroundColor: '#4c4c4c',
+        height: 50
     },
     gameText: {
         fontSize: 11
     },
     viewersText: {
-        fontSize: 15
+        fontSize: 13,
+        paddingRight: 3
     }
 });
 
 export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
     const classes = useStyles();
     return (
-        <ListItem className={classes.root} button component="a" target="_blank" rel="noopener noreferrer" href={elem.channel.url} divider>
+        <ListItem className={classes.root} button component="a" target="_blank" rel="noopener noreferrer" href={elem.channel.url} divider dense>
             <ListItemAvatar>
                 <Avatar src={elem.channel.logo}>
                 </Avatar>
@@ -38,14 +40,6 @@ export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
                 secondary={
                     <Typography className={classes.gameText} noWrap variant={"subtitle2"} color={"textSecondary"}>
                         {elem.game}
-                        {elem.game}
-                        {elem.game}
-                        {elem.game}
-                        {elem.game}
-                        {elem.game}
-                        {elem.game}
-                        {elem.game}
-                        {elem.game}
                     </Typography>
                 }
             />
@@ -54,7 +48,7 @@ export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
                     <Typography noWrap variant={"subtitle1"} color={"textSecondary"} className={classes.viewersText}>
                         {formatViewers(elem.viewers)}
                     </Typography>
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-person viewer-logo"
+                    <svg width="0.9em" height="0.9em" viewBox="0 0 16 16" className="bi bi-person viewer-logo"
                          fill="red"
                          xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd"
