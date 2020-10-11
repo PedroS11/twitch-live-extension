@@ -5,6 +5,9 @@ import {Header} from "./components/Common/Header/Header";
 import {useDispatch} from "react-redux";
 import {LiveStreamPage} from "./components/LiveStreamPage/LiveStreamPage";
 import {getLiveStreams} from "./store/reducers/twitchReducer";
+import {ThemeProvider} from '@material-ui/core/styles';
+import darkTheme from './themes/darkTheme';
+import {Paper} from "@material-ui/core";
 
 function App() {
     const dispatch = useDispatch();
@@ -14,10 +17,12 @@ function App() {
     }, []);
 
     return (
-        <div className="container">
-            <Header/>
-            <LiveStreamPage/>
-        </div>
+        <ThemeProvider theme={darkTheme}>
+            <Paper square>
+                <Header/>
+                <LiveStreamPage/>
+            </Paper>
+        </ThemeProvider>
     );
 }
 

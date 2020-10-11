@@ -11,7 +11,7 @@ export const LiveStreamPage = () => {
     return (
         <div>
             <LiveStreamList loading={loading} liveStreams={liveStreams}/>
-            {liveStreams.length > 0 && <LiveStreamFooter/>}
+            {/*{liveStreams.length > 0 && <LiveStreamFooter/>}*/}
         </div>
     )
 };
