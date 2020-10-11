@@ -2,7 +2,6 @@ import React from 'react'
 import {TwitchLiveInfo} from "../../../infrastructure/twitch/twitchApi";
 import {LiveStreamListItem} from "../LiveStreamListItem/LiveStreamListItem";
 
-import './LiveStreamList.css';
 import {CircularProgress, List, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 

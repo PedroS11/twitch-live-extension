@@ -2,7 +2,6 @@ import React from 'react'
 import {TwitchLiveInfo} from "../../../infrastructure/twitch/twitchApi";
 import {formatViewers} from "../../../utils/formatter";
 
-import './LiveStreamListItem.css'
 import {
     Avatar,
     IconButton,
