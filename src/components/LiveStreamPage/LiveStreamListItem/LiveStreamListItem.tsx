@@ -15,7 +15,8 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles({
     root: {
         backgroundColor: '#4c4c4c',
-        height: 50
+        height: 50,
+        paddingRight: 63
     },
     gameText: {
         fontSize: 11
