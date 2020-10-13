@@ -1,6 +1,6 @@
 {
   "name": "Twitch Live Extension",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Pedro Silva",
   "permissions": [
     "storage"
