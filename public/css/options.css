@@ -24,6 +24,7 @@ body{
 #inputStream {
     background-color: #4c4c4c;
     border-color: #9c9c9c;
+    color: white;
 }
 
 #inputStream::-webkit-input-placeholder {
