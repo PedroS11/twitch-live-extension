@@ -1,5 +1,8 @@
+body{
+    background-color: #424242;
+}
 .options-title {
-    color: #a96fff !important;
+    color: white !important;
 }
 
 .options-title:hover {
@@ -8,4 +11,21 @@
 
 .add-stream {
     padding-top: 10px;
+}
+#streamList {
+    padding-top: 10px;
+}
+
+#stream-item  {
+    background-color: #4c4c4c;
+    color: white;
+}
+
+#inputStream {
+    background-color: #4c4c4c;
+    border-color: #9c9c9c;
+}
+
+#inputStream::-webkit-input-placeholder {
+    color: white;
 }
