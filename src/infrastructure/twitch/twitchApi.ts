@@ -1,33 +1,11 @@
 import axios, {AxiosInstance} from 'axios';
 import {CLIENT_ID} from "../../config";
-
-export interface TwitchUserInfo {
-    display_name: string,
-    name: string,
-    logo: string,
-    _id: string
-}
-
-interface TwitchGetUserInfo {
-    _total: number,
-    users: TwitchUserInfo[]
-}
-
-export interface TwitchLiveInfo {
-    _id: number,
-    game: string,
-    viewers: number,
-    channel: {
-        name: string,
-        display_name: string,
-        logo: string,
-        url: string
-    }
-}
-
-interface TwitchGetLiveInfo {
-    streams: TwitchLiveInfo[]
-}
+import {
+    TwitchGetLiveInfo,
+    TwitchGetUserInfo,
+    TwitchLiveInfo,
+    TwitchUserInfo
+} from "../../domain/infrastructure/twitch/twitchApi";
 
 let instance: AxiosInstance;
 
@@ -60,15 +38,11 @@ const getTwitchLiveInfo = async (userId: string): Promise<TwitchLiveInfo | undef
 
     const data: TwitchGetLiveInfo = response.data;
 
-    if(data.streams.length) {
-        return data.streams[0]
-    }
-
-    return;
+    return data.streams.length ? data.streams[0] : undefined;
 };
 
 export const getStreamInfo = async (username: string): Promise<TwitchLiveInfo | undefined> => {
-  const userData: TwitchUserInfo = await getTwitchUserInfo(username);
+    const userData: TwitchUserInfo = await getTwitchUserInfo(username);
 
-  return await getTwitchLiveInfo(userData._id);
+    return await getTwitchLiveInfo(userData._id);
 };

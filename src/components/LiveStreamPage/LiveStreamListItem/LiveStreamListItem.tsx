@@ -1,5 +1,4 @@
 import React from 'react'
-import {TwitchLiveInfo} from "../../../infrastructure/twitch/twitchApi";
 import {formatViewers} from "../../../utils/formatter";
 
 import {
@@ -11,6 +10,7 @@ import {
     ListItemText, Typography
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import {TwitchLiveInfo} from "../../../domain/infrastructure/twitch/twitchApi";
 
 const useStyles = makeStyles({
     root: {
