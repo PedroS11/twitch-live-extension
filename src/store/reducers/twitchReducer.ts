@@ -2,9 +2,9 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../store";
 import {setLoading} from './commonReducer'
 import {getStreamInfo} from "../../infrastructure/twitch/twitchApi";
-import {getStorageData} from "../../infrastructure/chromeStorage/chromeStorage";
 import {FAVORITE_STREAMERS_STORAGE_KEY, TwitchStore} from "../../domain/store/twitchStore";
 import {TwitchLiveInfo} from "../../domain/infrastructure/twitch/twitchApi";
+import {getStorageData, setStorageData} from "../../utils/localStorage";
 
 const twitchSlice = createSlice({
     name: 'twitch',
@@ -23,7 +23,10 @@ const twitchSlice = createSlice({
             state.favoriteStreamers = []
         },
         saveFavoriteStreamers: (state: TwitchStore, {payload}: PayloadAction<string[]>) => {
-          state.favoriteStreamers = payload
+            state.favoriteStreamers = payload
+        },
+        addFavoriteStream: (state: TwitchStore, {payload}: PayloadAction<string>) => {
+            state.favoriteStreamers.push(payload)
         },
         sortByViewers: (state: TwitchStore) => {
             state.liveStreams.sort((a: TwitchLiveInfo, b: TwitchLiveInfo) => b.viewers - a.viewers);
@@ -31,38 +34,57 @@ const twitchSlice = createSlice({
     }
 });
 
-const {addStream, resetLiveStreams, sortByViewers, resetFavoriteStreamers, saveFavoriteStreamers} = twitchSlice.actions;
+const {addStream, resetLiveStreams, sortByViewers, resetFavoriteStreamers, saveFavoriteStreamers, addFavoriteStream} = twitchSlice.actions;
 
-export const loadFavorites = (): AppThunk => async dispatch => {
+export const loadFavorites = (): AppThunk<void> => async dispatch => {
     dispatch(resetFavoriteStreamers());
-    console.log('oi')
-    const favorites: string[] = ['itsbinkybee']; //await getStorageData(FAVORITE_STREAMERS_STORAGE_KEY) || [];
+    const data = getStorageData(FAVORITE_STREAMERS_STORAGE_KEY);
+    const favorites: string[] = data ? JSON.parse(data) : [];
     dispatch(saveFavoriteStreamers(favorites))
 };
 
-export const getLiveStreams = (): AppThunk => async (dispatch, getState) => {
-    console.log(getState())
-    console.log('oi2')
+export const saveFavoriteStream = (stream: string): AppThunk<any> => (dispatch, getState) => {
+    if (!getState().twitch.favoriteStreamers.some(e => e.toLowerCase() === stream.toLowerCase())) {
+        dispatch(addFavoriteStream(stream));
+        setStorageData(FAVORITE_STREAMERS_STORAGE_KEY, JSON.stringify(getState().twitch.favoriteStreamers))
 
-    // dispatch(resetLiveStreams());
-    //
-    // const streamNamesList: string[] = await getStorageData("streamNamesList") || [];
-    // if(!streamNamesList.length) return;
-    //
-    // dispatch(setLoading());
-    //
-    // const results = await Promise.allSettled(streamNamesList.map((streamer: string) => getStreamInfo(streamer)));
-    //
-    // results.forEach((response) => {
-    //     if (response.status === 'fulfilled') {
-    //         response.value && dispatch(addStream(response.value));
-    //     }
-    //     else console.error(response.reason)
-    // });
-    //
-    // dispatch(sortByViewers());
-    //
-    // dispatch(setLoading());
+        // TODO: Check if username is valid
+        return {
+            success: true,
+            message: ''
+        };
+    }
+
+    return {
+        success: false,
+        message: 'User already added to the list'
+    }
+};
+
+export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) => {
+    dispatch(resetLiveStreams());
+
+    if (!getState().twitch.favoriteStreamers.length) {
+        dispatch(loadFavorites());
+    }
+
+    let favorites: string[] = getState().twitch.favoriteStreamers;
+
+    if (!favorites.length) return;
+
+    dispatch(setLoading());
+
+    const results = await Promise.allSettled(favorites.map((streamer: string) => getStreamInfo(streamer)));
+
+    results.forEach((response) => {
+        if (response.status === 'fulfilled') {
+            response.value && dispatch(addStream(response.value));
+        } else console.error(response.reason)
+    });
+
+    dispatch(sortByViewers());
+
+    dispatch(setLoading());
 };
 
 export const {reducer: twitchReducer} = twitchSlice;

@@ -4,7 +4,7 @@ import './App.css';
 import {Header} from "./views/Common/Header/Header";
 import {useDispatch} from "react-redux";
 import {LiveStreamPage} from "./views/LiveStreamPage/LiveStreamPage";
-import {getLiveStreams, loadFavorites} from "./store/reducers/twitchReducer";
+import {getLiveStreams} from "./store/reducers/twitchReducer";
 import {ThemeProvider} from '@material-ui/core/styles';
 import darkTheme from './themes/darkTheme';
 import {Paper} from "@material-ui/core";
@@ -15,13 +15,11 @@ function App() {
 
     useEffect(() => {
         // dispatch(getLiveStreams());
-        dispatch(loadFavorites())
-    }, [dispatch]);
+    }, []);
 
     return (
         <div>
             <LiveStreamPage/>
-            <Link to="/options">About</Link>
         </div>
     );
 }

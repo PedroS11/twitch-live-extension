@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Button, CircularProgress, TextField} from "@material-ui/core";
-// import {saveUsername} from "../store/reducers/twitchReducer";
 import {makeStyles} from "@material-ui/core/styles";
-import SaveIcon from '@material-ui/icons/Save';
+import AddIcon from '@material-ui/icons/Add';
 import {RootState} from "../../../store/reducers/rootReducer";
+import {saveFavoriteStream} from "../../../store/reducers/twitchReducer";
+import {AppDispatch} from "../../../store/store";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles(() => ({
 
 export const OptionsInputStream = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const [username, setUsername] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
@@ -46,12 +47,13 @@ export const OptionsInputStream = () => {
     const {loading} = useSelector((state: RootState) => state.common);
 
     const saveInput = async () => {
-        // const success = await dispatch(saveUsername(username));
-        // if (!success) {
-        //     setErrorMsg(`Username ${username} doesn't exist`);
-        // } else {
-        //     setErrorMsg('')
-        // }
+        const status = await dispatch(saveFavoriteStream(username));
+        if (!status.success) {
+            setErrorMsg(status.message);
+        } else {
+            setErrorMsg('')
+            setUsername('')
+        }
     };
 
     const validateInput = (username: string) => {
@@ -67,11 +69,7 @@ export const OptionsInputStream = () => {
 
     return (
         <div className={classes.root}>
-            {loading && (
-                <div className={classes.alignCenter}>
-                    <CircularProgress className={classes.loadingElem} size={30}/>
-                </div>
-            )}
+            {loading && <CircularProgress/>}
 
             <div className={classes.alignCenter}>
                 <TextField className={classes.inputUsername}
@@ -87,7 +85,7 @@ export const OptionsInputStream = () => {
 
             <Button
                 className={classes.button}
-                startIcon={<SaveIcon/>}
+                startIcon={<AddIcon/>}
                 variant="outlined"
                 color="default"
                 size={"small"}

@@ -6,6 +6,8 @@ import {RootState} from "../../../store/reducers/rootReducer";
 import {makeStyles} from "@material-ui/core/styles";
 import {Button} from "@material-ui/core";
 import SyncIcon from '@material-ui/icons/Sync';
+import {Link} from "react-router-dom";
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles({
     root: {
@@ -15,7 +17,8 @@ const useStyles = makeStyles({
         paddingBottom: 8
     },
     button: {
-        textTransform: 'none'
+        textTransform: 'none',
+        marginLeft: 10
     }
 });
 
@@ -24,18 +27,32 @@ export const LiveStreamFooter = () => {
     const dispatch = useDispatch();
 
     const {loading} = useSelector((state: RootState) => state.common);
+    const {liveStreams} = useSelector((state: RootState) => state.twitch);
 
     return (
         <div className={classes.root}>
+            {
+                liveStreams.length > 0 && <Button
+                    className={classes.button}
+                    variant="outlined"
+                    color="default"
+                    size={"small"}
+                    disabled={loading}
+                    startIcon={<SyncIcon/>}
+                    onClick={() => dispatch(getLiveStreams())}>
+                    Refresh
+                </Button>
+            }
+
             <Button
+                component={Link}
                 className={classes.button}
                 variant="outlined"
-                color="default"
                 size={"small"}
                 disabled={loading}
-                startIcon={<SyncIcon />}
-                onClick={() => dispatch(getLiveStreams())}>
-                Refresh
+                startIcon={<SettingsIcon/>}
+                to="/options">
+                Options
             </Button>
         </div>
     )
