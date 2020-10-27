@@ -3,17 +3,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button, CircularProgress, TextField} from "@material-ui/core";
 // import {saveUsername} from "../store/reducers/twitchReducer";
 import {makeStyles} from "@material-ui/core/styles";
-import {RootState} from "../store/reducers/rootReducer";
 import SaveIcon from '@material-ui/icons/Save';
+import {RootState} from "../../../store/reducers/rootReducer";
+
 const useStyles = makeStyles(() => ({
     root: {
-      marginLeft: 20,
-      marginRight: 20
-    },
-    alignCenter: {
+        marginLeft: 20,
+        marginRight: 20,
         display: 'flex',
         justifyContent: 'center',
         textAlign: 'center'
+    },
+    alignCenter: {
     },
     button: {
         margin: 10,
@@ -35,7 +36,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export const InputUsernamePage = () => {
+export const OptionsInputStream = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -66,18 +67,6 @@ export const InputUsernamePage = () => {
 
     return (
         <div className={classes.root}>
-            <div className={classes.alignCenter}>
-                <TextField className={classes.inputUsername}
-                    label="Enter your twitch username"
-                    size={"small"}
-                    disabled={loading}
-                    fullWidth
-                    onChange={e => validateInput(e.target.value)}
-                    error={!!errorMsg}
-                    helperText={errorMsg}
-                />
-            </div>
-
             {loading && (
                 <div className={classes.alignCenter}>
                     <CircularProgress className={classes.loadingElem} size={30}/>
@@ -85,17 +74,27 @@ export const InputUsernamePage = () => {
             )}
 
             <div className={classes.alignCenter}>
-                <Button
-                    className={classes.button}
-                    startIcon={<SaveIcon/>}
-                    variant="outlined"
-                    color="default"
-                    size={"small"}
-                    disabled={!username || loading}
-                    onClick={() => saveInput()}>
-                    Save username
-                </Button>
+                <TextField className={classes.inputUsername}
+                           label="Twitch username"
+                           size={"small"}
+                           disabled={loading}
+                           fullWidth
+                           onChange={e => validateInput(e.target.value)}
+                           error={!!errorMsg}
+                           helperText={errorMsg}
+                />
             </div>
+
+            <Button
+                className={classes.button}
+                startIcon={<SaveIcon/>}
+                variant="outlined"
+                color="default"
+                size={"small"}
+                disabled={!username || loading}
+                onClick={() => saveInput()}>
+                Add
+            </Button>
         </div>
     )
 };

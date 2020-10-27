@@ -29,7 +29,6 @@ const useStyles = makeStyles({
         '&::-webkit-scrollbar-thumb': {
             backgroundColor: 'grey',
             borderRadius: 10
-
         }
     },
     loadingDiv: {
