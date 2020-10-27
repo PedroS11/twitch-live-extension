@@ -1,9 +1,9 @@
 /*global chrome*/
 import React, {useEffect} from 'react';
 import './App.css';
-import {Header} from "./components/Common/Header/Header";
+import {Header} from "./views/Common/Header/Header";
 import {useDispatch} from "react-redux";
-import {LiveStreamPage} from "./components/LiveStreamPage/LiveStreamPage";
+import {LiveStreamPage} from "./views/LiveStreamPage/LiveStreamPage";
 import {getLiveStreams} from "./store/reducers/twitchReducer";
 import {ThemeProvider} from '@material-ui/core/styles';
 import darkTheme from './themes/darkTheme';
