@@ -6,14 +6,15 @@ import AddIcon from '@material-ui/icons/Add';
 import {RootState} from "../../../store/reducers/rootReducer";
 import {saveFavoriteStream} from "../../../store/reducers/twitchReducer";
 import {AppDispatch} from "../../../store/store";
+import {CenteredCircularProgress} from "../../../components/Progress/CenteredCircularProgress";
 
 const useStyles = makeStyles(() => ({
     root: {
         marginLeft: 20,
         marginRight: 20,
-        display: 'flex',
-        justifyContent: 'center',
-        textAlign: 'center'
+        // display: 'flex',
+        // justifyContent: 'center',
+        // textAlign: 'center'
     },
     alignCenter: {
     },
@@ -46,6 +47,7 @@ export const OptionsInputStream = () => {
 
     const {loading} = useSelector((state: RootState) => state.common);
 
+    // const loading = true;
     const saveInput = async () => {
         const status = await dispatch(saveFavoriteStream(username));
         if (!status.success) {
@@ -57,19 +59,17 @@ export const OptionsInputStream = () => {
     };
 
     const validateInput = (username: string) => {
-        if (username && username.length > 2) {
-            setUsername(username);
+        setUsername(username);
+        if (!username || username.length > 2) {
             setErrorMsg('');
         } else {
-            setErrorMsg('Invalid username');
-            setUsername('');
-
+            setErrorMsg('Invalid username, must longer than 2 characters');
         }
     };
 
     return (
         <div className={classes.root}>
-            {loading && <CircularProgress/>}
+            {/*{loading && <CenteredCircularProgress/>}*/}
 
             <div className={classes.alignCenter}>
                 <TextField className={classes.inputUsername}
@@ -77,6 +77,7 @@ export const OptionsInputStream = () => {
                            size={"small"}
                            disabled={loading}
                            fullWidth
+                           value={username}
                            onChange={e => validateInput(e.target.value)}
                            error={!!errorMsg}
                            helperText={errorMsg}
@@ -89,7 +90,7 @@ export const OptionsInputStream = () => {
                 variant="outlined"
                 color="default"
                 size={"small"}
-                disabled={!username || loading}
+                disabled={!(username && username.length > 2) || loading}
                 onClick={() => saveInput()}>
                 Add
             </Button>

@@ -3,8 +3,7 @@ import {CircularProgress,} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
-    root: {},
-    loadingDiv: {
+    root: {
         display: 'flex',
         justifyContent: 'center',
         paddingTop: 10,
@@ -19,7 +18,7 @@ export const CenteredCircularProgress = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.loadingDiv}>
+        <div className={classes.root}>
             <CircularProgress className={classes.loadingElem} size={30}/>
         </div>
     )

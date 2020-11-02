@@ -4,17 +4,16 @@ import {IconButton, List, ListItem, ListItemSecondaryAction, ListItemText} from 
 import {makeStyles} from "@material-ui/core/styles";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {OptionsListItem} from "../OptionsListItem/OptionsListItem";
+import {TwitchGetUserInfo, TwitchUserInfo} from "../../../domain/infrastructure/twitch/twitchApi";
 
 interface OptionsListProps {
-    streams: string[]
+    streamers: TwitchUserInfo[]
 }
 
 const useStyles = makeStyles({
     list: {
         overflow: 'auto',
         maxHeight: 400,
-        paddingTop: 0,
-        paddingBottom: 0,
         '&::-webkit-scrollbar': {
             width: '0.6em'
         },
@@ -27,14 +26,14 @@ const useStyles = makeStyles({
         }
     }
 });
-export const OptionsList = ({streams}: OptionsListProps) => {
+export const OptionsList = ({streamers}: OptionsListProps) => {
     const classes = useStyles();
 
     return (
         <div>
             <List className={classes.list}>
-                {streams.map(stream =>
-                    <OptionsListItem name={stream} key={stream} />
+                {streamers.map(streamer =>
+                    <OptionsListItem streamer={streamer} key={streamer._id} />
                 )}
             </List>
         </div>

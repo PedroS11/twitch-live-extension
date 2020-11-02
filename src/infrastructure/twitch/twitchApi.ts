@@ -23,26 +23,26 @@ const getAxiosInstance = (): AxiosInstance => {
     return instance;
 };
 
-const getTwitchUserInfo = async (username: string): Promise<TwitchUserInfo> => {
+export const getTwitchUserInfo = async (username: string): Promise<TwitchUserInfo> => {
     const response = await getAxiosInstance().get(`https://api.twitch.tv/kraken/users?login=${username}`);
 
     const data: TwitchGetUserInfo = response.data;
-    if (data._total === 0) {
-        throw new Error(`The user ${username} doesn't exist`);
-    }
-    return data.users[0];
+    // if (data._total === 0) {
+    //     throw new Error(`The user ${username} doesn't exist`);
+    // }
+    return data?.users?.[0];
 };
 
-const getTwitchLiveInfo = async (userId: string): Promise<TwitchLiveInfo | undefined> => {
+export const getTwitchLiveInfo = async (userId: string): Promise<TwitchLiveInfo> => {
     const response = await getAxiosInstance().get(`https://api.twitch.tv/kraken/streams/?channel=${userId}`);
 
-    const data: TwitchGetLiveInfo = response.data;
-
-    return data.streams.length ? data.streams[0] : undefined;
+    return response.data?.streams?.[0];
 };
 
 export const getStreamInfo = async (username: string): Promise<TwitchLiveInfo | undefined> => {
     const userData: TwitchUserInfo = await getTwitchUserInfo(username);
-
-    return await getTwitchLiveInfo(userData._id);
+    if (userData) {
+        return await getTwitchLiveInfo(userData._id);
+    }
+    return;
 };

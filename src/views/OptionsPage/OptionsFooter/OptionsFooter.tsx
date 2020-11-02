@@ -5,7 +5,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store/reducers/rootReducer";
 import {Link} from "react-router-dom";
-import HomeIcon from '@material-ui/icons/Home';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles({
     root: {
@@ -32,9 +32,9 @@ export const OptionsFooter = () => {
             variant="outlined"
             size={"small"}
             disabled={loading}
-            startIcon={<HomeIcon />}
+            startIcon={<ArrowBackIcon />}
             to="/">
-            Home
+            Back
         </Button>
     </div>
   );

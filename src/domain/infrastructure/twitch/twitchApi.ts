@@ -2,7 +2,11 @@ export interface TwitchUserInfo {
     display_name: string,
     name: string,
     logo: string,
-    _id: string
+    _id: string,
+    bio: string,
+    type: string,
+    created_at: string,
+    updated_at: string
 }
 
 export interface TwitchGetUserInfo {

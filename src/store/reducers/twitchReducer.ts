@@ -1,9 +1,9 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../store";
 import {setLoading} from './commonReducer'
-import {getStreamInfo} from "../../infrastructure/twitch/twitchApi";
+import {getStreamInfo, getTwitchLiveInfo, getTwitchUserInfo} from "../../infrastructure/twitch/twitchApi";
 import {FAVORITE_STREAMERS_STORAGE_KEY, TwitchStore} from "../../domain/store/twitchStore";
-import {TwitchLiveInfo} from "../../domain/infrastructure/twitch/twitchApi";
+import {TwitchLiveInfo, TwitchUserInfo} from "../../domain/infrastructure/twitch/twitchApi";
 import {getStorageData, setStorageData} from "../../utils/localStorage";
 
 const twitchSlice = createSlice({
@@ -22,10 +22,10 @@ const twitchSlice = createSlice({
         resetFavoriteStreamers: (state: TwitchStore) => {
             state.favoriteStreamers = []
         },
-        saveFavoriteStreamers: (state: TwitchStore, {payload}: PayloadAction<string[]>) => {
+        saveFavoriteStreamers: (state: TwitchStore, {payload}: PayloadAction<TwitchUserInfo[]>) => {
             state.favoriteStreamers = payload
         },
-        addFavoriteStream: (state: TwitchStore, {payload}: PayloadAction<string>) => {
+        addFavoriteStream: (state: TwitchStore, {payload}: PayloadAction<TwitchUserInfo>) => {
             state.favoriteStreamers.push(payload)
         },
         sortByViewers: (state: TwitchStore) => {
@@ -39,16 +39,29 @@ const {addStream, resetLiveStreams, sortByViewers, resetFavoriteStreamers, saveF
 export const loadFavorites = (): AppThunk<void> => async dispatch => {
     dispatch(resetFavoriteStreamers());
     const data = getStorageData(FAVORITE_STREAMERS_STORAGE_KEY);
-    const favorites: string[] = data ? JSON.parse(data) : [];
-    dispatch(saveFavoriteStreamers(favorites))
+    const favorites: TwitchUserInfo[] = data ? JSON.parse(data) : [];
+    dispatch(saveFavoriteStreamers(favorites));
 };
 
-export const saveFavoriteStream = (stream: string): AppThunk<any> => (dispatch, getState) => {
-    if (!getState().twitch.favoriteStreamers.some(e => e.toLowerCase() === stream.toLowerCase())) {
-        dispatch(addFavoriteStream(stream));
-        setStorageData(FAVORITE_STREAMERS_STORAGE_KEY, JSON.stringify(getState().twitch.favoriteStreamers))
+export const saveFavoriteStream = (stream: string): AppThunk<any> => async (dispatch, getState) => {
+    if (!getState().twitch.favoriteStreamers.some(e => e.name.toLowerCase() === stream.toLowerCase())) {
 
-        // TODO: Check if username is valid
+        dispatch(setLoading());
+
+        const user: TwitchUserInfo = await getTwitchUserInfo(stream);
+        if(!user) {
+            dispatch(setLoading());
+
+            return {
+                success: false,
+                message: `The user ${stream} doesn't exist`
+            };
+        }
+
+        dispatch(addFavoriteStream(user));
+        setStorageData(FAVORITE_STREAMERS_STORAGE_KEY, JSON.stringify(getState().twitch.favoriteStreamers))
+        dispatch(setLoading());
+
         return {
             success: true,
             message: ''
@@ -68,13 +81,13 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) =
         dispatch(loadFavorites());
     }
 
-    let favorites: string[] = getState().twitch.favoriteStreamers;
+    let favorites: TwitchUserInfo[] = getState().twitch.favoriteStreamers;
 
     if (!favorites.length) return;
 
     dispatch(setLoading());
 
-    const results = await Promise.allSettled(favorites.map((streamer: string) => getStreamInfo(streamer)));
+    const results = await Promise.allSettled(favorites.map((streamer: TwitchUserInfo) => getTwitchLiveInfo(streamer._id)));
 
     results.forEach((response) => {
         if (response.status === 'fulfilled') {
@@ -85,6 +98,15 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) =
     dispatch(sortByViewers());
 
     dispatch(setLoading());
+};
+
+export const removeStream = (favoriteStreamer: string): AppThunk<void> => async (dispatch, getState) => {
+    let favorites: TwitchUserInfo[] = getState().twitch.favoriteStreamers;
+
+    const newFavorites: TwitchUserInfo[] = favorites.filter((element: TwitchUserInfo) => element.name.toLowerCase() !== favoriteStreamer.toLowerCase());
+
+    dispatch(saveFavoriteStreamers(newFavorites));
+    setStorageData(FAVORITE_STREAMERS_STORAGE_KEY, JSON.stringify(newFavorites))
 };
 
 export const {reducer: twitchReducer} = twitchSlice;

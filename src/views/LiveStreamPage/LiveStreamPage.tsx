@@ -35,7 +35,7 @@ export const LiveStreamPage = () => {
 
     return (
         <div className={classes.root}>
-            {!loading && favoriteStreamers.length === 0 && <Typography align={"center"}>Go to Options and add your streamers</Typography>}
+            {!loading && favoriteStreamers.length === 0 && <Typography align={"center"} variant={'subtitle2'} style={{fontStyle: 'italic'}}>Go to Options and add your streamers</Typography>}
             {!loading && favoriteStreamers.length > 0 && liveStreams.length === 0 && <Typography align={"center"}>Your favorite channels are all offline...</Typography>}
             {!loading && favoriteStreamers.length > 0 && <LiveStreamList liveStreams={liveStreams}/>}
             {loading && <CenteredCircularProgress/>}
