@@ -9,7 +9,6 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
 } from "react-router-dom";
 import {OptionsPage} from "./views/OptionsPage/OptionsPage";
 import {Header} from "./views/Common/Header/Header";

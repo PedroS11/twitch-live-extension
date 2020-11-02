@@ -1,19 +1,23 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {IconButton, List, ListItem, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
+import {List} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import DeleteIcon from '@material-ui/icons/Delete';
 import {OptionsListItem} from "../OptionsListItem/OptionsListItem";
-import {TwitchGetUserInfo, TwitchUserInfo} from "../../../domain/infrastructure/twitch/twitchApi";
+import {TwitchUserInfo} from "../../../domain/infrastructure/twitch/twitchApi";
 
 interface OptionsListProps {
     streamers: TwitchUserInfo[]
 }
 
 const useStyles = makeStyles({
+    root: {
+        paddingTop: 5,
+        paddingBottom: 5
+    },
     list: {
         overflow: 'auto',
         maxHeight: 400,
+        paddingTop: 0,
+        paddingBottom: 0,
         '&::-webkit-scrollbar': {
             width: '0.6em'
         },
@@ -30,11 +34,12 @@ export const OptionsList = ({streamers}: OptionsListProps) => {
     const classes = useStyles();
 
     return (
-        <div>
+        <div className={classes.root}>
             <List className={classes.list}>
                 {streamers.map(streamer =>
-                    <OptionsListItem streamer={streamer} key={streamer._id} />
+                    <OptionsListItem streamer={streamer} key={streamer._id}/>
                 )}
+                <div id={"scroll-bottom"}/>
             </List>
         </div>
     )

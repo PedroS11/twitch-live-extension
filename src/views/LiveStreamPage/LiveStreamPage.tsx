@@ -30,7 +30,7 @@ export const LiveStreamPage = () => {
     useEffect(() => {
         dispatch(getLiveStreams());
         // dispatch(loadFavorites())
-    }, []);
+    }, [dispatch]);
     const classes = useStyles();
 
     return (

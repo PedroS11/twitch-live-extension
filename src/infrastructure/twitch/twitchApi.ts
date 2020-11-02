@@ -1,7 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 import {CLIENT_ID} from "../../config";
 import {
-    TwitchGetLiveInfo,
     TwitchGetUserInfo,
     TwitchLiveInfo,
     TwitchUserInfo
@@ -39,10 +38,10 @@ export const getTwitchLiveInfo = async (userId: string): Promise<TwitchLiveInfo>
     return response.data?.streams?.[0];
 };
 
-export const getStreamInfo = async (username: string): Promise<TwitchLiveInfo | undefined> => {
-    const userData: TwitchUserInfo = await getTwitchUserInfo(username);
-    if (userData) {
-        return await getTwitchLiveInfo(userData._id);
-    }
-    return;
-};
+// export const getStreamInfo = async (username: string): Promise<TwitchLiveInfo | undefined> => {
+//     const userData: TwitchUserInfo = await getTwitchUserInfo(username);
+//     if (userData) {
+//         return await getTwitchLiveInfo(userData._id);
+//     }
+//     return;
+// };

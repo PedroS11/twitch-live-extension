@@ -1,8 +1,7 @@
-import {getLiveStreams} from "../../../store/reducers/twitchReducer";
 import {Button} from "@material-ui/core";
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {RootState} from "../../../store/reducers/rootReducer";
 import {Link} from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';

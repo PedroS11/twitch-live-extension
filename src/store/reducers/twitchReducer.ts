@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../store";
 import {setLoading} from './commonReducer'
-import {getStreamInfo, getTwitchLiveInfo, getTwitchUserInfo} from "../../infrastructure/twitch/twitchApi";
+import {getTwitchLiveInfo, getTwitchUserInfo} from "../../infrastructure/twitch/twitchApi";
 import {FAVORITE_STREAMERS_STORAGE_KEY, TwitchStore} from "../../domain/store/twitchStore";
 import {TwitchLiveInfo, TwitchUserInfo} from "../../domain/infrastructure/twitch/twitchApi";
 import {getStorageData, setStorageData} from "../../utils/localStorage";

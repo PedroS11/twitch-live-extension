@@ -4,8 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {makeStyles} from "@material-ui/core/styles";
 import {removeStream} from "../../../store/reducers/twitchReducer";
 import {useDispatch} from "react-redux";
-import { green, purple } from '@material-ui/core/colors';
-import {TwitchGetUserInfo, TwitchUserInfo} from "../../../domain/infrastructure/twitch/twitchApi";
+import {TwitchUserInfo} from "../../../domain/infrastructure/twitch/twitchApi";
 
 const useStyles = makeStyles({
     root: {
@@ -25,21 +24,21 @@ interface OptionsListItemProps {
   streamer: TwitchUserInfo
 }
 
-export const OptionsListItem = (props: OptionsListItemProps) => {
+export const OptionsListItem = ({streamer}: OptionsListItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
     return(
         <ListItem className={classes.root} divider dense>
             <ListItemAvatar>
-                <Avatar src={props.streamer.logo}>
+                <Avatar src={streamer.logo}>
                 </Avatar>
             </ListItemAvatar>
             <ListItemText
-                primary={props.streamer.display_name}
+                primary={streamer.display_name}
             />
             <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete" onClick={async () => await dispatch(removeStream(props.streamer.name))} className={classes.deleteButton}>
+                <IconButton edge="end" aria-label="delete" onClick={async () => await dispatch(removeStream(streamer.name))} className={classes.deleteButton}>
                     <DeleteIcon />
                 </IconButton>
             </ListItemSecondaryAction>
