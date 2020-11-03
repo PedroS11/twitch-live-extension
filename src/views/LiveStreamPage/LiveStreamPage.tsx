@@ -7,6 +7,7 @@ import {getLiveStreams} from "../../store/reducers/twitchReducer";
 import {Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {CenteredCircularProgress} from "../../components/Progress/CenteredCircularProgress";
+import {AppDispatch} from "../../store/store";
 
 const useStyles = makeStyles({
     root: {
@@ -23,15 +24,15 @@ const useStyles = makeStyles({
 });
 
 export const LiveStreamPage = () => {
+    const classes = useStyles();
+    const dispatch: AppDispatch = useDispatch();
+
     const {loading} = useSelector((state: RootState) => state.common);
     const {liveStreams, favoriteStreamers} = useSelector((state:RootState) => state.twitch);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getLiveStreams());
-        // dispatch(loadFavorites())
     }, [dispatch]);
-    const classes = useStyles();
 
     return (
         <div className={classes.root}>

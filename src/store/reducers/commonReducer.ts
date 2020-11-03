@@ -1,16 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {CommonStore} from "../../domain/store/commonStore";
 
-interface CommonStore {
-    loading: boolean;
-}
-
-const initialState: CommonStore = {
-    loading: false,
-};
-
-const commomnSlice = createSlice({
+const commonSlice = createSlice({
     name: "common",
-    initialState,
+    initialState: {
+        loading: false,
+    },
     reducers: {
         setLoading(state: CommonStore) {
             state.loading = !state.loading;
@@ -18,6 +13,6 @@ const commomnSlice = createSlice({
     }
 });
 
-export const {reducer: commonReducer} = commomnSlice;
+export const {reducer: commonReducer} = commonSlice;
 
-export const {setLoading} = commomnSlice.actions;
+export const {setLoading} = commonSlice.actions;

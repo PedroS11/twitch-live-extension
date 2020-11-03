@@ -36,6 +36,9 @@ const twitchSlice = createSlice({
 
 const {addStream, resetLiveStreams, sortByViewers, resetFavoriteStreamers, saveFavoriteStreamers, addFavoriteStream} = twitchSlice.actions;
 
+/**
+ * Load the list of favorites streamers from local storage
+ */
 export const loadFavorites = (): AppThunk<void> => async dispatch => {
     dispatch(resetFavoriteStreamers());
     const data = getStorageData(FAVORITE_STREAMERS_STORAGE_KEY);
@@ -43,18 +46,22 @@ export const loadFavorites = (): AppThunk<void> => async dispatch => {
     dispatch(saveFavoriteStreamers(favorites));
 };
 
-export const saveFavoriteStream = (stream: string): AppThunk<Promise<SaveFavoriteStreamResponse>> => async (dispatch, getState) => {
-    if (!getState().twitch.favoriteStreamers.some(e => e.name.toLowerCase() === stream.toLowerCase())) {
+/**
+ * Add new favorite streamer to the list
+ * @param {string} streamer - Streamer username to be added
+ */
+export const saveFavoriteStream = (streamer: string): AppThunk<Promise<SaveFavoriteStreamResponse>> => async (dispatch, getState) => {
+    if (!getState().twitch.favoriteStreamers.some(e => e.name.toLowerCase() === streamer.toLowerCase())) {
 
         dispatch(setLoading());
 
-        const user: TwitchUserInfo = await getTwitchUserInfo(stream);
+        const user: TwitchUserInfo = await getTwitchUserInfo(streamer);
         if(!user) {
             dispatch(setLoading());
 
             return {
                 success: false,
-                message: `The user ${stream} doesn't exist`
+                message: `The user ${streamer} doesn't exist`
             };
         }
 
@@ -73,6 +80,9 @@ export const saveFavoriteStream = (stream: string): AppThunk<Promise<SaveFavorit
     }
 };
 
+/**
+ * Get the all the live streams from the favorites list
+ */
 export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) => {
     dispatch(resetLiveStreams());
     dispatch(loadFavorites());
@@ -96,10 +106,14 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) =
     dispatch(setLoading());
 };
 
-export const removeStream = (favoriteStreamer: string): AppThunk<void> => async (dispatch, getState) => {
+/**
+ * Removes a streamer from the favorites list
+ * @param {string} streamer - Streamer username to be removed
+ */
+export const removeStream = (streamer: string): AppThunk<void> => async (dispatch, getState) => {
     const favorites: TwitchUserInfo[] = getState().twitch.favoriteStreamers;
 
-    const newFavorites: TwitchUserInfo[] = favorites.filter((element: TwitchUserInfo) => element.name.toLowerCase() !== favoriteStreamer.toLowerCase());
+    const newFavorites: TwitchUserInfo[] = favorites.filter((element: TwitchUserInfo) => element.name.toLowerCase() !== streamer.toLowerCase());
 
     dispatch(saveFavoriteStreamers(newFavorites));
     setStorageData(FAVORITE_STREAMERS_STORAGE_KEY, JSON.stringify(newFavorites))

@@ -8,6 +8,7 @@ import {Button} from "@material-ui/core";
 import SyncIcon from '@material-ui/icons/Sync';
 import {Link} from "react-router-dom";
 import SettingsIcon from '@material-ui/icons/Settings';
+import {AppDispatch} from "../../../store/store";
 
 const useStyles = makeStyles({
     root: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles({
 
 export const LiveStreamFooter = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const {loading} = useSelector((state: RootState) => state.common);
     const {liveStreams} = useSelector((state: RootState) => state.twitch);

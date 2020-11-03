@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 
 export const Header = () => {
     const classes = useStyles();
+
     return (
         <Typography variant={"h4"} align={"center"}>
             <Link target="_blank" rel="noopener noreferrer" href="https://twitch.tv" underline={"none"} className={classes.title}>Twitch Live</Link>

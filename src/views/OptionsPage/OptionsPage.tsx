@@ -7,16 +7,17 @@ import {OptionsInputStream} from "./OptionsInputStream/OptionsInputStream";
 import {useDispatch, useSelector} from "react-redux";
 import {loadFavorites} from "../../store/reducers/twitchReducer";
 import {RootState} from "../../store/reducers/rootReducer";
+import {AppDispatch} from "../../store/store";
 
 const useStyles = makeStyles({
     list: {
-        // marginTop: 5,
         marginBottom: -5
     }
 });
+
 export const OptionsPage = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const {favoriteStreamers} = useSelector((state: RootState) => state.twitch);
     const {loading} = useSelector((state: RootState) => state.common);

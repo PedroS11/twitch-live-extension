@@ -1,5 +1,4 @@
 import React from 'react'
-import {formatViewers} from "../../../utils/formatter";
 
 import {
     Avatar,
@@ -10,7 +9,8 @@ import {
     ListItemText, Typography
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {TwitchLiveInfo} from "../../../domain/infrastructure/twitch/twitchApi";
+import {formatViewers} from "../../../../utils/formatter";
+import {TwitchLiveInfo} from "../../../../domain/infrastructure/twitch/twitchApi";
 
 const useStyles = makeStyles({
     root: {
@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 
 export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
     const classes = useStyles();
+
     return (
         <ListItem className={classes.root} button component="a" target="_blank" rel="noopener noreferrer" href={elem.channel.url} divider dense>
             <ListItemAvatar>

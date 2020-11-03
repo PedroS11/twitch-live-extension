@@ -1,8 +1,8 @@
 import React from "react";
 import {List} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {OptionsListItem} from "../OptionsListItem/OptionsListItem";
 import {TwitchUserInfo} from "../../../domain/infrastructure/twitch/twitchApi";
+import {OptionsListItem} from "./OptionsListItem/OptionsListItem";
 
 interface OptionsListProps {
     streamers: TwitchUserInfo[]
@@ -30,6 +30,7 @@ const useStyles = makeStyles({
         }
     }
 });
+
 export const OptionsList = ({streamers}: OptionsListProps) => {
     const classes = useStyles();
 

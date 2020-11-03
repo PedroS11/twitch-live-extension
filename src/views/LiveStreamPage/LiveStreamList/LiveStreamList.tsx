@@ -1,9 +1,9 @@
 import React from 'react'
-import {LiveStreamListItem} from "../LiveStreamListItem/LiveStreamListItem";
 
 import {List} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {TwitchLiveInfo} from "../../../domain/infrastructure/twitch/twitchApi";
+import {LiveStreamListItem} from "./LiveStreamListItem/LiveStreamListItem";
 
 interface LiveStreamListProps {
     liveStreams: TwitchLiveInfo[]
@@ -34,6 +34,7 @@ const useStyles = makeStyles({
 
 export const LiveStreamList = ({liveStreams}: LiveStreamListProps) => {
     const classes = useStyles();
+
     return (
         <div className={classes.root}>
             {liveStreams.length > 0

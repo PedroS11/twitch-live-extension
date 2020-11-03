@@ -2,9 +2,10 @@ import React from "react";
 import {Avatar, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {makeStyles} from "@material-ui/core/styles";
-import {removeStream} from "../../../store/reducers/twitchReducer";
 import {useDispatch} from "react-redux";
-import {TwitchUserInfo} from "../../../domain/infrastructure/twitch/twitchApi";
+import {removeStream} from "../../../../store/reducers/twitchReducer";
+import {TwitchUserInfo} from "../../../../domain/infrastructure/twitch/twitchApi";
+import {AppDispatch} from "../../../../store/store";
 
 const useStyles = makeStyles({
     root: {
@@ -26,7 +27,7 @@ interface OptionsListItemProps {
 
 export const OptionsListItem = ({streamer}: OptionsListItemProps) => {
     const classes = useStyles();
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     return(
         <ListItem className={classes.root} divider dense>
