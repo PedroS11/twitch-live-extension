@@ -10,8 +10,7 @@ interface OptionsListProps {
 
 const useStyles = makeStyles({
     root: {
-        paddingTop: 5,
-        paddingBottom: 5
+        marginTop: 5,
     },
     list: {
         overflow: 'auto',

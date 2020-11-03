@@ -10,8 +10,6 @@ import {CenteredCircularProgress} from "../../components/Progress/CenteredCircul
 import {AppDispatch} from "../../store/store";
 
 const useStyles = makeStyles({
-    root: {
-    },
     loadingDiv: {
         display: 'flex',
         justifyContent: 'center',
@@ -35,7 +33,7 @@ export const LiveStreamPage = () => {
     }, [dispatch]);
 
     return (
-        <div className={classes.root}>
+        <div>
             {!loading && favoriteStreamers.length === 0 && <Typography align={"center"} variant={'subtitle2'} style={{fontStyle: 'italic'}}>Go to Options and add your streamers</Typography>}
             {!loading && favoriteStreamers.length > 0 && liveStreams.length === 0 && <Typography align={"center"}>Your favorite channels are all offline...</Typography>}
             {!loading && favoriteStreamers.length > 0 && <LiveStreamList liveStreams={liveStreams}/>}

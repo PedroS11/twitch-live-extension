@@ -13,6 +13,7 @@ const useStyles = makeStyles(() => ({
     root: {
         marginLeft: 20,
         marginRight: 20,
+        marginTop: 5
     },
     addButton: {
         marginTop: 10,
@@ -51,6 +52,9 @@ export const OptionsInputStream = () => {
         const status: SaveFavoriteStreamResponse = await dispatch(saveFavoriteStream(username));
         if (!status.success) {
             setErrorMsg(status.message ?? '');
+            setTimeout(() => {
+                setErrorMsg('')
+            }, 2000);
         } else {
             setErrorMsg('');
             setUsername('');
@@ -66,6 +70,9 @@ export const OptionsInputStream = () => {
             setErrorMsg('');
         } else {
             setErrorMsg('Invalid username, must longer than 2 characters');
+            setTimeout(() => {
+                setErrorMsg('')
+            }, 2000);
         }
     };
 
