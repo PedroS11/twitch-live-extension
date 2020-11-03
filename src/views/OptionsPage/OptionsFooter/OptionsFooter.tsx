@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     root: {
         display: 'flex',
         justifyContent: 'center',
-        paddingTop: 10,
+        paddingTop: 5,
         paddingBottom: 8
     },
     button: {

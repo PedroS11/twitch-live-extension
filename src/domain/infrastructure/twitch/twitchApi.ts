@@ -29,3 +29,7 @@ export interface TwitchLiveInfo {
 export interface TwitchGetLiveInfo {
     streams: TwitchLiveInfo[]
 }
+export interface SaveFavoriteStreamResponse {
+    success: boolean,
+    message?: string
+}

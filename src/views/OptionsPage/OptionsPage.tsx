@@ -11,7 +11,7 @@ import {RootState} from "../../store/reducers/rootReducer";
 const useStyles = makeStyles({
     list: {
         // marginTop: 5,
-        marginBottom: 5
+        marginBottom: -5
     }
 });
 export const OptionsPage = () => {
@@ -19,6 +19,7 @@ export const OptionsPage = () => {
     const dispatch = useDispatch();
 
     const {favoriteStreamers} = useSelector((state: RootState) => state.twitch);
+    const {loading} = useSelector((state: RootState) => state.common);
 
     useEffect(() => {
         dispatch(loadFavorites())
@@ -27,7 +28,7 @@ export const OptionsPage = () => {
     return (
         <div>
             {favoriteStreamers.length > 0 && <OptionsList streamers={favoriteStreamers}/>}
-            {favoriteStreamers.length === 0 && <div className={classes.list}>
+            {!loading && favoriteStreamers.length === 0 && <div className={classes.list}>
                 <Typography align={"center"} variant={'subtitle2'} style={{fontStyle: 'italic'}}>Your favorite
                     streamers' list is empty</Typography>
             </div>}

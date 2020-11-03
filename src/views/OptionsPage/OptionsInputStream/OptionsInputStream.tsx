@@ -7,6 +7,7 @@ import {RootState} from "../../../store/reducers/rootReducer";
 import {saveFavoriteStream} from "../../../store/reducers/twitchReducer";
 import {AppDispatch} from "../../../store/store";
 import {CenteredCircularProgress} from "../../../components/Progress/CenteredCircularProgress";
+import {SaveFavoriteStreamResponse} from "../../../domain/infrastructure/twitch/twitchApi";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -47,9 +48,9 @@ export const OptionsInputStream = () => {
     const {loading} = useSelector((state: RootState) => state.common);
 
     const saveInput = async () => {
-        const status = await dispatch(saveFavoriteStream(username));
+        const status: SaveFavoriteStreamResponse = await dispatch(saveFavoriteStream(username));
         if (!status.success) {
-            setErrorMsg(status.message);
+            setErrorMsg(status.message ?? '');
         } else {
             setErrorMsg('');
             setUsername('');
