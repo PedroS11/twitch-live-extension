@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, KeyboardEvent, useRef, createRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Grid, IconButton, TextField} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -43,6 +43,8 @@ export const OptionsInputStream = () => {
     const classes = useStyles();
     const dispatch: AppDispatch = useDispatch();
 
+    const inputElement = useRef<HTMLInputElement>(null);
+
     const [username, setUsername] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
 
@@ -50,11 +52,14 @@ export const OptionsInputStream = () => {
 
     const saveInput = async () => {
         const status: SaveFavoriteStreamResponse = await dispatch(saveFavoriteStream(username));
+
+        // Reset focus to the input
+        if (inputElement.current) {
+            inputElement.current.focus();
+        }
+
         if (!status.success) {
-            setErrorMsg(status.message ?? '');
-            setTimeout(() => {
-                setErrorMsg('')
-            }, 2000);
+            setErrorMsg(status.message || '');
         } else {
             setErrorMsg('');
             setUsername('');
@@ -70,12 +75,17 @@ export const OptionsInputStream = () => {
             setErrorMsg('');
         } else {
             setErrorMsg('Invalid username, must longer than 2 characters');
-            setTimeout(() => {
-                setErrorMsg('')
-            }, 2000);
         }
     };
 
+    const handleKeyPress = async (event: KeyboardEvent<HTMLDivElement>) => {
+        if (event.charCode === 13 && username.length > 2 && !loading) {
+            event.preventDefault();
+            await saveInput();
+        }
+    };
+
+    // Delay the input validation
     useEffect(() => {
         const delayTimeOutFunction = setTimeout(() => {
             validateInput()
@@ -92,15 +102,19 @@ export const OptionsInputStream = () => {
                   justify="space-between"
                   alignItems="center">
                 <Grid item xs={10}>
-                    <TextField className={classes.inputUsername}
-                               label="Twitch username"
-                               size={"small"}
-                               disabled={loading}
-                               fullWidth
-                               value={username}
-                               onChange={e => setUsername(e.target.value)}
-                               error={!!errorMsg}
-                               helperText={errorMsg}
+                    <TextField
+                        className={classes.inputUsername}
+                        label="Twitch username"
+                        size={"small"}
+                        autoFocus
+                        inputRef={inputElement}
+                        disabled={loading}
+                        fullWidth
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        onKeyPress={e => handleKeyPress(e)}
+                        error={!!errorMsg}
+                        helperText={errorMsg}
                     />
                 </Grid>
 

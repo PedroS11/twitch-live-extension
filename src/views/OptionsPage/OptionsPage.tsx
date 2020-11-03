@@ -12,6 +12,9 @@ import {AppDispatch} from "../../store/store";
 const useStyles = makeStyles({
     list: {
         marginBottom: -5
+    },
+    emptyListMessage: {
+        fontStyle: 'italic'
     }
 });
 
@@ -30,7 +33,7 @@ export const OptionsPage = () => {
         <div>
             {favoriteStreamers.length > 0 && <OptionsList streamers={favoriteStreamers}/>}
             {!loading && favoriteStreamers.length === 0 && <div className={classes.list}>
-                <Typography align={"center"} variant={'subtitle2'} style={{fontStyle: 'italic'}}>Your favorite
+                <Typography align={"center"} variant={'subtitle2'} className={classes.emptyListMessage}>Your favorite
                     streamers' list is empty</Typography>
             </div>}
             <OptionsInputStream/>
