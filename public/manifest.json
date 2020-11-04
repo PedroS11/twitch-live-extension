@@ -1,6 +1,6 @@
 {
   "name": "Twitch Live Extension Test",
-  "description": "A browser extension that shows your favorites streamers that went live",
+  "description": "A browser extension that shows your favorites streamers that are live",
   "version": "2.0.0",
   "author": "Pedro Silva",
   "permissions": [
