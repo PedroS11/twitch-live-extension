@@ -3,7 +3,7 @@ export interface TwitchUserInfo {
     name: string,
     logo: string,
     _id: string,
-    bio: string,
+    bio?: string,
     type: string,
     created_at: string,
     updated_at: string
@@ -19,9 +19,9 @@ export interface TwitchLiveInfo {
     game: string,
     viewers: number,
     channel: {
-        name: string,
         display_name: string,
         logo: string,
+        name: string,
         url: string
     }
 }

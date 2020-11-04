@@ -1,6 +1,7 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, {AxiosInstance, AxiosResponse} from 'axios';
 import {CLIENT_ID} from "../../config";
 import {
+    TwitchGetLiveInfo, TwitchGetUserInfo,
     TwitchLiveInfo,
     TwitchUserInfo
 } from "../../domain/infrastructure/twitch/twitchApi";
@@ -29,7 +30,7 @@ const getAxiosInstance = (): AxiosInstance => {
  * @param {string} username - Twitch streamer username
  */
 export const getTwitchUserInfo = async (username: string): Promise<TwitchUserInfo> => {
-    const response = await getAxiosInstance().get(`https://api.twitch.tv/kraken/users?login=${username}`);
+    const response: AxiosResponse<TwitchGetUserInfo> = await getAxiosInstance().get(`https://api.twitch.tv/kraken/users?login=${username}`);
 
     return response.data?.users?.[0];
 };
@@ -39,7 +40,7 @@ export const getTwitchUserInfo = async (username: string): Promise<TwitchUserInf
  * @param {string} id - Twitch streamer id
  */
 export const getTwitchLiveInfo = async (id: string): Promise<TwitchLiveInfo> => {
-    const response = await getAxiosInstance().get(`https://api.twitch.tv/kraken/streams/?channel=${id}`);
+    const response: AxiosResponse<TwitchGetLiveInfo> = await getAxiosInstance().get(`https://api.twitch.tv/kraken/streams/?channel=${id}`);
 
     return response.data?.streams?.[0];
 };
