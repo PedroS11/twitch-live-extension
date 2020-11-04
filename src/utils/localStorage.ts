@@ -2,7 +2,7 @@
  * Get data from local storage
  * @param {string} key - Item key
  */
-export const getStorageData = (key: string): string | null  => localStorage.getItem(key);
+export const getStorageData = (key: string): string | null => localStorage.getItem(key);
 
 /**
  * Save data in local storage

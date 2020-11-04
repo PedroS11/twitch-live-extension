@@ -1,10 +1,11 @@
-import axios, {AxiosInstance, AxiosResponse} from 'axios';
-import {CLIENT_ID} from "../../config";
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { CLIENT_ID } from '../../config';
 import {
-    TwitchGetLiveInfo, TwitchGetUserInfo,
+    TwitchGetLiveInfo,
+    TwitchGetUserInfo,
     TwitchLiveInfo,
-    TwitchUserInfo
-} from "../../domain/infrastructure/twitch/twitchApi";
+    TwitchUserInfo,
+} from '../../domain/infrastructure/twitch/twitchApi';
 
 let instance: AxiosInstance;
 
@@ -14,12 +15,11 @@ let instance: AxiosInstance;
 const getAxiosInstance = (): AxiosInstance => {
     if (!instance) {
         instance = axios.create({
-            headers:
-                {
-                    "Accept": "application/vnd.twitchtv.v5+json",
-                    "Client-ID": CLIENT_ID
-                }
-        })
+            headers: {
+                Accept: 'application/vnd.twitchtv.v5+json',
+                'Client-ID': CLIENT_ID,
+            },
+        });
     }
 
     return instance;
@@ -30,7 +30,9 @@ const getAxiosInstance = (): AxiosInstance => {
  * @param {string} username - Twitch streamer username
  */
 export const getTwitchUserInfo = async (username: string): Promise<TwitchUserInfo> => {
-    const response: AxiosResponse<TwitchGetUserInfo> = await getAxiosInstance().get(`https://api.twitch.tv/kraken/users?login=${username}`);
+    const response: AxiosResponse<TwitchGetUserInfo> = await getAxiosInstance().get(
+        `https://api.twitch.tv/kraken/users?login=${username}`,
+    );
 
     return response.data?.users?.[0];
 };
@@ -40,7 +42,9 @@ export const getTwitchUserInfo = async (username: string): Promise<TwitchUserInf
  * @param {string} id - Twitch streamer id
  */
 export const getTwitchLiveInfo = async (id: string): Promise<TwitchLiveInfo> => {
-    const response: AxiosResponse<TwitchGetLiveInfo> = await getAxiosInstance().get(`https://api.twitch.tv/kraken/streams/?channel=${id}`);
+    const response: AxiosResponse<TwitchGetLiveInfo> = await getAxiosInstance().get(
+        `https://api.twitch.tv/kraken/streams/?channel=${id}`,
+    );
 
     return response.data?.streams?.[0];
 };

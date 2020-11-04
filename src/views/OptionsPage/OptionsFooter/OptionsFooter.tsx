@@ -1,9 +1,9 @@
-import {Button} from "@material-ui/core";
-import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store/reducers/rootReducer";
-import {Link} from "react-router-dom";
+import { Button } from '@material-ui/core';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducers/rootReducer';
+import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles({
@@ -11,30 +11,31 @@ const useStyles = makeStyles({
         display: 'flex',
         justifyContent: 'center',
         paddingTop: 5,
-        paddingBottom: 8
+        paddingBottom: 8,
     },
     button: {
-        textTransform: 'none'
-    }
+        textTransform: 'none',
+    },
 });
 
 export const OptionsFooter = () => {
     const classes = useStyles();
 
-    const {loading} = useSelector((state: RootState) => state.common);
+    const { loading } = useSelector((state: RootState) => state.common);
 
     return (
-    <div className={classes.root}>
-        <Button
-            component={Link}
-            className={classes.button}
-            variant="outlined"
-            size={"small"}
-            disabled={loading}
-            startIcon={<ArrowBackIcon />}
-            to="/">
-            Back
-        </Button>
-    </div>
-  );
+        <div className={classes.root}>
+            <Button
+                component={Link}
+                className={classes.button}
+                variant="outlined"
+                size={'small'}
+                disabled={loading}
+                startIcon={<ArrowBackIcon />}
+                to="/"
+            >
+                Back
+            </Button>
+        </div>
+    );
 };
