@@ -41,7 +41,7 @@ export const getTwitchUserInfo = async (username: string): Promise<TwitchUserInf
  * Get live stream information by Twitch user ID
  * @param {string} id - Twitch streamer id
  */
-export const getTwitchLiveInfo = async (id: string): Promise<TwitchLiveInfo> => {
+export const getTwitchLiveInfo = async (id: number): Promise<TwitchLiveInfo> => {
     const response: AxiosResponse<TwitchGetLiveInfo> = await getAxiosInstance().get(
         `https://api.twitch.tv/kraken/streams/?channel=${id}`,
     );

@@ -3,7 +3,7 @@
 Browser extension that shows your favorite streamers live on Twitch.
  
 To start using it, open the extension, press _**Options**_ and add the streamers username that you follow.
-Every time you open the extension, you will see the those that are currently live. Click on them to get redirected to their livestream page. There's also a _**Refresh**_ button to update the livestreams list.
+Every time you open the extension, you will see those that are currently live. Click on them to get redirected to their livestream page. There's also a _**Refresh**_ button to update the livestreams list.
 
 
 The extension is available on [Chrome Store](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0). 
@@ -24,7 +24,7 @@ _Note_: The username is case insensitive
 ![Options error adding](./assets/options_menu_no_user.png "Options error adding")
 ![Options menu list](./assets/options_menu_list.png "Options menu list")
 
-### Remove stream
+### Remove a stream
 - Open the extension
 - Click **_Options_**
 - Press remove button for the desired stream
