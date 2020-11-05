@@ -11,7 +11,7 @@ jest.mock('../__mocks__/axios');
 
 describe('twitchApi', () => {
     const username = 'randomusername';
-    const id = '39598259580';
+    const id = 123456789;
 
     describe('getTwitchUserInfo', () => {
         it('should get user information from twitch API', async () => {
@@ -20,7 +20,7 @@ describe('twitchApi', () => {
                 users: [
                     {
                         display_name: username.toUpperCase(),
-                        _id: '490774600',
+                        _id: id,
                         name: username,
                         type: 'user',
                         created_at: '2020-02-07T00:59:45.588254Z',
@@ -56,15 +56,15 @@ describe('twitchApi', () => {
             const response: TwitchGetLiveInfo = {
                 streams: [
                     {
-                        _id: 39598259580,
+                        _id: id,
                         game: 'Resident Evil 2',
                         viewers: 40,
                         channel: {
-                            display_name: '2guys2random',
-                            name: '2guys2random',
+                            display_name: username.toUpperCase(),
+                            name: username,
                             logo:
-                                'https://static-cdn.jtvnw.net/jtv_user_pictures/755691a2-9476-48a8-a70a-8405118fd607-profile_image-300x300.png',
-                            url: 'https://www.twitch.tv/2guys2random',
+                                'https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png',
+                            url: `https://www.twitch.tv/${username}`,
                         },
                     },
                 ],
