@@ -3,7 +3,7 @@
 A browser extension that will help you to find out when your favorite streamers are live on Twitch.
  
 To start using it, open the extension, press _**Options**_ and add the streamers username that you follow.
-Every time you open the extension, you will see the live ones and you can click on them to get redirected to their livestream page. There's also a _**Refresh**_ button to update the livestreams list.
+Then, every time you open the extension, you will see the live ones and you can click on them to get redirected to their livestream page. There's also a _**Refresh**_ button to update the livestreams list.
 
 
 The extension is available on [Chrome Store](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0). 
