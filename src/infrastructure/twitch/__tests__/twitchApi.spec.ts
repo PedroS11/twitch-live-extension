@@ -62,8 +62,7 @@ describe('twitchApi', () => {
                         channel: {
                             display_name: username.toUpperCase(),
                             name: username,
-                            logo:
-                                'https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png',
+                            logo: 'https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png',
                             url: `https://www.twitch.tv/${username}`,
                         },
                     },
