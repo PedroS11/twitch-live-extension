@@ -1,6 +1,6 @@
 # Twitch Live Extension
 
-Browser extension that shows your favorite streamers live on Twitch.
+A browser extension that shows your favorite streamers live on Twitch.
  
 To start using it, open the extension, press _**Options**_ and add the streamers username that you follow.
 Every time you open the extension, you will see the live ones and you can click on them to get redirected to their livestream page. There's also a _**Refresh**_ button to update the livestreams list.
