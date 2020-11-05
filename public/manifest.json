@@ -1,6 +1,7 @@
 {
   "name": "Twitch Live Extension",
-  "version": "1.0.3",
+  "description": "A browser extension that shows your favorites streamers that are live",
+  "version": "2.0.0",
   "author": "Pedro Silva",
   "permissions": [
     "storage"
@@ -8,10 +9,6 @@
   "browser_action": {
     "default_title": "Twitch Live",
     "default_popup": "index.html"
-  },
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": false
   },
   "manifest_version": 2,
   "icons": {

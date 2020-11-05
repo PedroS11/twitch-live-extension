@@ -1,74 +1,50 @@
-import axios, {AxiosInstance} from 'axios';
-import {CLIENT_ID} from "../../config";
-
-export interface TwitchUserInfo {
-    display_name: string,
-    name: string,
-    logo: string,
-    _id: string
-}
-
-interface TwitchGetUserInfo {
-    _total: number,
-    users: TwitchUserInfo[]
-}
-
-export interface TwitchLiveInfo {
-    _id: number,
-    game: string,
-    viewers: number,
-    channel: {
-        name: string,
-        display_name: string,
-        logo: string,
-        url: string
-    }
-}
-
-interface TwitchGetLiveInfo {
-    streams: TwitchLiveInfo[]
-}
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { CLIENT_ID } from '../../config';
+import {
+    TwitchGetLiveInfo,
+    TwitchGetUserInfo,
+    TwitchLiveInfo,
+    TwitchUserInfo,
+} from '../../domain/infrastructure/twitch/twitchApi';
 
 let instance: AxiosInstance;
 
+/**
+ * Get singleton Axios instance
+ */
 const getAxiosInstance = (): AxiosInstance => {
     if (!instance) {
         instance = axios.create({
-            headers:
-                {
-                    "Accept": "application/vnd.twitchtv.v5+json",
-                    "Client-ID": CLIENT_ID
-                }
-        })
+            headers: {
+                Accept: 'application/vnd.twitchtv.v5+json',
+                'Client-ID': CLIENT_ID,
+            },
+        });
     }
 
     return instance;
 };
 
-const getTwitchUserInfo = async (username: string): Promise<TwitchUserInfo> => {
-    const response = await getAxiosInstance().get(`https://api.twitch.tv/kraken/users?login=${username}`);
+/**
+ * Get twitch user by Twitch streamer username
+ * @param {string} username - Twitch streamer username
+ */
+export const getTwitchUserInfo = async (username: string): Promise<TwitchUserInfo> => {
+    const response: AxiosResponse<TwitchGetUserInfo> = await getAxiosInstance().get(
+        `https://api.twitch.tv/kraken/users?login=${username}`,
+    );
 
-    const data: TwitchGetUserInfo = response.data;
-    if (data._total === 0) {
-        throw new Error(`The user ${username} doesn't exist`);
-    }
-    return data.users[0];
+    return response.data?.users?.[0];
 };
 
-const getTwitchLiveInfo = async (userId: string): Promise<TwitchLiveInfo | undefined> => {
-    const response = await getAxiosInstance().get(`https://api.twitch.tv/kraken/streams/?channel=${userId}`);
+/**
+ * Get live stream information by Twitch user ID
+ * @param {string} id - Twitch streamer id
+ */
+export const getTwitchLiveInfo = async (id: number): Promise<TwitchLiveInfo> => {
+    const response: AxiosResponse<TwitchGetLiveInfo> = await getAxiosInstance().get(
+        `https://api.twitch.tv/kraken/streams/?channel=${id}`,
+    );
 
-    const data: TwitchGetLiveInfo = response.data;
-
-    if(data.streams.length) {
-        return data.streams[0]
-    }
-
-    return;
-};
-
-export const getStreamInfo = async (username: string): Promise<TwitchLiveInfo | undefined> => {
-  const userData: TwitchUserInfo = await getTwitchUserInfo(username);
-
-  return await getTwitchLiveInfo(userData._id);
+    return response.data?.streams?.[0];
 };

@@ -1,26 +1,32 @@
 # Twitch Live Extension
 
-Chrome extension that shows your favorite streamers live on Twitch. Everytime you add/remove a stream, it will sync with your Google account so that you have access to the updated list in any computer that you have logged in.
+A browser extension that will help you to find out when your favorite streamers are live on Twitch.
+ 
+To start using it, open the extension, press _**Options**_ and add the streamers username that you follow.
+Then, every time you open the extension, you will see the live ones and you can click on them to get redirected to their livestream page. There's also a _**Refresh**_ button to update the livestreams list.
+
 
 The extension is available on [Chrome Store](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0). 
 
-![100x100](./assets/extension_small.png "Extension")
+![Extension](./assets/extension.png "Extension")
 
 
 ### Add a stream
 
-- Press right click on the extension icon
-- Select **_Options_**
+- Open the extension
+- Click **_Options_**
+- Type the twitch username and press `Enter` or click on `+` button
+- If the user doesn't exist or was already added, an error will be prompted
 
-![100x100](./assets/options_menu_small.png "Options menu")
+_Note_: The username is case insensitive
 
-- Add the stream name to the list by pressing `Enter` or clicking `Add` button
+![Options menu](./assets/options_menu.png "Options menu")
+![Options error adding](./assets/options_menu_no_user.png "Options error adding")
+![Options menu list](./assets/options_menu_list.png "Options menu list")
 
-![alt text](./assets/options_small.png "Options")
-
-### Remove stream
-- Press right click on the extension icon
-- Select **_Options_**
+### Remove a stream
+- Open the extension
+- Click **_Options_**
 - Press remove button for the desired stream
 
 ## Available Scripts
@@ -36,6 +42,10 @@ To get one, go to the [Twitch Api page](https://dev.twitch.tv/docs/authenticatio
 Runs the app in the development mode with reloading.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+### `yarn test`
+
+Runs all the tests
+
 ### `yarn build`
 
 Builds the app for production to the `build` folder without inline scripts.<br />
@@ -49,4 +59,4 @@ Builds the app for production to the `build` folder without inline scripts.<br /
 
 ## Frameworks
 
-This extension was developed using [React](https://reactjs.org/), [Redux Toolkit](https://redux-toolkit.js.org/) and [Material-UI](https://material-ui.com/). For the options page, it was used [Jquery](https://jquery.com/) and [Bootstrap](https://getbootstrap.com/).
+This extension was developed using [React](https://reactjs.org/), [Redux Toolkit](https://redux-toolkit.js.org/) and [Material-UI](https://material-ui.com/).
