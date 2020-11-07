@@ -67,7 +67,8 @@
     "lint-staged": "^10.5.1",
     "npm-watch": "^0.6.0",
     "prettier": "^2.1.2",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "webextension-polyfill-ts": "^0.21.0"
   },
   "husky": {
     "hooks": {

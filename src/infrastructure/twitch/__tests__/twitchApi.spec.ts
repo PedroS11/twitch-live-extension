@@ -5,7 +5,7 @@ import {
     TwitchLiveInfo,
     TwitchUserInfo,
 } from '../../../domain/infrastructure/twitch/twitchApi';
-import { getTwitchLiveInfo, getTwitchUserInfo } from '../twitchApi';
+import { getTwitchLiveInfo, getTwitchUserInfo } from '../twitchRepository';
 
 jest.mock('../__mocks__/axios');
 
