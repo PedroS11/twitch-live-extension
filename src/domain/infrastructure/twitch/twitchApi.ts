@@ -1,43 +1,3 @@
-export interface TwitchUserInfo {
-    display_name: string;
-    name: string;
-    logo: string;
-    _id: number;
-    bio?: string;
-    type: string;
-    created_at: string;
-    updated_at: string;
-}
-
-export interface TwitchGetUserInfo {
-    _total: number;
-    users: TwitchUserInfo[];
-}
-
-export interface TwitchLiveInfo {
-    _id: number;
-    game: string;
-    viewers: number;
-    channel: {
-        display_name: string;
-        logo: string;
-        name: string;
-        url: string;
-    };
-}
-
-export interface TwitchGetLiveInfo {
-    streams: TwitchLiveInfo[];
-}
-
-export interface SaveFavoriteStreamResponse {
-    success: boolean;
-    message?: string;
-}
-
-
-
-
 interface SearchResponse<T> {
     data: T[];
 }
@@ -45,27 +5,26 @@ interface SearchResponse<T> {
 type SearchPaginationResponse<T> = SearchResponse<T> & {
     pagination?: {
         cursor: string;
-    }
-}
+    };
+};
 
 type SearchTotalPaginationResponse<T> = SearchPaginationResponse<T> & {
     total: number;
-}
+};
 
 //-----------------------------------------------------------------------------
 //--------------------------- Get Users Follows -----------------------------------
 //-----------------------------------------------------------------------------
 
 export interface GetUserFollow {
-    from_id: string,
-    from_name: string,
-    to_id: string,
-    to_name: string,
-    followed_at: string
+    from_id: string;
+    from_name: string;
+    to_id: string;
+    to_name: string;
+    followed_at: string;
 }
 
 export type GetUserFollowsResponse = SearchTotalPaginationResponse<GetUserFollow>;
-
 
 //-----------------------------------------------------------------------------
 //--------------------------- Validate Token -----------------------------------
@@ -83,7 +42,7 @@ export interface ValidateTokenResponse {
 //--------------------------- Get Streams -----------------------------------
 //-----------------------------------------------------------------------------
 
-export interface GetStream{
+export interface GetStream {
     id: string;
     user_id: string;
     user_name: string;
@@ -128,6 +87,7 @@ export interface FollowedLivestream {
     profile_image_url: string;
     game: string;
     viewer_count: number;
+    id: string;
 }
 
 //-----------------------------------------------------------------------------
@@ -140,5 +100,4 @@ export interface GetGame {
     name: string;
 }
 
-
-export type GetGamesResponse = SearchPaginationResponse<GetGame>
+export type GetGamesResponse = SearchPaginationResponse<GetGame>;

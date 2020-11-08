@@ -20,7 +20,7 @@ export const LiveStreamPage = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const { loading } = useSelector((state: RootState) => state.common);
-    const { liveStreams, favoriteStreamers } = useSelector((state: RootState) => state.twitch);
+    const { livestreams } = useSelector((state: RootState) => state.twitch);
 
     useEffect(() => {
         dispatch(getLiveStreams());
@@ -28,15 +28,10 @@ export const LiveStreamPage = () => {
 
     return (
         <div>
-            {!loading && favoriteStreamers.length === 0 && (
-                <Typography align={'center'} variant={'subtitle2'} className={classes.optionsMessage}>
-                    Go to Options and add your streamers
-                </Typography>
+            {!loading && livestreams.length === 0 && (
+                <Typography align={'center'}>Your followed channels are all offline...</Typography>
             )}
-            {!loading && favoriteStreamers.length > 0 && liveStreams.length === 0 && (
-                <Typography align={'center'}>Your favorite channels are all offline...</Typography>
-            )}
-            {!loading && favoriteStreamers.length > 0 && <LiveStreamList liveStreams={liveStreams} />}
+            {!loading && livestreams.length > 0 && <LiveStreamList liveStreams={livestreams} />}
             {loading && <CenteredCircularProgress />}
             <LiveStreamFooter />
         </div>

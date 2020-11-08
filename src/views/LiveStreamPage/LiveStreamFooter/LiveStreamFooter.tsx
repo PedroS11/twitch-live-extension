@@ -28,11 +28,11 @@ export const LiveStreamFooter = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const { loading } = useSelector((state: RootState) => state.common);
-    const { liveStreams } = useSelector((state: RootState) => state.twitch);
+    const { livestreams } = useSelector((state: RootState) => state.twitch);
 
     return (
         <div className={classes.root}>
-            {liveStreams.length > 0 && (
+            {livestreams.length > 0 && (
                 <Button
                     className={classes.button}
                     variant="outlined"
@@ -53,9 +53,9 @@ export const LiveStreamFooter = () => {
                 size={'small'}
                 disabled={loading}
                 startIcon={<SettingsIcon />}
-                to="/options"
+                to="/settings"
             >
-                Options
+                Settings
             </Button>
         </div>
     );

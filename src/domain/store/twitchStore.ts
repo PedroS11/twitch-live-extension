@@ -1,8 +1,9 @@
-import { TwitchLiveInfo, TwitchUserInfo } from '../infrastructure/twitch/twitchApi';
+import { FollowedLivestream } from '../infrastructure/twitch/twitchApi';
 
-export const FAVORITE_STREAMERS_STORAGE_KEY = 'tle-favorite-streamers';
+export const LAST_FOLLOWS_UPDATE_KEY = 'tle-last-follows-update';
+export const FOLLOWS_KEY = 'tle-follows';
+export const TOKEN_KEY = 'tle-token';
 
 export interface TwitchStore {
-    liveStreams: TwitchLiveInfo[];
-    favoriteStreamers: TwitchUserInfo[];
+    livestreams: FollowedLivestream[];
 }
