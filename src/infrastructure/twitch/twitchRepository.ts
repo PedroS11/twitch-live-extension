@@ -1,5 +1,5 @@
-import {AxiosInstance, AxiosResponse} from 'axios';
-import {CLIENT_ID} from '../../config';
+import { AxiosInstance, AxiosResponse } from 'axios';
+import { CLIENT_ID } from '../../config';
 import {
     GetGame,
     GetGamesResponse,
@@ -11,7 +11,7 @@ import {
     GetUsersResponse,
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
-import {createAxiosInstance, getToken, refreshToken} from "./twitchHelpers";
+import { createAxiosInstance, getToken, refreshToken } from './twitchHelpers';
 
 let apiInstance: AxiosInstance;
 let oAuthInstance: AxiosInstance;
@@ -46,7 +46,7 @@ export const revokeToken = async (): Promise<void> => {
     } catch (e) {
         if (e?.response?.status === 401) {
             const token = await refreshToken();
-            oAuthInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+            oAuthInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             return await getData();
         }
@@ -70,7 +70,7 @@ export const validateToken = async (): Promise<ValidateTokenResponse> => {
     } catch (e) {
         if (e?.response?.status === 401) {
             const token = await refreshToken();
-            oAuthInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+            oAuthInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             return await getData();
         }
@@ -112,7 +112,7 @@ export const getUserFollows = async (fromId = '', toId = '', first = 20): Promis
     } catch (e) {
         if (e?.response?.status === 401) {
             const token = await refreshToken();
-            apiInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+            apiInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             return await getData();
         }
@@ -157,7 +157,7 @@ export const getStreams = async (
     } catch (e) {
         if (e?.response?.status === 401) {
             const token = await refreshToken();
-            apiInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+            apiInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             return await getData();
         }
@@ -169,7 +169,8 @@ export const getStreams = async (
 
 export const getUsers = async (ids: string[] = [], login: string[] = []): Promise<GetUser[]> => {
     const getData = async (): Promise<GetUser[]> => {
-        const response: AxiosResponse<GetUsersResponse>= await getApiInstance(await getToken()).get(`${API_BASE_URL}/users?
+        const response: AxiosResponse<GetUsersResponse> = await getApiInstance(await getToken())
+            .get(`${API_BASE_URL}/users?
             ${ids.map((id) => `&id=${id}`).join('')}
             ${login.map((login) => `&login=${login}`).join('')}`);
 
@@ -181,7 +182,7 @@ export const getUsers = async (ids: string[] = [], login: string[] = []): Promis
     } catch (e) {
         if (e?.response?.status === 401) {
             const token = await refreshToken();
-            apiInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+            apiInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             return await getData();
         }
@@ -214,7 +215,7 @@ export const getGames = async (ids: string[] = [], names: string[] = []): Promis
     } catch (e) {
         if (e?.response?.status === 401) {
             const token = await refreshToken();
-            apiInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+            apiInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             return await getData();
         }

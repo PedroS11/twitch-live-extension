@@ -1,8 +1,8 @@
-import {fetchToken} from "../identityFlowAuth/indetityFlowAuth";
-import {getStorageData, setStorageData} from "../../utils/localStorage";
-import {TOKEN_KEY} from "../../domain/store/twitchStore";
-import {AxiosInstance} from "axios";
-import axios from "axios";
+import { fetchToken } from '../identityFlowAuth/indetityFlowAuth';
+import { getStorageData, setStorageData } from '../../utils/localStorage';
+import { TOKEN_KEY } from '../../domain/store/twitchStore';
+import { AxiosInstance } from 'axios';
+import axios from 'axios';
 
 export const refreshToken = async (): Promise<string> => {
     const token = await fetchToken();
@@ -24,9 +24,8 @@ export const getToken = async (): Promise<string> => {
 export const createAxiosInstance = (token: string, clientId = ''): AxiosInstance => {
     return axios.create({
         headers: {
-            ...(clientId && {'Client-Id': clientId}),
+            ...(clientId && { 'Client-Id': clientId }),
             Authorization: `Bearer ${token}`,
         },
     });
 };
-

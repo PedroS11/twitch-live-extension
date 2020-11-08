@@ -16,6 +16,7 @@ import { RootState } from '../../../store/reducers/rootReducer';
 import { getStorageData } from '../../../utils/localStorage';
 import { LAST_FOLLOWS_UPDATE_KEY } from '../../../domain/store/twitchStore';
 import GroupIcon from '@material-ui/icons/Group';
+import {formatDate} from "../../../utils/formatter";
 
 const useStyles = makeStyles({
     root: {
@@ -66,7 +67,7 @@ export const SettingsSyncFollows = () => {
                 primary={'Follows'}
                 secondary={
                     <Typography noWrap variant={'subtitle2'} color={'textSecondary'}>
-                        Last sync: {lastUpdate ? lastUpdate.toJSON().replace('T', ' ') : 'Never'}
+                        Last sync: {lastUpdate ? formatDate(lastUpdate) : 'Never'}
                     </Typography>
                 }
             />
