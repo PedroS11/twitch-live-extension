@@ -5,7 +5,7 @@ import {
     GetUser,
     GetUserFollow,
     ValidateTokenResponse,
-} from '../../domain/infrastructure/twitch/twitchApi';
+} from '../../domain/infrastructure/twitch/twitch';
 import { getGames, getStreams, getUserFollows, getUsers, MAX_INTEGER_VALUE, validateToken } from './twitchRepository';
 
 export const getGameById = async (gameId: string): Promise<GetGame> => {

@@ -4,12 +4,12 @@
 //     TwitchGetUserInfo,
 //     TwitchLiveInfo,
 //     TwitchUserInfo,
-// } from '../../../domain/infrastructure/twitch/twitchApi';
+// } from '../../../domain/infrastructure/twitch/twitch';
 // import { getTwitchLiveInfo, getTwitchUserInfo } from '../twitchRepository';
 //
 // jest.mock('../__mocks__/axios');
 //
-// describe('twitchApi', () => {
+// describe('twitch', () => {
 //     const username = 'randomusername';
 //     const id = 123456789;
 //
@@ -90,9 +90,8 @@
 //     });
 // });
 
-
-describe("", () => {
-    it("", () => {
+describe('', () => {
+    it('', () => {
         expect(1).toEqual(1);
-    })
+    });
 });

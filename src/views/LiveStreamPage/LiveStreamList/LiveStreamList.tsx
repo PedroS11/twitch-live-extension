@@ -2,7 +2,7 @@ import React from 'react';
 
 import { List } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FollowedLivestream } from '../../../domain/infrastructure/twitch/twitchApi';
+import { FollowedLivestream } from '../../../domain/infrastructure/twitch/twitch';
 import { LiveStreamListItem } from './LiveStreamListItem/LiveStreamListItem';
 
 interface LiveStreamListProps {

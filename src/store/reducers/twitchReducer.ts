@@ -3,7 +3,7 @@ import { AppThunk } from '../store';
 import { setLoading } from './commonReducer';
 import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
 import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, TOKEN_KEY, TwitchStore } from '../../domain/store/twitchStore';
-import { FollowedLivestream, GetUserFollow, ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitchApi';
+import { FollowedLivestream, GetUserFollow, ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
 import { getStorageData, removeStorageData, setStorageData } from '../../utils/localStorage';
 import { fetchToken } from '../../infrastructure/identityFlowAuth/indetityFlowAuth';
 import { getCurrentUser, getFollowedLivestreams, getUserFollowers } from '../../infrastructure/twitch/twitchService';

@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatViewers } from '../../../../utils/formatter';
-import { FollowedLivestream } from '../../../../domain/infrastructure/twitch/twitchApi';
+import { FollowedLivestream } from '../../../../domain/infrastructure/twitch/twitch';
 
 const useStyles = makeStyles({
     root: {

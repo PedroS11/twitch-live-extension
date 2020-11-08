@@ -6,7 +6,7 @@ import { AppDispatch } from '../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducers/rootReducer';
 import PersonIcon from '@material-ui/icons/Person';
-import { ValidateTokenResponse } from '../../../domain/infrastructure/twitch/twitchApi';
+import { ValidateTokenResponse } from '../../../domain/infrastructure/twitch/twitch';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 interface SettingsSwitchAccountProps {
