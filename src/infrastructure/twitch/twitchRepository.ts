@@ -169,8 +169,7 @@ export const getStreams = async (
 
 export const getUsers = async (ids: string[] = [], login: string[] = []): Promise<GetUser[]> => {
     const getData = async (): Promise<GetUser[]> => {
-        let response: AxiosResponse<GetUsersResponse>;
-        response = await getApiInstance(await getToken()).get(`${API_BASE_URL}/users?
+        const response: AxiosResponse<GetUsersResponse>= await getApiInstance(await getToken()).get(`${API_BASE_URL}/users?
             ${ids.map((id) => `&id=${id}`).join('')}
             ${login.map((login) => `&login=${login}`).join('')}`);
 
