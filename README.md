@@ -1,6 +1,16 @@
 # Twitch Live Extension
 
 A browser extension that will help you to find out when your followed streamers are live on Twitch.
+
+## Table of Contents
+
+  * [Settings](#settings)
+  * [Available Scripts](#available-scripts)
+  * [Deployment](#deployment)
+  * [Frameworks](#frameworks)
+  * [Resources](#resources)
+  * [Contribution](#contribution)
+
  
 To start using it, open it, log in with your Twitch account, so that the extension has access only to your public information, and, every time you click on the extension icon,
 you will see the streamers that you follow that are live.
@@ -59,6 +69,9 @@ Builds the app for production to the `build` folder without inline scripts.<br /
 ## Frameworks
 
 This extension was developed using [React](https://reactjs.org/), [Redux Toolkit](https://redux-toolkit.js.org/) and [Material-UI](https://material-ui.com/).
+
+## Resources
+[Changelog](https://github.com/PedroS11/twitch-live-extension/blob/master/CHANGELOG.md)
 
 ## Contribution
 [Garciap](https://twitch.tv/Garciap)
