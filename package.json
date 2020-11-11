@@ -1,8 +1,7 @@
 {
   "name": "twitch-live-extension",
-  "description": "A browser extension that shows your favorites streamers that went live",
-  "version": "2.0.0",
-  "private": true,
+  "description": "A browser extension that shows your followed streamers that are live",
+  "version": "2.1.0",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
