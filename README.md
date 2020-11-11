@@ -75,17 +75,19 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 [Changelog](https://github.com/PedroS11/twitch-live-extension/blob/master/CHANGELOG.md)
 
 ## Contribution
+[Kr4vzz](https://youtube.com/kr4vzz)
+
 [Garciap](https://twitch.tv/Garciap)
 
 [Impakt](https://twitch.tv/Impakt)
 
 [Thenumber13_](https://twitch.tv/Thenumber13_)
 
-[Tio_sake](https://twitch.tv/Tio_sake)
+[Tio Sake](https://twitch.tv/Tio_sake)
 
 [MeetTheMyth](https://twitch.tv/MeetTheMyth)
 
-[Rsekeleton](https://twitch.tv/Rsekeleton)
+[rSekeleton](https://twitch.tv/Rsekeleton)
 
 [Johlee](https://twitch.tv/Johlee)
 
@@ -97,9 +99,9 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 
 [Ver71go](https://twitch.tv/Ver71go)
 
-[Pinklytv](https://twitch.tv/Pinklytv)
+[PinklyTv](https://twitch.tv/Pinklytv)
 
-[RafikiHD](https://twitch.tv/RafikiHD)
+[RafikiHd](https://twitch.tv/RafikiHD)
 
 And everyone else that helped testing and I didn't mention.
 
