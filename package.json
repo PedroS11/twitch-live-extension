@@ -1,8 +1,7 @@
 {
   "name": "twitch-live-extension",
-  "description": "A browser extension that shows your favorites streamers that went live",
-  "version": "2.0.0",
-  "private": true,
+  "description": "A browser extension that shows your followed streamers that are live",
+  "version": "2.1.0",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
@@ -17,7 +16,8 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "uuid": "^8.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -57,6 +57,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.6",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "axios-mock-adapter": "^1.19.0",
@@ -67,7 +68,8 @@
     "lint-staged": "^10.5.1",
     "npm-watch": "^0.6.0",
     "prettier": "^2.1.2",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "webextension-polyfill-ts": "^0.21.0"
   },
   "husky": {
     "hooks": {

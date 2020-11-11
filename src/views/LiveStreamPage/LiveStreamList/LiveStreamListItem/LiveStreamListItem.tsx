@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatViewers } from '../../../../utils/formatter';
-import { TwitchLiveInfo } from '../../../../domain/infrastructure/twitch/twitchApi';
+import { FollowedLivestream } from '../../../../domain/infrastructure/twitch/twitch';
 
 const useStyles = makeStyles({
     root: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
+export const LiveStreamListItem = (elem: FollowedLivestream) => {
     const classes = useStyles();
 
     return (
@@ -38,15 +38,15 @@ export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
             component="a"
             target="_blank"
             rel="noopener noreferrer"
-            href={elem.channel.url}
+            href={elem.url}
             divider
             dense
         >
             <ListItemAvatar>
-                <Avatar src={elem.channel.logo}></Avatar>
+                <Avatar src={elem.profile_image_url}></Avatar>
             </ListItemAvatar>
             <ListItemText
-                primary={elem.channel.display_name}
+                primary={elem.display_name}
                 secondary={
                     <Typography className={classes.gameText} noWrap variant={'subtitle2'} color={'textSecondary'}>
                         {elem.game}
@@ -56,7 +56,7 @@ export const LiveStreamListItem = (elem: TwitchLiveInfo) => {
             <ListItemSecondaryAction>
                 <IconButton edge="end" disabled size={'small'}>
                     <Typography noWrap variant={'subtitle1'} color={'textSecondary'} className={classes.viewersText}>
-                        {formatViewers(elem.viewers)}
+                        {formatViewers(elem.viewer_count)}
                     </Typography>
                     <svg
                         width="0.9em"

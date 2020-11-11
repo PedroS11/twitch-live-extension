@@ -1,139 +1,117 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../store';
 import { setLoading } from './commonReducer';
-import { getTwitchLiveInfo, getTwitchUserInfo } from '../../infrastructure/twitch/twitchApi';
-import { FAVORITE_STREAMERS_STORAGE_KEY, TwitchStore } from '../../domain/store/twitchStore';
-import {
-    SaveFavoriteStreamResponse,
-    TwitchLiveInfo,
-    TwitchUserInfo,
-} from '../../domain/infrastructure/twitch/twitchApi';
-import { getStorageData, setStorageData } from '../../utils/localStorage';
+import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
+import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, TOKEN_KEY, TwitchStore } from '../../domain/store/twitchStore';
+import { FollowedLivestream, GetUserFollow, ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
+import { getStorageData, removeStorageData, setStorageData } from '../../utils/localStorage';
+import { fetchToken } from '../../infrastructure/identityFlowAuth/indetityFlowAuth';
+import { getCurrentUser, getFollowedLivestreams, getUserFollowers } from '../../infrastructure/twitch/twitchService';
+
+const ONE_DAY_IN_MILISECONDS = 24 * 60 * 60 * 1000;
 
 const twitchSlice = createSlice({
     name: 'twitch',
     initialState: {
-        liveStreams: [],
-        favoriteStreamers: [],
+        livestreams: [],
     } as TwitchStore,
     reducers: {
-        addStream: (state: TwitchStore, { payload }: PayloadAction<TwitchLiveInfo>) => {
-            state.liveStreams.push(payload);
-        },
-        resetLiveStreams: (state: TwitchStore) => {
-            state.liveStreams = [];
-        },
-        resetFavoriteStreamers: (state: TwitchStore) => {
-            state.favoriteStreamers = [];
-        },
-        saveFavoriteStreamers: (state: TwitchStore, { payload }: PayloadAction<TwitchUserInfo[]>) => {
-            state.favoriteStreamers = payload;
-        },
-        addFavoriteStream: (state: TwitchStore, { payload }: PayloadAction<TwitchUserInfo>) => {
-            state.favoriteStreamers.push(payload);
-        },
         sortByViewers: (state: TwitchStore) => {
-            state.liveStreams.sort((a: TwitchLiveInfo, b: TwitchLiveInfo) => b.viewers - a.viewers);
+            state.livestreams.sort((a: FollowedLivestream, b: FollowedLivestream) => b.viewer_count - a.viewer_count);
+        },
+        saveLivestreams: (state: TwitchStore, { payload }: PayloadAction<FollowedLivestream[]>) => {
+            state.livestreams = payload;
+        },
+        resetLivestreams: (state: TwitchStore) => {
+            state.livestreams = [];
         },
     },
 });
 
-const {
-    addStream,
-    resetLiveStreams,
-    sortByViewers,
-    resetFavoriteStreamers,
-    saveFavoriteStreamers,
-    addFavoriteStream,
-} = twitchSlice.actions;
+const { sortByViewers, saveLivestreams, resetLivestreams } = twitchSlice.actions;
 
-/**
- * Load the list of favorites streamers from local storage
- */
-export const loadFavorites = (): AppThunk<void> => async (dispatch) => {
-    dispatch(resetFavoriteStreamers());
-    const data = getStorageData(FAVORITE_STREAMERS_STORAGE_KEY);
-    const favorites: TwitchUserInfo[] = data ? JSON.parse(data) : [];
-    dispatch(saveFavoriteStreamers(favorites));
-};
+export const syncFollows = (): AppThunk<void> => async (dispatch) => {
+    dispatch(setLoading());
 
-/**
- * Add new favorite streamer to the list
- * @param {string} streamer - Streamer username to be added
- */
-export const saveFavoriteStream = (streamer: string): AppThunk<Promise<SaveFavoriteStreamResponse>> => async (
-    dispatch,
-    getState,
-) => {
-    if (!getState().twitch.favoriteStreamers.some((e) => e.name.toLowerCase() === streamer.toLowerCase())) {
+    try {
+        const user: ValidateTokenResponse = await getCurrentUser();
+        const follows: GetUserFollow[] = await getUserFollowers(user.user_id);
+        setStorageData(FOLLOWS_KEY, JSON.stringify(follows));
+        setStorageData(LAST_FOLLOWS_UPDATE_KEY, Date.now() + '');
+    } catch (e) {
+        console.log('An unexpected error was thrown', e);
+    } finally {
         dispatch(setLoading());
-
-        const user: TwitchUserInfo = await getTwitchUserInfo(streamer);
-        if (!user) {
-            dispatch(setLoading());
-
-            return {
-                success: false,
-                message: `The user ${streamer} doesn't exist`,
-            };
-        }
-
-        dispatch(addFavoriteStream(user));
-        setStorageData(FAVORITE_STREAMERS_STORAGE_KEY, JSON.stringify(getState().twitch.favoriteStreamers));
-        dispatch(setLoading());
-
-        return {
-            success: true,
-        };
     }
-
-    return {
-        success: false,
-        message: 'User already added to the list',
-    };
 };
 
 /**
  * Get the all the live streams from the favorites list
  */
-export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) => {
-    dispatch(resetLiveStreams());
-    dispatch(loadFavorites());
-
-    const favorites: TwitchUserInfo[] = getState().twitch.favoriteStreamers;
-
-    if (!favorites.length) return;
-
+export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
     dispatch(setLoading());
+    try {
+        let follows: GetUserFollow[];
+        // @ts-ignore
+        const lastUpdate: number = +getStorageData(LAST_FOLLOWS_UPDATE_KEY);
 
-    const results = await Promise.allSettled(
-        favorites.map((streamer: TwitchUserInfo) => getTwitchLiveInfo(streamer._id)),
-    );
+        // First execution or the follows are outdated
+        if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
+            const user: ValidateTokenResponse = await getCurrentUser();
+            follows = await getUserFollowers(user.user_id);
+            setStorageData(FOLLOWS_KEY, JSON.stringify(follows));
+            setStorageData(LAST_FOLLOWS_UPDATE_KEY, Date.now() + '');
+        } else {
+            const data = getStorageData(FOLLOWS_KEY);
+            follows = data ? JSON.parse(data) : [];
+        }
 
-    results.forEach((response) => {
-        if (response.status === 'fulfilled') {
-            response.value && dispatch(addStream(response.value));
-        } else console.error(response.reason);
-    });
+        // User doesn't follow anyone
+        if (!follows.length) {
+            dispatch(setLoading());
+            return;
+        }
 
-    dispatch(sortByViewers());
+        dispatch(resetLivestreams());
 
-    dispatch(setLoading());
+        const livestreams: FollowedLivestream[] = await getFollowedLivestreams(follows.map((follow) => follow.to_id));
+
+        dispatch(saveLivestreams(livestreams));
+        dispatch(sortByViewers());
+    } catch (e) {
+        console.log('An unexpected error was thrown', e);
+    } finally {
+        dispatch(setLoading());
+    }
 };
 
-/**
- * Removes a streamer from the favorites list
- * @param {string} streamer - Streamer username to be removed
- */
-export const removeStream = (streamer: string): AppThunk<void> => async (dispatch, getState) => {
-    const favorites: TwitchUserInfo[] = getState().twitch.favoriteStreamers;
+export const getUser = (): AppThunk<Promise<ValidateTokenResponse>> => async (dispatch) => {
+    dispatch(setLoading());
+    let user: ValidateTokenResponse;
+    try {
+        user = await getCurrentUser();
+    } catch (e) {
+        console.log('An unexpected error was thrown', e);
+    } finally {
+        dispatch(setLoading());
+    }
 
-    const newFavorites: TwitchUserInfo[] = favorites.filter(
-        (element: TwitchUserInfo) => element.name.toLowerCase() !== streamer.toLowerCase(),
-    );
+    // @ts-ignore
+    return user;
+};
 
-    dispatch(saveFavoriteStreamers(newFavorites));
-    setStorageData(FAVORITE_STREAMERS_STORAGE_KEY, JSON.stringify(newFavorites));
+export const switchAccount = (): AppThunk<void> => async (dispatch) => {
+    dispatch(setLoading());
+    try {
+        await revokeToken();
+        removeStorageData(TOKEN_KEY);
+        const token = await fetchToken(true);
+        setStorageData(TOKEN_KEY, token);
+    } catch (e) {
+        console.log('An unexpected error was thrown', e);
+    } finally {
+        dispatch(setLoading());
+    }
 };
 
 export const { reducer: twitchReducer } = twitchSlice;

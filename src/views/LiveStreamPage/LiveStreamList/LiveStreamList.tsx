@@ -2,11 +2,11 @@ import React from 'react';
 
 import { List } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { TwitchLiveInfo } from '../../../domain/infrastructure/twitch/twitchApi';
+import { FollowedLivestream } from '../../../domain/infrastructure/twitch/twitch';
 import { LiveStreamListItem } from './LiveStreamListItem/LiveStreamListItem';
 
 interface LiveStreamListProps {
-    liveStreams: TwitchLiveInfo[];
+    liveStreams: FollowedLivestream[];
 }
 
 const useStyles = makeStyles({
@@ -39,8 +39,8 @@ export const LiveStreamList = ({ liveStreams }: LiveStreamListProps) => {
         <div className={classes.root}>
             {liveStreams.length > 0 && (
                 <List className={classes.list}>
-                    {liveStreams.map((elem: TwitchLiveInfo) => (
-                        <LiveStreamListItem {...elem} key={elem._id} />
+                    {liveStreams.map((elem: FollowedLivestream) => (
+                        <LiveStreamListItem {...elem} key={elem.id} />
                     ))}
                 </List>
             )}

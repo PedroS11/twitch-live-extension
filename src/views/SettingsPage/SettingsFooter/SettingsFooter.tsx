@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const OptionsFooter = () => {
+export const SettingsFooter = () => {
     const classes = useStyles();
 
     const { loading } = useSelector((state: RootState) => state.common);

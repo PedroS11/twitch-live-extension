@@ -6,8 +6,7 @@ import { store } from './store/store';
 import { Provider } from 'react-redux';
 import './index.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { OptionsPage } from './views/OptionsPage/OptionsPage';
-import { Header } from './views/Common/Header/Header';
+import { SettingsPage } from './views/SettingsPage/SettingsPage';
 import darkTheme from './themes/darkTheme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
@@ -16,11 +15,9 @@ ReactDOM.render(
     <Provider store={store}>
         <ThemeProvider theme={darkTheme}>
             <Paper square>
-                <Header />
-
                 <Router>
                     <Switch>
-                        <Route path="/options" component={OptionsPage} />
+                        <Route path="/settings" component={SettingsPage} />
                         <Route component={App} />
                     </Switch>
                 </Router>
