@@ -3,8 +3,9 @@ import { getStorageData, setStorageData } from '../../utils/localStorage';
 import { TOKEN_KEY } from '../../domain/store/twitchStore';
 import { AxiosInstance } from 'axios';
 import axios from 'axios';
+import { axiosInterceptor } from '../axios/axiosInterceptor';
 
-export const refreshToken = async (): Promise<string> => {
+export const getRefreshToken = async (): Promise<string> => {
     const token = await fetchToken();
     setStorageData(TOKEN_KEY, token);
 
@@ -21,11 +22,12 @@ export const getToken = async (): Promise<string> => {
     return tokenStorage;
 };
 
-export const createAxiosInstance = (token: string, clientId = ''): AxiosInstance => {
-    return axios.create({
-        headers: {
-            ...(clientId && { 'Client-Id': clientId }),
-            Authorization: `Bearer ${token}`,
-        },
-    });
+export const createAxiosInstance = (clientId = ''): AxiosInstance => {
+    return axiosInterceptor(
+        axios.create({
+            headers: {
+                ...(clientId && { 'Client-Id': clientId }),
+            },
+        }),
+    );
 };

@@ -11,7 +11,7 @@ import {
     GetUsersResponse,
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
-import { createAxiosInstance, getToken, refreshToken } from './twitchHelpers';
+import { createAxiosInstance, getToken } from './twitchHelpers';
 
 let apiInstance: AxiosInstance;
 let oAuthInstance: AxiosInstance;
@@ -21,60 +21,38 @@ const API_BASE_URL = 'https://api.twitch.tv/helix';
 
 export const MAX_INTEGER_VALUE = 100;
 
-const getOAuthInstance = (token: string): AxiosInstance => {
+const getOAuthInstance = (): AxiosInstance => {
     if (!oAuthInstance) {
-        oAuthInstance = createAxiosInstance(token);
+        oAuthInstance = createAxiosInstance();
     }
     return oAuthInstance;
 };
 
-const getApiInstance = (token: string): AxiosInstance => {
+const getApiInstance = (): AxiosInstance => {
     if (!apiInstance) {
-        apiInstance = createAxiosInstance(token, CLIENT_ID);
+        apiInstance = createAxiosInstance(CLIENT_ID);
     }
     return apiInstance;
 };
 
 export const revokeToken = async (): Promise<void> => {
-    const getData = async (): Promise<void> => {
-        const token: string = await getToken();
-        await getOAuthInstance(token).post(`${OAUTH_BASE_URL}/revoke?client_id=${CLIENT_ID}&token=${token}`);
-    };
-
     try {
-        return await getData();
+        const token: string = await getToken();
+        await getOAuthInstance().post(`${OAUTH_BASE_URL}/revoke?client_id=${CLIENT_ID}&token=${token}`);
     } catch (e) {
-        if (e?.response?.status === 401) {
-            const token = await refreshToken();
-            oAuthInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-            return await getData();
-        }
-
         console.error('Error revoking token', e?.response?.data || e.message);
         throw e;
     }
 };
 
 export const validateToken = async (): Promise<ValidateTokenResponse> => {
-    const getData = async (): Promise<ValidateTokenResponse> => {
-        const response: AxiosResponse<ValidateTokenResponse> = await getOAuthInstance(await getToken()).get(
+    try {
+        const response: AxiosResponse<ValidateTokenResponse> = await getOAuthInstance().get(
             `${OAUTH_BASE_URL}/validate`,
         );
 
         return response.data;
-    };
-
-    try {
-        return await getData();
     } catch (e) {
-        if (e?.response?.status === 401) {
-            const token = await refreshToken();
-            oAuthInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-            return await getData();
-        }
-
         console.error('Error validating the token', e?.response?.data || e.message);
         throw e;
     }
@@ -85,7 +63,7 @@ export const getUserFollows = async (fromId = '', toId = '', first = 20): Promis
         throw new Error('At minimum, from_id or to_id must be provided for a query to be valid.');
     }
 
-    const getData = async (): Promise<GetUserFollow[]> => {
+    try {
         let follows: GetUserFollow[] = [];
         let response: AxiosResponse<GetUserFollowsResponse>;
         let cursor: string | undefined = '';
@@ -98,25 +76,14 @@ export const getUserFollows = async (fromId = '', toId = '', first = 20): Promis
             url.searchParams.append('first', first.toString());
             cursor && url.searchParams.append('after', cursor);
 
-            response = await getApiInstance(await getToken()).get(url.href);
+            response = await getApiInstance().get(url.href);
 
             cursor = response.data?.pagination?.cursor;
             follows = [...follows, ...response.data.data];
         } while (response.data?.pagination?.cursor);
 
         return follows;
-    };
-
-    try {
-        return await getData();
     } catch (e) {
-        if (e?.response?.status === 401) {
-            const token = await refreshToken();
-            apiInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-            return await getData();
-        }
-
         console.error('Error getting followers', e?.response?.data || e.message);
         throw e;
     }
@@ -129,7 +96,7 @@ export const getStreams = async (
     usersLogins: string[] = [],
     first = 20,
 ): Promise<GetStream[]> => {
-    const getData = async (): Promise<GetStream[]> => {
+    try {
         let liveStreams: GetStream[] = [];
         let response: AxiosResponse<GetStreamsResponse>;
         let cursor: string | undefined;
@@ -144,61 +111,38 @@ export const getStreams = async (
             url.searchParams.append('first', first.toString());
             cursor && url.searchParams.append('after', cursor);
 
-            response = await getApiInstance(await getToken()).get(url.href);
+            response = await getApiInstance().get(url.href);
 
             cursor = response.data?.pagination?.cursor;
             liveStreams = [...liveStreams, ...response.data.data];
         } while (response.data?.pagination?.cursor);
         return liveStreams;
-    };
-
-    try {
-        return await getData();
     } catch (e) {
-        if (e?.response?.status === 401) {
-            const token = await refreshToken();
-            apiInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-            return await getData();
-        }
-
         console.error('Error getting streams', e?.response?.data || e.message);
         throw e;
     }
 };
 
 export const getUsers = async (ids: string[] = [], login: string[] = []): Promise<GetUser[]> => {
-    const getData = async (): Promise<GetUser[]> => {
-        const response: AxiosResponse<GetUsersResponse> = await getApiInstance(await getToken())
-            .get(`${API_BASE_URL}/users?
+    try {
+        const response: AxiosResponse<GetUsersResponse> = await getApiInstance().get(`${API_BASE_URL}/users?
             ${ids.map((id) => `&id=${id}`).join('')}
             ${login.map((login) => `&login=${login}`).join('')}`);
 
         return response.data.data;
-    };
-
-    try {
-        return await getData();
     } catch (e) {
-        if (e?.response?.status === 401) {
-            const token = await refreshToken();
-            apiInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-            return await getData();
-        }
-
         console.error('Error getting users', e?.response?.data || e.message);
         throw e;
     }
 };
 
 export const getGames = async (ids: string[] = [], names: string[] = []): Promise<GetGame[]> => {
-    const getData = async (): Promise<GetGame[]> => {
+    try {
         let games: GetGame[] = [];
         let response: AxiosResponse<GetGamesResponse>;
         let cursor: string | undefined;
         do {
-            response = await getApiInstance(await getToken()).get(`${API_BASE_URL}/games?
+            response = await getApiInstance().get(`${API_BASE_URL}/games?
             ${ids.map((id) => `&id=${id}`).join('')}
             ${names.map((name) => `&name=${name}`).join('')}
             ${cursor ? `&after=${cursor}` : ''}`);
@@ -208,17 +152,7 @@ export const getGames = async (ids: string[] = [], names: string[] = []): Promis
         } while (response.data?.pagination?.cursor);
 
         return games;
-    };
-
-    try {
-        return await getData();
     } catch (e) {
-        if (e?.response?.status === 401) {
-            const token = await refreshToken();
-            apiInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-            return await getData();
-        }
         console.error('Error getting games', e?.response?.data || e.message);
         throw e;
     }

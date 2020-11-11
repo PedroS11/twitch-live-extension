@@ -16,7 +16,7 @@ import { RootState } from '../../../store/reducers/rootReducer';
 import { getStorageData } from '../../../utils/localStorage';
 import { LAST_FOLLOWS_UPDATE_KEY } from '../../../domain/store/twitchStore';
 import GroupIcon from '@material-ui/icons/Group';
-import {formatDate} from "../../../utils/formatter";
+import { formatDate } from '../../../utils/formatter';
 
 const useStyles = makeStyles({
     root: {

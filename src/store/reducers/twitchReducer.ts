@@ -8,6 +8,7 @@ import { getStorageData, removeStorageData, setStorageData } from '../../utils/l
 import { fetchToken } from '../../infrastructure/identityFlowAuth/indetityFlowAuth';
 import { getCurrentUser, getFollowedLivestreams, getUserFollowers } from '../../infrastructure/twitch/twitchService';
 
+const ONE_DAY_IN_MILISECONDS = 24 * 60 * 60 * 1000;
 const twitchSlice = createSlice({
     name: 'twitch',
     initialState: {
@@ -50,7 +51,7 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
     const lastUpdate: number = +getStorageData(LAST_FOLLOWS_UPDATE_KEY);
 
     // First execution or the follows are outdated
-    if (!lastUpdate || Date.now() > lastUpdate + 24 * 60 * 60 * 1000) {
+    if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
         const user: ValidateTokenResponse = await getCurrentUser();
         follows = await getUserFollowers(user.user_id);
         setStorageData(FOLLOWS_KEY, JSON.stringify(follows));

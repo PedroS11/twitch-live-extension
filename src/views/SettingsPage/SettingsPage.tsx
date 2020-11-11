@@ -11,20 +11,10 @@ import { SettingsSwitchAccount } from './SettingsSwitchAccount/SettingsSwitchAcc
 import { ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
 import { CenteredCircularProgress } from '../../components/Progress/CenteredCircularProgress';
 
-const useStyles = makeStyles({
-    list: {
-        marginBottom: -5,
-    },
-    emptyListMessage: {
-        fontStyle: 'italic',
-    },
-});
-
 export const SettingsPage = () => {
-    const classes = useStyles();
     const dispatch: AppDispatch = useDispatch();
 
-    const [user, setUser] = useState<ValidateTokenResponse>({} as ValidateTokenResponse);
+    const [user, setUser] = useState<ValidateTokenResponse>();
     const { loading } = useSelector((state: RootState) => state.common);
 
     useEffect(() => {
@@ -39,13 +29,13 @@ export const SettingsPage = () => {
 
     return (
         <div>
-            {!loading && user && (
+            {user && (
                 <List subheader={<ListSubheader>Settings</ListSubheader>}>
                     <SettingsSwitchAccount user={user} />
                     <SettingsSyncFollows />
                 </List>
             )}
-            {loading && <CenteredCircularProgress />}
+            {loading && !user && <CenteredCircularProgress />}
             <Divider />
             <SettingsFooter />
         </div>
