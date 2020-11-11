@@ -10,6 +10,7 @@ A browser extension that will help you to find out when your followed streamers 
   * [Frameworks](#frameworks)
   * [Resources](#resources)
   * [Contribution](#contribution)
+  * [License](#license)
 
  
 To start using it, open it, log in with your Twitch account, so that the extension has access only to your public information, and, every time you click on the extension icon,
@@ -101,3 +102,7 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 [RafikiHD](https://twitch.tv/RafikiHD)
 
 And everyone else that helped testing and I didn't mention.
+
+## License 
+
+[BSD-Clause 3](https://github.com/PedroS11/twitch-live-extension/blob/auth/README.md)
