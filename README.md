@@ -2,12 +2,12 @@
 
 A browser extension that will help you to find out when your followed streamers are live on Twitch.
  
-To start using it, open the extension, log in with your Twitch account and every time you click on the extension icon
+To start using it, open it, log in with your Twitch account, so that the extension has access only to your public information, and, every time you click on the extension icon,
 you will see the streamers that you follow that are live.
 
 The first time the extension is opened, it stores yours follows list, as getting them is very time consuming. 
-This way, when the extension is used it's faster to show the ones that are live. 
-This list expires after 1 day and if you click on the extension after that period it wil take 2 seconds more to show the live streams because it's storing the new follows list.
+This way, when the extension is used, it's faster to show the ones that are live. 
+This list expires after 1 day and if you click on the extension after that period, it wil take 2 seconds more to show the live streams because it's storing the new follows list.
 
 If you don't want to wait 1 day to get the most updated list, if you click on *Settings*, there's a button to refresh the list.
 There's also a button to switch the Twitch account you are logged in.
@@ -16,6 +16,7 @@ The extension is available on [Chrome Store](https://chrome.google.com/webstore/
 
 
 ![Extension](./assets/extension.png "Extension")
+![Extension List](./assets/extension_list.png "Extension")
 
 
 ## Settings
@@ -58,3 +59,32 @@ Builds the app for production to the `build` folder without inline scripts.<br /
 ## Frameworks
 
 This extension was developed using [React](https://reactjs.org/), [Redux Toolkit](https://redux-toolkit.js.org/) and [Material-UI](https://material-ui.com/).
+
+## Contribution
+[Garciap](https://twitch.tv/Garciap)
+
+[Impakt](https://twitch.tv/Impakt)
+
+[Thenumber13_](https://twitch.tv/Thenumber13_)
+
+[Tio_sake](https://twitch.tv/Tio_sake)
+
+[MeetTheMyth](https://twitch.tv/MeetTheMyth)
+
+[Rsekeleton](https://twitch.tv/Rsekeleton)
+
+[Johlee](https://twitch.tv/Johlee)
+
+[Obaseni](https://www.twitch.tv/2guys2random)
+
+[Notzgrav](https://twitch.tv/Notzgrav)
+
+[Ka1one](https://twitch.tv/Ka1one)
+
+[Ver71go](https://twitch.tv/Ver71go)
+
+[Pinklytv](https://twitch.tv/Pinklytv)
+
+[RafikiHD](https://twitch.tv/RafikiHD)
+
+And everyone else that helped testing and I didn't mention.
