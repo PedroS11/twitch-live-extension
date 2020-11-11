@@ -1,12 +1,12 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AppThunk} from '../store';
-import {setLoading} from './commonReducer';
-import {revokeToken} from '../../infrastructure/twitch/twitchRepository';
-import {FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, TOKEN_KEY, TwitchStore} from '../../domain/store/twitchStore';
-import {FollowedLivestream, GetUserFollow, ValidateTokenResponse} from '../../domain/infrastructure/twitch/twitch';
-import {getStorageData, removeStorageData, setStorageData} from '../../utils/localStorage';
-import {fetchToken} from '../../infrastructure/identityFlowAuth/indetityFlowAuth';
-import {getCurrentUser, getFollowedLivestreams, getUserFollowers} from '../../infrastructure/twitch/twitchService';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppThunk } from '../store';
+import { setLoading } from './commonReducer';
+import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
+import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, TOKEN_KEY, TwitchStore } from '../../domain/store/twitchStore';
+import { FollowedLivestream, GetUserFollow, ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
+import { getStorageData, removeStorageData, setStorageData } from '../../utils/localStorage';
+import { fetchToken } from '../../infrastructure/identityFlowAuth/indetityFlowAuth';
+import { getCurrentUser, getFollowedLivestreams, getUserFollowers } from '../../infrastructure/twitch/twitchService';
 
 const ONE_DAY_IN_MILISECONDS = 24 * 60 * 60 * 1000;
 
@@ -19,7 +19,7 @@ const twitchSlice = createSlice({
         sortByViewers: (state: TwitchStore) => {
             state.livestreams.sort((a: FollowedLivestream, b: FollowedLivestream) => b.viewer_count - a.viewer_count);
         },
-        saveLivestreams: (state: TwitchStore, {payload}: PayloadAction<FollowedLivestream[]>) => {
+        saveLivestreams: (state: TwitchStore, { payload }: PayloadAction<FollowedLivestream[]>) => {
             state.livestreams = payload;
         },
         resetLivestreams: (state: TwitchStore) => {
@@ -28,7 +28,7 @@ const twitchSlice = createSlice({
     },
 });
 
-const {sortByViewers, saveLivestreams, resetLivestreams} = twitchSlice.actions;
+const { sortByViewers, saveLivestreams, resetLivestreams } = twitchSlice.actions;
 
 export const syncFollows = (): AppThunk<void> => async (dispatch) => {
     dispatch(setLoading());
@@ -39,7 +39,7 @@ export const syncFollows = (): AppThunk<void> => async (dispatch) => {
         setStorageData(FOLLOWS_KEY, JSON.stringify(follows));
         setStorageData(LAST_FOLLOWS_UPDATE_KEY, Date.now() + '');
     } catch (e) {
-        console.log("An unexpected error was thrown", e);
+        console.log('An unexpected error was thrown', e);
     } finally {
         dispatch(setLoading());
     }
@@ -79,7 +79,7 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
         dispatch(saveLivestreams(livestreams));
         dispatch(sortByViewers());
     } catch (e) {
-        console.log("An unexpected error was thrown", e);
+        console.log('An unexpected error was thrown', e);
     } finally {
         dispatch(setLoading());
     }
@@ -91,7 +91,7 @@ export const getUser = (): AppThunk<Promise<ValidateTokenResponse>> => async (di
     try {
         user = await getCurrentUser();
     } catch (e) {
-        console.log("An unexpected error was thrown", e);
+        console.log('An unexpected error was thrown', e);
     } finally {
         dispatch(setLoading());
     }
@@ -108,10 +108,10 @@ export const switchAccount = (): AppThunk<void> => async (dispatch) => {
         const token = await fetchToken(true);
         setStorageData(TOKEN_KEY, token);
     } catch (e) {
-        console.log("An unexpected error was thrown", e);
+        console.log('An unexpected error was thrown', e);
     } finally {
         dispatch(setLoading());
     }
 };
 
-export const {reducer: twitchReducer} = twitchSlice;
+export const { reducer: twitchReducer } = twitchSlice;
