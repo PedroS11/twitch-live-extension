@@ -1,33 +1,31 @@
 # Twitch Live Extension
 
-A browser extension that will help you to find out when your favorite streamers are live on Twitch.
+A browser extension that will help you to find out when your followed streamers are live on Twitch.
  
-To start using it, open the extension, press _**Options**_ and add the streamers username that you follow.
-Then, every time you open the extension, you will see the live ones and you can click on them to get redirected to their livestream page. There's also a _**Refresh**_ button to update the livestreams list.
+To start using it, open the extension, log in with your Twitch account and every time you click on the extension icon
+you will see the streamers that you follow that are live.
 
+The first time the extension is opened, it stores yours follows list, as getting them is very time consuming. 
+This way, when the extension is used it faster to show the ones that are live. 
+This list expires after 1 day and if you click on the extension after that period it wil take 2 seconds more to show the live streams because it's storing the new follows list.
+
+If you don't want to wait 1 day to get the most updated list, if you click on *Settings*, there's a button to refresh the list.
+There's also a button to switch the Twitch account you are logged in.
 
 The extension is available on [Chrome Store](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0). 
+
 
 ![Extension](./assets/extension.png "Extension")
 
 
-### Add a stream
+## Settings
 
-- Open the extension
-- Click **_Options_**
-- Type the twitch username and press `Enter` or click on `+` button
-- If the user doesn't exist or was already added, an error will be prompted
+![Settings](./assets/settings.png "Options menu")
 
-_Note_: The username is case insensitive
+In this page you can:
+ - Switch Twitch account
+ - Refresh the follows list stored
 
-![Options menu](./assets/options_menu.png "Options menu")
-![Options error adding](./assets/options_menu_no_user.png "Options error adding")
-![Options menu list](./assets/options_menu_list.png "Options menu list")
-
-### Remove a stream
-- Open the extension
-- Click **_Options_**
-- Press remove button for the desired stream
 
 ## Available Scripts
 
