@@ -105,4 +105,4 @@ And everyone else that helped testing and I didn't mention.
 
 ## License 
 
-[BSD-Clause 3](https://github.com/PedroS11/twitch-live-extension/blob/auth/README.md)
+[BSD-Clause 3](https://github.com/PedroS11/twitch-live-extension/blob/master/README.md)
