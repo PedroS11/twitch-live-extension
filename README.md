@@ -75,33 +75,36 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 [Changelog](https://github.com/PedroS11/twitch-live-extension/blob/master/CHANGELOG.md)
 
 ## Contribution
-[Kr4vzz](https://youtube.com/kr4vzz)
 
-[Garciap](https://twitch.tv/Garciap)
+### Youtube
+- [Kr4vzz](https://youtube.com/kr4vzz)
 
-[Impakt](https://twitch.tv/Impakt)
+### Twitch
+- [Garciap](https://twitch.tv/Garciap)
 
-[Thenumber13_](https://twitch.tv/Thenumber13_)
+- [Impakt](https://twitch.tv/Impakt)
 
-[Tio Sake](https://twitch.tv/Tio_sake)
+- [Thenumber13_](https://twitch.tv/Thenumber13_)
 
-[MeetTheMyth](https://twitch.tv/MeetTheMyth)
+- [Tio Sake](https://twitch.tv/Tio_sake)
 
-[rSekeleton](https://twitch.tv/Rsekeleton)
+- [MeetTheMyth](https://twitch.tv/MeetTheMyth)
 
-[Johlee](https://twitch.tv/Johlee)
+- [rSekeleton](https://twitch.tv/Rsekeleton)
 
-[Obaseni](https://www.twitch.tv/2guys2random)
+- [Johlee](https://twitch.tv/Johlee)
 
-[Notzgrav](https://twitch.tv/Notzgrav)
+- [Obaseni](https://www.twitch.tv/2guys2random)
 
-[Ka1one](https://twitch.tv/Ka1one)
+- [Notzgrav](https://twitch.tv/Notzgrav)
 
-[Ver71go](https://twitch.tv/Ver71go)
+- [Ka1one](https://twitch.tv/Ka1one)
 
-[PinklyTv](https://twitch.tv/Pinklytv)
+- [Ver71go](https://twitch.tv/Ver71go)
 
-[RafikiHd](https://twitch.tv/RafikiHD)
+- [PinklyTv](https://twitch.tv/Pinklytv)
+
+- [RafikiHd](https://twitch.tv/RafikiHD)
 
 And everyone else that helped testing and I didn't mention.
 
