@@ -1,5 +1,11 @@
 # Changelog
 
+### 2.1.1 (November 13, 2020)
+
+Fixes and Functionality:
+
+- Removed "storage" permission from manifest.json
+
 ### 2.1.0 (November 11, 2020)
 
 Fixes and Functionality:
