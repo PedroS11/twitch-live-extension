@@ -93,15 +93,15 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 
 - [MeetTheMyth](https://twitch.tv/MeetTheMyth)
 
-- [rSekeleton](https://twitch.tv/Rsekeleton)
-
 - [Johlee](https://twitch.tv/Johlee)
 
 - [Obaseni](https://www.twitch.tv/2guys2random)
 
-- [Notzgrav](https://twitch.tv/Notzgrav)
-
 - [Ka1one](https://twitch.tv/Ka1one)
+
+- [rSekeleton](https://twitch.tv/Rsekeleton)
+
+- [Notzgrav](https://twitch.tv/Notzgrav)
 
 - [Ver71go](https://twitch.tv/Ver71go)
 
