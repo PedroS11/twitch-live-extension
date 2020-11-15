@@ -1,4 +1,6 @@
-# Twitch Live Extension
+# Twitch Live Extension 
+![Chrome Web Store](https://img.shields.io/chrome-web-store/v/nlnfdlcbnpafokhpjfffmoobbejpedgj)
+![Chrome Web Store](https://img.shields.io/chrome-web-store/users/nlnfdlcbnpafokhpjfffmoobbejpedgj)
 
 A browser extension that will help you to find out when your followed streamers are live on Twitch.
 
@@ -36,7 +38,7 @@ The extension is available on [Chrome Store](https://chrome.google.com/webstore/
 
 In this page you can:
  - Switch Twitch account
- - Refresh the follows list stored
+ - Refresh the stored follows list
 
 
 ## Available Scripts
