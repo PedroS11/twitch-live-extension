@@ -5,6 +5,7 @@ Fixes and Functionality:
 
 - Upgrade **_axios_** version to fix vulnerability
 - Upgrade **_react-scripts_** version to fix vulnerability
+- Update linting rules
 
 ### 2.1.1 (November 13, 2020)
 
