@@ -1,7 +1,7 @@
 {
   "name": "Twitch Live Extension",
   "description": "A browser extension that shows your followed streamers that are live",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "author": "Pedro Silva",
   "permissions": [
     "identity"
