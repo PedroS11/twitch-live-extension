@@ -1,4 +1,10 @@
 # Changelog
+### 2.1.2 (January 6, 2021)
+
+Fixes and Functionality:
+
+- Upgrade **_axios_** version to fix vulnerability
+- Upgrade **_react-scripts_** version to fix vulnerability
 
 ### 2.1.1 (November 13, 2020)
 
