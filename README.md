@@ -95,7 +95,7 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 
 - [Johlee](https://twitch.tv/Johlee)
 
-- [Obaseni](https://www.twitch.tv/2guys2random)
+- [Obaseni](https://www.twitch.tv/obasene4k)
 
 - [Ka1one](https://twitch.tv/Ka1one)
 
