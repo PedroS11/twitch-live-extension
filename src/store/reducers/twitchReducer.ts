@@ -49,40 +49,40 @@ export const syncFollows = (): AppThunk<void> => async (dispatch) => {
  * Get the all the live streams from the favorites list
  */
 export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
-    dispatch(setLoading());
-    try {
-        let follows: GetUserFollow[];
-        // @ts-ignore
-        const lastUpdate: number = +getStorageData(LAST_FOLLOWS_UPDATE_KEY);
-
-        // First execution or the follows are outdated
-        if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
-            const user: ValidateTokenResponse = await getCurrentUser();
-            follows = await getUserFollowers(user.user_id);
-            setStorageData(FOLLOWS_KEY, JSON.stringify(follows));
-            setStorageData(LAST_FOLLOWS_UPDATE_KEY, Date.now() + '');
-        } else {
-            const data = getStorageData(FOLLOWS_KEY);
-            follows = data ? JSON.parse(data) : [];
-        }
-
-        // User doesn't follow anyone
-        if (!follows.length) {
-            dispatch(setLoading());
-            return;
-        }
-
-        dispatch(resetLivestreams());
-
-        const livestreams: FollowedLivestream[] = await getFollowedLivestreams(follows.map((follow) => follow.to_id));
-
-        dispatch(saveLivestreams(livestreams));
-        dispatch(sortByViewers());
-    } catch (e) {
-        console.log('An unexpected error was thrown', e);
-    } finally {
-        dispatch(setLoading());
-    }
+    // dispatch(setLoading());
+    // try {
+    //     let follows: GetUserFollow[];
+    //     // @ts-ignore
+    //     const lastUpdate: number = +getStorageData(LAST_FOLLOWS_UPDATE_KEY);
+    //
+    //     // First execution or the follows are outdated
+    //     if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
+    //         const user: ValidateTokenResponse = await getCurrentUser();
+    //         follows = await getUserFollowers(user.user_id);
+    //         setStorageData(FOLLOWS_KEY, JSON.stringify(follows));
+    //         setStorageData(LAST_FOLLOWS_UPDATE_KEY, Date.now() + '');
+    //     } else {
+    //         const data = getStorageData(FOLLOWS_KEY);
+    //         follows = data ? JSON.parse(data) : [];
+    //     }
+    //
+    //     // User doesn't follow anyone
+    //     if (!follows.length) {
+    //         dispatch(setLoading());
+    //         return;
+    //     }
+    //
+    //     dispatch(resetLivestreams());
+    //
+    //     const livestreams: FollowedLivestream[] = await getFollowedLivestreams(follows.map((follow) => follow.to_id));
+    //
+    //     dispatch(saveLivestreams(livestreams));
+    //     dispatch(sortByViewers());
+    // } catch (e) {
+    //     console.log('An unexpected error was thrown', e);
+    // } finally {
+    //     dispatch(setLoading());
+    // }
 };
 
 export const getUser = (): AppThunk<Promise<ValidateTokenResponse>> => async (dispatch) => {

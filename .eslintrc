@@ -21,6 +21,7 @@
     "rules": {
         "@typescript-eslint/ban-ts-comment": "off",
         "no-unused-vars": "off",
-        "@typescript-eslint/no-unused-vars": ["error"]
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "@typescript-eslint/triple-slash-reference": "off"
     }
 }
