@@ -2,13 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../store';
 import { setLoading } from './commonReducer';
 import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
-import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, TOKEN_KEY, TwitchStore } from '../../domain/store/twitchStore';
+import {
+    FOLLOWS_KEY,
+    LAST_FOLLOWS_UPDATE_KEY,
+    NOTIFICATIONS_ENABLE,
+    TOKEN_KEY,
+    TwitchStore,
+} from '../../domain/store/twitchStore';
 import { FollowedLivestream, GetUserFollow, ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
 import { getStorageData, removeStorageData, setStorageData } from '../../utils/localStorage';
-import { fetchToken } from '../../infrastructure/identityFlowAuth/indetityFlowAuth';
 import { getCurrentUser, getFollowedLivestreams, getUserFollowers } from '../../infrastructure/twitch/twitchService';
+import { browser } from 'webextension-polyfill-ts';
 
-const ONE_DAY_IN_MILISECONDS = 24 * 60 * 60 * 1000;
+export const ONE_DAY_IN_MILISECONDS = 24 * 60 * 60 * 1000;
 
 const twitchSlice = createSlice({
     name: 'twitch',
@@ -75,7 +81,7 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
         dispatch(resetLivestreams());
 
         const livestreams: FollowedLivestream[] = await getFollowedLivestreams(follows.map((follow) => follow.to_id));
-
+        console.log(livestreams);
         dispatch(saveLivestreams(livestreams));
         dispatch(sortByViewers());
     } catch (e) {
@@ -105,13 +111,25 @@ export const switchAccount = (): AppThunk<void> => async (dispatch) => {
     try {
         await revokeToken();
         removeStorageData(TOKEN_KEY);
-        const token = await fetchToken(true);
+        const { token } = await browser.runtime.sendMessage({ type: 'get-token', prompt: true });
         setStorageData(TOKEN_KEY, token);
     } catch (e) {
         console.log('An unexpected error was thrown', e);
     } finally {
         dispatch(setLoading());
     }
+};
+
+export const updateNotificationsState = (state: boolean): AppThunk<void> => async (dispatch) => {
+    dispatch(setLoading());
+    setStorageData(NOTIFICATIONS_ENABLE, state + '');
+
+    if (state) {
+        await browser.runtime.sendMessage({ type: 'enable-notifications' });
+    } else {
+        await browser.runtime.sendMessage({ type: 'disable-notifications' });
+    }
+    dispatch(setLoading());
 };
 
 export const { reducer: twitchReducer } = twitchSlice;

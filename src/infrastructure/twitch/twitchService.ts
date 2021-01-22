@@ -7,6 +7,12 @@ import {
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
 import { getGames, getStreams, getUserFollows, getUsers, MAX_INTEGER_VALUE, validateToken } from './twitchRepository';
+import { getStorageData, setStorageData } from '../../utils/localStorage';
+import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY } from '../../domain/store/twitchStore';
+import { setLoading } from '../../store/reducers/commonReducer';
+import { ONE_DAY_IN_MILISECONDS } from '../../store/reducers/twitchReducer';
+
+const THREE_MINUTES = 3;
 
 export const getGameById = async (gameId: string): Promise<GetGame> => {
     const response: GetGame[] = await getGames([gameId]);
@@ -51,6 +57,7 @@ export const getFollowedLivestreams = async (userIds: string[]): Promise<Followe
             const result: Partial<FollowedLivestream> = {
                 viewer_count: stream.viewer_count,
                 id: stream.id,
+                started_at: stream.started_at,
             };
 
             const promises = [getUserById(stream.user_id), getGameById(stream.game_id)];
@@ -87,5 +94,31 @@ export const getFollowedLivestreams = async (userIds: string[]): Promise<Followe
         }
     });
 
+    console.log(streams);
+
     return livestreams;
+};
+
+export const getJustWentLive = async () => {
+    let follows: GetUserFollow[];
+    // @ts-ignore
+    const lastUpdate: number = +getStorageData(LAST_FOLLOWS_UPDATE_KEY);
+
+    // First execution or the follows are outdated
+    if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
+        const user: ValidateTokenResponse = await getCurrentUser();
+        follows = await getUserFollowers(user.user_id);
+    } else {
+        const data = getStorageData(FOLLOWS_KEY);
+        follows = data ? JSON.parse(data) : [];
+    }
+
+    const livestreams: FollowedLivestream[] = await getFollowedLivestreams(follows.map((follow) => follow.to_id));
+
+    const nowUTC = new Date(new Date().getTime());
+
+    return livestreams.filter(
+        (stream: FollowedLivestream) =>
+            Math.round((nowUTC.getTime() - new Date(stream.started_at).getTime()) / (60 * 1000)) <= THREE_MINUTES,
+    );
 };

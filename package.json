@@ -12,6 +12,7 @@
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
     "axios": "^0.21.1",
+    "copy-webpack-plugin": "^6.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
@@ -21,7 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build",
+    "build": "react-app-rewired build",
     "watch": "npm-watch",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
@@ -68,6 +69,7 @@
     "lint-staged": "^10.5.1",
     "npm-watch": "^0.6.0",
     "prettier": "^2.1.2",
+    "react-app-rewired": "^2.1.8",
     "typescript": "^3.9.7",
     "webextension-polyfill-ts": "^0.21.0"
   },
