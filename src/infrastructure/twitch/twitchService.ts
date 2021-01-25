@@ -7,12 +7,10 @@ import {
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
 import { getGames, getStreams, getUserFollows, getUsers, MAX_INTEGER_VALUE, validateToken } from './twitchRepository';
-import { getStorageData, setStorageData } from '../../utils/localStorage';
-import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY } from '../../domain/store/twitchStore';
-import { setLoading } from '../../store/reducers/commonReducer';
+import { getStorageData } from '../../utils/localStorage';
 import { ONE_DAY_IN_MILISECONDS } from '../../store/reducers/twitchReducer';
-
-const THREE_MINUTES = 3;
+import { POOLING_JUST_WENT_LIVE } from '../../domain/infrastructure/background/constants';
+import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY } from '../../domain/utils/contants';
 
 export const getGameById = async (gameId: string): Promise<GetGame> => {
     const response: GetGame[] = await getGames([gameId]);
@@ -119,6 +117,7 @@ export const getJustWentLive = async () => {
 
     return livestreams.filter(
         (stream: FollowedLivestream) =>
-            Math.round((nowUTC.getTime() - new Date(stream.started_at).getTime()) / (60 * 1000)) <= THREE_MINUTES,
+            Math.round((nowUTC.getTime() - new Date(stream.started_at).getTime()) / (60 * 1000)) <=
+            POOLING_JUST_WENT_LIVE,
     );
 };

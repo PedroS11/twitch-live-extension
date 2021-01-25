@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-app-rewired build",
+    "build": "npm run lint && react-app-rewired build",
     "watch": "npm-watch",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",

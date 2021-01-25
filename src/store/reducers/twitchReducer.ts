@@ -2,17 +2,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../store';
 import { setLoading } from './commonReducer';
 import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
-import {
-    FOLLOWS_KEY,
-    LAST_FOLLOWS_UPDATE_KEY,
-    NOTIFICATIONS_ENABLE,
-    TOKEN_KEY,
-    TwitchStore,
-} from '../../domain/store/twitchStore';
 import { FollowedLivestream, GetUserFollow, ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
 import { getStorageData, removeStorageData, setStorageData } from '../../utils/localStorage';
 import { getCurrentUser, getFollowedLivestreams, getUserFollowers } from '../../infrastructure/twitch/twitchService';
-import { browser } from 'webextension-polyfill-ts';
+import {
+    sendDisableNotifMessage,
+    sendEnableNotifMessage,
+    sendGetTokenMessage,
+} from '../../infrastructure/background/messageWrapper';
+import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, NOTIFICATIONS_ENABLE_KEY, TOKEN_KEY } from '../../domain/utils/contants';
+import { TwitchStore } from '../../domain/store/twitchStore';
 
 export const ONE_DAY_IN_MILISECONDS = 24 * 60 * 60 * 1000;
 
@@ -111,7 +110,7 @@ export const switchAccount = (): AppThunk<void> => async (dispatch) => {
     try {
         await revokeToken();
         removeStorageData(TOKEN_KEY);
-        const { token } = await browser.runtime.sendMessage({ type: 'get-token', prompt: true });
+        const token = await sendGetTokenMessage(true);
         setStorageData(TOKEN_KEY, token);
     } catch (e) {
         console.log('An unexpected error was thrown', e);
@@ -122,12 +121,12 @@ export const switchAccount = (): AppThunk<void> => async (dispatch) => {
 
 export const updateNotificationsState = (state: boolean): AppThunk<void> => async (dispatch) => {
     dispatch(setLoading());
-    setStorageData(NOTIFICATIONS_ENABLE, state + '');
+    setStorageData(NOTIFICATIONS_ENABLE_KEY, state + '');
 
     if (state) {
-        await browser.runtime.sendMessage({ type: 'enable-notifications' });
+        await sendEnableNotifMessage();
     } else {
-        await browser.runtime.sendMessage({ type: 'disable-notifications' });
+        await sendDisableNotifMessage();
     }
     dispatch(setLoading());
 };

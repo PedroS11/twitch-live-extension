@@ -1,13 +1,13 @@
 import { fetchToken } from '../identityFlowAuth/indetityFlowAuth';
 import { getStorageData, setStorageData } from '../../utils/localStorage';
-import { TOKEN_KEY } from '../../domain/store/twitchStore';
 import { AxiosInstance } from 'axios';
 import axios from 'axios';
 import { axiosInterceptor } from '../axios/axiosInterceptor';
-import { browser } from 'webextension-polyfill-ts';
+import { sendGetTokenMessage } from '../background/messageWrapper';
+import { TOKEN_KEY } from '../../domain/utils/contants';
 
 export const getRefreshToken = async (): Promise<string> => {
-    const { token } = await browser.runtime.sendMessage({ type: 'get-token', prompt: false });
+    const token = await sendGetTokenMessage();
     setStorageData(TOKEN_KEY, token);
 
     return token;
@@ -18,8 +18,9 @@ export const getToken = async (): Promise<string> => {
         const tokenStorage = getStorageData(TOKEN_KEY);
 
         if (!tokenStorage) {
-            const { token } = await browser.runtime.sendMessage({ type: 'get-token', prompt: true });
+            const token = await sendGetTokenMessage(true);
             setStorageData(TOKEN_KEY, token);
+
             return token;
         }
         return tokenStorage;
