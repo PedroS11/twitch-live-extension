@@ -11,4 +11,7 @@ export const getStorageData = (key: string): string | null => localStorage.getIt
  */
 export const setStorageData = (key: string, value: string) => localStorage.setItem(key, value);
 
-export const removeStorageData = (key: string) => localStorage.removeItem(key);
+/**
+ * Removes item from local storage
+ * @param {string} key - Data key
+ */ export const removeStorageData = (key: string) => localStorage.removeItem(key);

@@ -3,15 +3,14 @@ import { AppThunk } from '../store';
 import { setLoading } from './commonReducer';
 import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
 import { FollowedLivestream, GetUserFollow, ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
-import { getStorageData, removeStorageData, setStorageData } from '../../utils/localStorage';
 import { getCurrentUser, getFollowedLivestreams, getUserFollowers } from '../../infrastructure/twitch/twitchService';
 import {
     sendDisableNotifMessage,
     sendEnableNotifMessage,
     sendGetTokenMessage,
 } from '../../infrastructure/background/messageWrapper';
-import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, NOTIFICATIONS_ENABLE_KEY, TOKEN_KEY } from '../../domain/utils/contants';
 import { TwitchStore } from '../../domain/store/twitchStore';
+import * as localStorageService from '../../infrastructure/localStorage/localStorageService';
 
 export const ONE_DAY_IN_MILISECONDS = 24 * 60 * 60 * 1000;
 
@@ -41,8 +40,8 @@ export const syncFollows = (): AppThunk<void> => async (dispatch) => {
     try {
         const user: ValidateTokenResponse = await getCurrentUser();
         const follows: GetUserFollow[] = await getUserFollowers(user.user_id);
-        setStorageData(FOLLOWS_KEY, JSON.stringify(follows));
-        setStorageData(LAST_FOLLOWS_UPDATE_KEY, Date.now() + '');
+        localStorageService.storeFollows(follows);
+        localStorageService.storeLastFollowsUpdateTimestamp(Date.now());
     } catch (e) {
         console.log('An unexpected error was thrown', e);
     } finally {
@@ -58,17 +57,16 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
     try {
         let follows: GetUserFollow[];
         // @ts-ignore
-        const lastUpdate: number = +getStorageData(LAST_FOLLOWS_UPDATE_KEY);
+        const lastUpdate: number = localStorageService.getLastFollowUpdateTimestamp();
 
         // First execution or the follows are outdated
         if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
             const user: ValidateTokenResponse = await getCurrentUser();
             follows = await getUserFollowers(user.user_id);
-            setStorageData(FOLLOWS_KEY, JSON.stringify(follows));
-            setStorageData(LAST_FOLLOWS_UPDATE_KEY, Date.now() + '');
+            localStorageService.storeFollows(follows);
+            localStorageService.storeLastFollowsUpdateTimestamp(Date.now());
         } else {
-            const data = getStorageData(FOLLOWS_KEY);
-            follows = data ? JSON.parse(data) : [];
+            follows = localStorageService.getFollows();
         }
 
         // User doesn't follow anyone
@@ -109,9 +107,9 @@ export const switchAccount = (): AppThunk<void> => async (dispatch) => {
     dispatch(setLoading());
     try {
         await revokeToken();
-        removeStorageData(TOKEN_KEY);
+        localStorageService.clearToken();
         const token = await sendGetTokenMessage(true);
-        setStorageData(TOKEN_KEY, token);
+        localStorageService.storeToken(token);
     } catch (e) {
         console.log('An unexpected error was thrown', e);
     } finally {
@@ -121,7 +119,7 @@ export const switchAccount = (): AppThunk<void> => async (dispatch) => {
 
 export const updateNotificationsState = (state: boolean): AppThunk<void> => async (dispatch) => {
     dispatch(setLoading());
-    setStorageData(NOTIFICATIONS_ENABLE_KEY, state + '');
+    localStorageService.storeNotificationsFlag(state);
 
     if (state) {
         await sendEnableNotifMessage();

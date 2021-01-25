@@ -7,10 +7,9 @@ import {
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
 import { getGames, getStreams, getUserFollows, getUsers, MAX_INTEGER_VALUE, validateToken } from './twitchRepository';
-import { getStorageData } from '../../utils/localStorage';
 import { ONE_DAY_IN_MILISECONDS } from '../../store/reducers/twitchReducer';
 import { POOLING_JUST_WENT_LIVE } from '../../domain/infrastructure/background/constants';
-import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY } from '../../domain/utils/contants';
+import * as localStorageService from '../localStorage/localStorageService';
 
 export const getGameById = async (gameId: string): Promise<GetGame> => {
     const response: GetGame[] = await getGames([gameId]);
@@ -92,28 +91,25 @@ export const getFollowedLivestreams = async (userIds: string[]): Promise<Followe
         }
     });
 
-    console.log(streams);
-
     return livestreams;
 };
 
 export const getJustWentLive = async () => {
     let follows: GetUserFollow[];
-    // @ts-ignore
-    const lastUpdate: number = +getStorageData(LAST_FOLLOWS_UPDATE_KEY);
+
+    const lastUpdate: number = localStorageService.getLastFollowUpdateTimestamp();
 
     // First execution or the follows are outdated
     if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
         const user: ValidateTokenResponse = await getCurrentUser();
         follows = await getUserFollowers(user.user_id);
     } else {
-        const data = getStorageData(FOLLOWS_KEY);
-        follows = data ? JSON.parse(data) : [];
+        follows = localStorageService.getFollows();
     }
 
     const livestreams: FollowedLivestream[] = await getFollowedLivestreams(follows.map((follow) => follow.to_id));
 
-    const nowUTC = new Date(new Date().getTime());
+    const nowUTC: Date = new Date(new Date().getTime());
 
     return livestreams.filter(
         (stream: FollowedLivestream) =>

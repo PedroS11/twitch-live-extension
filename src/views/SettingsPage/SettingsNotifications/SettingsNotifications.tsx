@@ -6,8 +6,7 @@ import { AppDispatch } from '../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducers/rootReducer';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { getStorageData } from '../../../utils/localStorage';
-import { NOTIFICATIONS_ENABLE_KEY } from '../../../domain/utils/contants';
+import * as localStorageService from '../../../infrastructure/localStorage/localStorageService';
 
 const useStyles = makeStyles({
     root: {
@@ -37,7 +36,7 @@ export const SettingsNotificatons = () => {
     const { loading } = useSelector((state: RootState) => state.common);
 
     useEffect(() => {
-        setState(getStorageData(NOTIFICATIONS_ENABLE_KEY) == 'true');
+        setState(localStorageService.getNotificationFlag());
     }, [dispatch]);
 
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {

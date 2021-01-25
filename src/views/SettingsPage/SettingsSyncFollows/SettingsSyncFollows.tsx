@@ -13,10 +13,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppDispatch } from '../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducers/rootReducer';
-import { getStorageData } from '../../../utils/localStorage';
 import GroupIcon from '@material-ui/icons/Group';
 import { formatDate } from '../../../utils/formatter';
-import { LAST_FOLLOWS_UPDATE_KEY } from '../../../domain/utils/contants';
+import * as localStorageService from '../../../infrastructure/localStorage/localStorageService';
 
 const useStyles = makeStyles({
     root: {
@@ -41,7 +40,7 @@ export const SettingsSyncFollows = () => {
     const [lastUpdate, setLastUpdate] = useState<Date>();
 
     useEffect(() => {
-        const timestamp = getStorageData(LAST_FOLLOWS_UPDATE_KEY);
+        const timestamp = localStorageService.getLastFollowUpdateTimestamp();
         if (timestamp) {
             setLastUpdate(new Date(+timestamp));
         }
@@ -49,7 +48,7 @@ export const SettingsSyncFollows = () => {
 
     const syncData = async () => {
         await dispatch(syncFollows());
-        const timestamp = getStorageData(LAST_FOLLOWS_UPDATE_KEY);
+        const timestamp = localStorageService.getLastFollowUpdateTimestamp();
 
         if (timestamp) {
             setLastUpdate(new Date(+timestamp));
