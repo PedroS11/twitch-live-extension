@@ -9,6 +9,7 @@ import {
     POOLING_JUST_WENT_LIVE,
 } from './domain/infrastructure/background/constants';
 import { BackgroundMessage } from './domain/infrastructure/background/backgroundMessage';
+import changelogs from './changelogsMapping.json';
 
 const linkMap: { [notification: string]: string } = {};
 
@@ -52,4 +53,24 @@ browser.notifications.onClicked.addListener(async (notifId: string) => {
 
 browser.notifications.onClosed.addListener(async (notifId: string) => {
     delete linkMap[notifId];
+});
+
+browser.runtime.onInstalled.addListener(async ({ reason, previousVersion }) => {
+    const { installType } = await browser.management.getSelf();
+
+    // if (installType === 'development') {
+    //     return;
+    // }
+
+    const { version } = browser.runtime.getManifest();
+
+    // @ts-ignore
+    const changelogUrl = changelogs[version];
+
+    if (changelogUrl) {
+        await browser.tabs.create({
+            url: changelogUrl,
+            active: true,
+        });
+    }
 });
