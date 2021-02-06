@@ -9,7 +9,7 @@ import { SettingsSyncFollows } from './SettingsSyncFollows/SettingsSyncFollows';
 import { SettingsSwitchAccount } from './SettingsSwitchAccount/SettingsSwitchAccount';
 import { ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
 import { CenteredCircularProgress } from '../../components/Progress/CenteredCircularProgress';
-import { SettingsNotificatons } from './SettingsNotifications/SettingsNotifications';
+import { SettingsNotifications } from './SettingsNotifications/SettingsNotifications';
 
 export const SettingsPage = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -33,7 +33,7 @@ export const SettingsPage = () => {
                 <List subheader={<ListSubheader>Settings</ListSubheader>}>
                     <SettingsSwitchAccount user={user} />
                     <SettingsSyncFollows />
-                    <SettingsNotificatons />
+                    <SettingsNotifications />
                 </List>
             )}
             {loading && !user && <CenteredCircularProgress />}

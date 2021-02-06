@@ -58,9 +58,9 @@ browser.notifications.onClosed.addListener(async (notifId: string) => {
 browser.runtime.onInstalled.addListener(async ({ reason, previousVersion }) => {
     const { installType } = await browser.management.getSelf();
 
-    // if (installType === 'development') {
-    //     return;
-    // }
+    if (installType === 'development') {
+        return;
+    }
 
     const { version } = browser.runtime.getManifest();
 
