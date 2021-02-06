@@ -35,11 +35,24 @@ The extension is available on [Chrome Store](https://chrome.google.com/webstore/
 
 ## Settings
 
-![Settings](./assets/settings.png "Options menu")
-
 In this page you can:
  - Switch Twitch account
  - Refresh the stored follows list
+ - Enable/Disable _just went live_ notifications
+ 
+![Settings](./assets/settings_rsz.png "Settings menu")
+![Settings With notifications enbaled](./assets/settings_enabled_rsz.png "Settings With notifications enbaled")
+
+### Notifications
+ - MacOS
+ 
+![Notification](./assets/notification_mac_rsz.png "Notification")
+
+- Windows
+
+![Notification](./assets/notification_mac_rsz.png "Notification")
+
+ 
 
 
 ## Available Scripts

@@ -1,5 +1,5 @@
 import { getStorageData, removeStorageData, setStorageData } from '../../utils/localStorage';
-import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, NOTIFICATIONS_ENABLE_KEY, TOKEN_KEY } from '../../domain/utils/contants';
+import { FOLLOWS_KEY, LAST_FOLLOWS_UPDATE_KEY, NOTIFICATIONS_ENABLE_KEY, TOKEN_KEY } from '../../domain/utils/localStorageContants';
 import { GetUserFollow } from '../../domain/infrastructure/twitch/twitch';
 
 /**

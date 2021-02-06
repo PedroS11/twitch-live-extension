@@ -1,4 +1,13 @@
 # Changelog
+
+### 2.2.0 
+
+Fixes and Functionality:
+
+- Added "Just went live" notifications feature
+- Added background file to get token and set alarm
+- On extension update, open the changelog page with the new features
+
 ### 2.1.2 (January 6, 2021)
 
 Fixes and Functionality:
