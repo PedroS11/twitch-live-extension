@@ -32,7 +32,7 @@ browser.alarms.onAlarm.addListener(async (alarm) => {
                 title: `${stream.display_name} just went live`,
                 contextMessage: (stream.game && `Playing ${stream.game}`) || 'Game is not set',
                 iconUrl: stream.profile_image_url || './assets/twitchLogo.png',
-                message: 'Click to be redirected',
+                message: 'Click here to watch it',
             };
 
             const notifId: string = await browser.notifications.create(options);
