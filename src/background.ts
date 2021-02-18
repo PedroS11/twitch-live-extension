@@ -11,9 +11,9 @@ import {
 import { BackgroundMessage } from './domain/infrastructure/background/backgroundMessage';
 import changelogs from './changelogsMapping.json';
 
-const linkMap: { [notification: string]: string } = {};
+let linkMap: { [notification: string]: string } = {};
 
-browser.runtime.onMessage.addListener(async (msg: BackgroundMessage, sender) => {
+browser.runtime.onMessage.addListener(async (msg: BackgroundMessage) => {
     if (msg.type === MESSAGE_TYPES.GET_TOKEN) {
         return await fetchToken(!!msg.data.prompt);
     } else if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
@@ -23,8 +23,9 @@ browser.runtime.onMessage.addListener(async (msg: BackgroundMessage, sender) => 
     }
 });
 
-browser.alarms.onAlarm.addListener(async (alarm) => {
+browser.alarms.onAlarm.addListener(async () => {
     try {
+        linkMap = {};
         const justWentLiveStreams: FollowedLivestream[] = await getJustWentLive();
 
         justWentLiveStreams.map(async (stream: FollowedLivestream) => {
@@ -49,13 +50,10 @@ browser.notifications.onClicked.addListener(async (notifId: string) => {
 
     await browser.notifications.clear(notifId);
     await browser.tabs.create({ url });
-});
-
-browser.notifications.onClosed.addListener(async (notifId: string) => {
     delete linkMap[notifId];
 });
 
-browser.runtime.onInstalled.addListener(async ({ reason, previousVersion }) => {
+browser.runtime.onInstalled.addListener(async () => {
     const { installType } = await browser.management.getSelf();
 
     if (installType === 'development') {

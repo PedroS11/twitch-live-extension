@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    createStyles,
-    ListItem,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    Switch,
-    Theme,
-    withStyles,
-} from '@material-ui/core';
+import { ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Switch, withStyles } from '@material-ui/core';
 import { updateNotificationsState } from '../../../store/reducers/twitchReducer';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppDispatch } from '../../../store/store';
@@ -36,12 +27,17 @@ const useStyles = makeStyles({
     icon: {
         minWidth: 40,
     },
+    switch: {
+        paddingRight: 0,
+        width: 50,
+    },
 });
 
-const AntSwitch = withStyles((theme: Theme) => ({
+const AntSwitch = withStyles(() => ({
     switchBase: {
         '&$checked': {
             color: blue[200],
+            transform: 'translateX(21px)',
         },
         '&$checked + $track': {
             backgroundColor: blue[200],
@@ -53,17 +49,17 @@ const AntSwitch = withStyles((theme: Theme) => ({
 
 export const SettingsNotifications = () => {
     const classes = useStyles();
-    const [state, setState] = useState<boolean>(false);
+    const [notificationsFlag, setNotificationsFlag] = useState<boolean>(false);
     const dispatch: AppDispatch = useDispatch();
 
     const { loading } = useSelector((state: RootState) => state.common);
 
     useEffect(() => {
-        setState(localStorageService.getNotificationFlag());
+        setNotificationsFlag(localStorageService.getNotificationFlag());
     }, [dispatch]);
 
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState(event.target.checked);
+        setNotificationsFlag(event.target.checked);
         await dispatch(updateNotificationsState(event.target.checked));
     };
 
@@ -72,10 +68,11 @@ export const SettingsNotifications = () => {
             <ListItemIcon className={classes.icon}>
                 <NotificationsIcon />
             </ListItemIcon>
-            <ListItemText primary={<span>Went live notifications</span>} />
+            <ListItemText primary={<span>Just went live notification</span>} />
             <ListItemSecondaryAction>
                 <AntSwitch
-                    checked={state}
+                    className={classes.switch}
+                    checked={notificationsFlag}
                     onChange={async (e) => await handleChange(e)}
                     name="notifications-state"
                     color="primary"

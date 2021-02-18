@@ -110,15 +110,13 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 
 - [Obaseni](https://www.twitch.tv/obasene4k)
 
-- [Ka1one](https://twitch.tv/Ka1one)
-
 - [rSekeleton](https://twitch.tv/Rsekeleton)
-
-- [Notzgrav](https://twitch.tv/Notzgrav)
 
 - [Ver71go](https://twitch.tv/Ver71go)
 
 - [PinklyTv](https://twitch.tv/Pinklytv)
+
+- [Ka1one](https://twitch.tv/Ka1one)
 
 - [RafikiHd](https://twitch.tv/RafikiHD)
 
