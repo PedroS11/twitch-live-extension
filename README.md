@@ -98,9 +98,9 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 ### Twitch
 - [Garciap](https://twitch.tv/Garciap)
 
-- [Impakt](https://twitch.tv/Impakt)
-
 - [Thenumber13_](https://twitch.tv/Thenumber13_)
+
+- [Impakt](https://twitch.tv/Impakt)
 
 - [Tio Sake](https://twitch.tv/Tio_sake)
 

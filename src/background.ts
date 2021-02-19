@@ -46,11 +46,12 @@ browser.alarms.onAlarm.addListener(async () => {
 });
 
 browser.notifications.onClicked.addListener(async (notifId: string) => {
-    const url = linkMap[notifId];
-
     await browser.notifications.clear(notifId);
-    await browser.tabs.create({ url });
-    delete linkMap[notifId];
+
+    const url = linkMap[notifId];
+    if (url) {
+        await browser.tabs.create({ url });
+    }
 });
 
 browser.runtime.onInstalled.addListener(async () => {
