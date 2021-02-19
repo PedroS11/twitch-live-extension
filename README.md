@@ -114,7 +114,9 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 
 - [Ver71go](https://twitch.tv/Ver71go)
 
-- [PinklyTv](https://twitch.tv/Pinklytv)
+- [Oryon](https://twitch.tv/Oryonp)
+
+- [Pinkly__](https://twitch.tv/Pinkly__)
 
 - [Ka1one](https://twitch.tv/Ka1one)
 
