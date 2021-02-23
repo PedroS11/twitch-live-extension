@@ -44,15 +44,23 @@ In this page you can:
 ![Settings With notifications enbaled](./assets/settings_enabled_rsz.png "Settings With notifications enbaled")
 
 ### Notifications
- - MacOS
+## **MacOS**
  
 ![Notification](./assets/notification_mac_rsz.png "Notification")
+![Notification](./assets/notification_mac_skell_rsz.png "Notification")
 
-- Windows
+## **Windows**
 
-![Notification](./assets/notification_mac_rsz.png "Notification")
+For **Windows** users, you might get annoyed with the sound from **Chrome Notifications**. You can disable it by:
 
- 
+- Select the Windows Start  button, and then select Settings
+- Go to System > Notifications & actions
+- Scroll down to "Google Chrome" and click the Chrome icon to open the notification settings
+- Toggle "Play a sound when a notification arrives" to Off
+
+![Notification](./assets/notification_windows_garciap_rsz.png "Notification")
+![Notification](./assets/notification_windows_obasene_rsz.png "Notification")
+
 
 
 ## Available Scripts

@@ -23,7 +23,7 @@ export const getToken = async (): Promise<string> => {
         }
         return tokenStorage;
     } catch (e) {
-        console.log('ERR GET TOKEN', e);
+        console.error('Error getting token', e?.response?.data || e.message);
         throw e;
     }
 };

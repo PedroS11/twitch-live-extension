@@ -10,6 +10,7 @@ import {
 } from './domain/infrastructure/background/constants';
 import { BackgroundMessage } from './domain/infrastructure/background/backgroundMessage';
 import changelogs from './changelogsMapping.json';
+import { isWindows } from './utils/operatingSystem';
 
 let linkMap: { [notification: string]: string } = {};
 
@@ -29,12 +30,15 @@ browser.alarms.onAlarm.addListener(async () => {
         const justWentLiveStreams: FollowedLivestream[] = await getJustWentLive();
 
         justWentLiveStreams.map(async (stream: FollowedLivestream) => {
+            const game: string = (stream.game && `Streaming ${stream.game}`) || 'Stream game is not set';
+            const clickHereMessage = 'Click here to watch it';
+
             const options: Notifications.CreateNotificationOptions = {
                 type: 'basic',
                 title: `${stream.display_name} just went live`,
-                contextMessage: (stream.game && `Playing ${stream.game}`) || 'Game is not set',
+                contextMessage: isWindows() ? clickHereMessage : game,
                 iconUrl: stream.profile_image_url || './assets/twitchLogo.png',
-                message: 'Click here to watch it',
+                message: isWindows() ? game : clickHereMessage,
             };
 
             const notifId: string = await browser.notifications.create(options);
