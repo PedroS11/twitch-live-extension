@@ -43,7 +43,7 @@ export const LiveStreamListItem = (elem: FollowedLivestream) => {
             dense
         >
             <ListItemAvatar>
-                <Avatar src={elem.profile_image_url}></Avatar>
+                <Avatar src={elem.profile_image_url} />
             </ListItemAvatar>
             <ListItemText
                 primary={elem.display_name}

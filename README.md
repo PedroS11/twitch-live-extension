@@ -35,11 +35,32 @@ The extension is available on [Chrome Store](https://chrome.google.com/webstore/
 
 ## Settings
 
-![Settings](./assets/settings.png "Options menu")
-
 In this page you can:
  - Switch Twitch account
  - Refresh the stored follows list
+ - Enable/Disable _just went live_ notifications
+ 
+![Settings](./assets/settings_rsz.png "Settings menu")
+![Settings With notifications enbaled](./assets/settings_enabled_rsz.png "Settings With notifications enbaled")
+
+### Notifications
+## **MacOS**
+ 
+![Notification](./assets/notification_mac_rsz.png "Notification")
+![Notification](./assets/notification_mac_skell_rsz.png "Notification")
+
+## **Windows**
+
+For **Windows** users, you might get annoyed with the sound from **Chrome Notifications**. You can disable it by:
+
+- Select the Windows Start  button, and then select Settings
+- Go to System > Notifications & actions
+- Scroll down to "Google Chrome" and click the Chrome icon to open the notification settings
+- Toggle "Play a sound when a notification arrives" to Off
+
+![Notification](./assets/notification_windows_garciap_rsz.png "Notification")
+![Notification](./assets/notification_windows_obasene_rsz.png "Notification")
+
 
 
 ## Available Scripts
@@ -85,9 +106,9 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 ### Twitch
 - [Garciap](https://twitch.tv/Garciap)
 
-- [Impakt](https://twitch.tv/Impakt)
-
 - [Thenumber13_](https://twitch.tv/Thenumber13_)
+
+- [Impakt](https://twitch.tv/Impakt)
 
 - [Tio Sake](https://twitch.tv/Tio_sake)
 
@@ -97,15 +118,15 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 
 - [Obaseni](https://www.twitch.tv/obasene4k)
 
-- [Ka1one](https://twitch.tv/Ka1one)
-
 - [rSekeleton](https://twitch.tv/Rsekeleton)
-
-- [Notzgrav](https://twitch.tv/Notzgrav)
 
 - [Ver71go](https://twitch.tv/Ver71go)
 
-- [PinklyTv](https://twitch.tv/Pinklytv)
+- [Oryon](https://twitch.tv/Oryonp)
+
+- [Pinkly__](https://twitch.tv/Pinkly__)
+
+- [Ka1one](https://twitch.tv/Ka1one)
 
 - [RafikiHd](https://twitch.tv/RafikiHD)
 

@@ -50,7 +50,6 @@ export const validateToken = async (): Promise<ValidateTokenResponse> => {
         const response: AxiosResponse<ValidateTokenResponse> = await getOAuthInstance().get(
             `${OAUTH_BASE_URL}/validate`,
         );
-
         return response.data;
     } catch (e) {
         console.error('Error validating the token', e?.response?.data || e.message);
@@ -116,6 +115,7 @@ export const getStreams = async (
             cursor = response.data?.pagination?.cursor;
             liveStreams = [...liveStreams, ...response.data.data];
         } while (response.data?.pagination?.cursor);
+
         return liveStreams;
     } catch (e) {
         console.error('Error getting streams', e?.response?.data || e.message);

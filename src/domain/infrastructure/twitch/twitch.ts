@@ -88,6 +88,7 @@ export interface FollowedLivestream {
     game: string;
     viewer_count: number;
     id: string;
+    started_at: string;
 }
 
 //-----------------------------------------------------------------------------
