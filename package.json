@@ -1,6 +1,6 @@
 {
   "name": "twitch-live-extension",
-  "description": "A browser extension that shows your followed streamers that are live",
+  "description": "A browser extension that shows your followed streamers that are live and sends notifications when they start a new live stream",
   "version": "2.2.0",
   "dependencies": {
     "@material-ui/core": "^4.11.0",

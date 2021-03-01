@@ -19,9 +19,11 @@ A browser extension that will help you to find out when your followed streamers 
 To start using it, open it, log in with your Twitch account, so that the extension has access only to your public information, and, every time you click on the extension icon,
 you will see the streamers that you follow that are live.
 
+This extensions supports _Just Went Live_ notifications. If you want to enable them, open the extension, go to *Settings* and enable the "Just Went Live" notifications.
+
 The first time the extension is opened, it stores yours follows list, as getting them is very time consuming. 
 This way, when the extension is used, it's faster to show the ones that are live. 
-This list expires after 1 day and if you click on the extension after that period, it wil take 2 seconds more to show the live streams because it's storing the new follows list.
+This list expires after 1 day and if you click on the extension after that period, it wil take 1 second more to show the live streams because it's storing the new follows list.
 
 If you don't want to wait 1 day to get the most updated list, if you click on *Settings*, there's a button to refresh the list.
 There's also a button to switch the Twitch account you are logged in.
