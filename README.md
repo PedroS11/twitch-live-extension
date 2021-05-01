@@ -32,7 +32,7 @@ The extension is available on [Chrome Store](https://chrome.google.com/webstore/
 
 
 ![Extension List](./assets/extension_list.png "Extension")
-![Extension Hover](./assets/extension_hover.png "Extension Hover")
+![Extension Over](./assets/extension_hover.png "Extension Over")
 
 
 ## Settings
@@ -133,6 +133,10 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 - [RafikiHd](https://twitch.tv/RafikiHD)
 
 And everyone else that helped testing and I didn't mention.
+
+## Problems or issues?
+ 
+ If you encounter any problems, bugs or other issues with the repo, please create an [issue in the GitHub repo](https://github.com/PedroS11/twitch-live-extension/issues). 
 
 ## License 
 
