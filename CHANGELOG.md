@@ -4,7 +4,7 @@
 
 ### Fixes and Functionality:
 
-- Display tittle on mouse over a stream 
+- Display title on mouse over a stream 
 
 ## 2.2.0 (March 1, 2021)
 
