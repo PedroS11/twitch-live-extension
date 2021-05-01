@@ -1,4 +1,7 @@
-{
+const isProd = process.env.NODE_ENV === 'production';
+const warnDevErrorProd = isProd ? 2 : 1;
+
+module.exports = {
     "parser": "@typescript-eslint/parser", // Specifies the ESLint parser
     "parserOptions": {
         "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
@@ -22,6 +25,7 @@
         "@typescript-eslint/ban-ts-comment": "off",
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": ["warn"],
-        "object-curly-spacing": [2, "always"]
+        "object-curly-spacing": [2, "always"],
+        "prettier/prettier": warnDevErrorProd,
     }
 }

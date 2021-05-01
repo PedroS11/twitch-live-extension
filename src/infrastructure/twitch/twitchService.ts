@@ -55,6 +55,7 @@ export const getFollowedLivestreams = async (userIds: string[]): Promise<Followe
                 viewer_count: stream.viewer_count,
                 id: stream.id,
                 started_at: stream.started_at,
+                title: stream.title,
             };
 
             const promises = [getUserById(stream.user_id), getGameById(stream.game_id)];

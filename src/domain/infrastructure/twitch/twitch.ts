@@ -85,6 +85,7 @@ export interface FollowedLivestream {
     url: string;
     display_name: string;
     profile_image_url: string;
+    title: string;
     game: string;
     viewer_count: number;
     id: string;

@@ -31,8 +31,8 @@ There's also a button to switch the Twitch account you are logged in.
 The extension is available on [Chrome Store](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0). 
 
 
-![Extension](./assets/extension.png "Extension")
 ![Extension List](./assets/extension_list.png "Extension")
+![Extension Hover](./assets/extension_hover.png "Extension Hover")
 
 
 ## Settings
