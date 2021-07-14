@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../store/reducers/twitchReducer';
 import { RootState } from '../../store/reducers/rootReducer';
 import { AppDispatch } from '../../store/store';
-import { SettingsSyncFollows } from './SettingsSyncFollows/SettingsSyncFollows';
 import { SettingsSwitchAccount } from './SettingsSwitchAccount/SettingsSwitchAccount';
 import { ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
 import { CenteredCircularProgress } from '../../components/Progress/CenteredCircularProgress';
@@ -32,7 +31,6 @@ export const SettingsPage = () => {
             {user && (
                 <List subheader={<ListSubheader>Settings</ListSubheader>}>
                     <SettingsSwitchAccount user={user} />
-                    <SettingsSyncFollows />
                     <SettingsNotifications />
                 </List>
             )}

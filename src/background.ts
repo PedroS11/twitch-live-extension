@@ -30,7 +30,8 @@ browser.alarms.onAlarm.addListener(async () => {
         const justWentLiveStreams: FollowedLivestream[] = await getJustWentLive();
 
         justWentLiveStreams.map(async (stream: FollowedLivestream) => {
-            const game: string = (stream.game && `Streaming ${stream.game}`) || 'Stream game is not set';
+            const game: string =
+                (stream.game && `Streaming ${stream.game}`) || 'Stream game is not set';
             const clickHereMessage = 'Click here to watch it';
 
             const options: Notifications.CreateNotificationOptions = {

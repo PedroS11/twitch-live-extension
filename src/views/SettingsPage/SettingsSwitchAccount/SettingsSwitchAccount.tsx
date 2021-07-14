@@ -1,5 +1,11 @@
 import React from 'react';
-import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
+import {
+    IconButton,
+    ListItem,
+    ListItemIcon,
+    ListItemSecondaryAction,
+    ListItemText,
+} from '@material-ui/core';
 import { switchAccount } from '../../../store/reducers/twitchReducer';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppDispatch } from '../../../store/store';

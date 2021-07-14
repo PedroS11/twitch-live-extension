@@ -1,10 +1,7 @@
 'use strict';
-import { CLIENT_ID } from '../../config';
+import { CLIENT_ID, RESPONSE_TYPE_TOKEN, SCOPES, OAUTH_BASE_URL } from '../../config';
 import { browser } from 'webextension-polyfill-ts';
-import { OAUTH_BASE_URL } from '../twitch/twitchRepository';
 import { v4 as uuidv4 } from 'uuid';
-
-const RESPONSE_TYPE_TOKEN = 'token';
 
 const getAuthURL = (securityToken: string, promptVerify = false): string => {
     let redirectUrl: string = browser.identity.getRedirectURL();
@@ -12,11 +9,14 @@ const getAuthURL = (securityToken: string, promptVerify = false): string => {
         redirectUrl = redirectUrl.slice(0, -1);
     }
 
-    return `${OAUTH_BASE_URL}/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirectUrl}&response_type=${RESPONSE_TYPE_TOKEN}&force_verify=${promptVerify}&state=${securityToken}`;
+    return `${OAUTH_BASE_URL}/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirectUrl}&response_type=${RESPONSE_TYPE_TOKEN}&force_verify=${promptVerify}&state=${securityToken}&scope=${SCOPES.join(
+        '%20',
+    )}`;
 };
 
 export const fetchToken = async (promptVerify = false): Promise<string> => {
     const securityToken: string = uuidv4();
+
     const redirectURL = await browser.identity.launchWebAuthFlow({
         url: getAuthURL(securityToken, promptVerify),
         interactive: promptVerify,
@@ -37,3 +37,5 @@ export const fetchToken = async (promptVerify = false): Promise<string> => {
 
     return token;
 };
+
+//bm43es0qgs5jw51fijtd1luxpgy8n7
