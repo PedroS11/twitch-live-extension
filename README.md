@@ -118,11 +118,11 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 
 - [Johlee](https://twitch.tv/Johlee)
 
-- [Obaseni](https://www.twitch.tv/obasene4k)
+- [Obasene](https://www.twitch.tv/obasene)
 
 - [rSekeleton](https://twitch.tv/Rsekeleton)
 
-- [Ver71go](https://twitch.tv/Ver71go)
+- [Vertigo](https://twitch.tv/vertigob)
 
 - [Oryon](https://twitch.tv/Oryonp)
 
