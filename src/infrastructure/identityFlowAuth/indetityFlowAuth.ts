@@ -37,5 +37,3 @@ export const fetchToken = async (promptVerify = false): Promise<string> => {
 
     return token;
 };
-
-//bm43es0qgs5jw51fijtd1luxpgy8n7
