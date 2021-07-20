@@ -2,8 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../store';
 import { setLoading } from './commonReducer';
 import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
-import { FollowedLivestream, GetUserFollow, ValidateTokenResponse } from '../../domain/infrastructure/twitch/twitch';
-import { getCurrentUser, getFollowedLivestreams, getUserFollowers } from '../../infrastructure/twitch/twitchService';
+import {
+    FollowedLivestream,
+    ValidateTokenResponse,
+} from '../../domain/infrastructure/twitch/twitch';
+import { getCurrentUser, getFollowedLivestreams } from '../../infrastructure/twitch/twitchService';
 import {
     sendDisableNotifMessage,
     sendEnableNotifMessage,
@@ -20,9 +23,6 @@ const twitchSlice = createSlice({
         livestreams: [],
     } as TwitchStore,
     reducers: {
-        sortByViewers: (state: TwitchStore) => {
-            state.livestreams.sort((a: FollowedLivestream, b: FollowedLivestream) => b.viewer_count - a.viewer_count);
-        },
         saveLivestreams: (state: TwitchStore, { payload }: PayloadAction<FollowedLivestream[]>) => {
             state.livestreams = payload;
         },
@@ -32,22 +32,7 @@ const twitchSlice = createSlice({
     },
 });
 
-const { sortByViewers, saveLivestreams, resetLivestreams } = twitchSlice.actions;
-
-export const syncFollows = (): AppThunk<void> => async (dispatch) => {
-    dispatch(setLoading());
-
-    try {
-        const user: ValidateTokenResponse = await getCurrentUser();
-        const follows: GetUserFollow[] = await getUserFollowers(user.user_id);
-        localStorageService.storeFollows(follows);
-        localStorageService.storeLastFollowsUpdateTimestamp(Date.now());
-    } catch (e) {
-        console.log('An unexpected error was thrown', e);
-    } finally {
-        dispatch(setLoading());
-    }
-};
+const { saveLivestreams, resetLivestreams } = twitchSlice.actions;
 
 /**
  * Get the all the live streams from the favorites list
@@ -55,32 +40,13 @@ export const syncFollows = (): AppThunk<void> => async (dispatch) => {
 export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
     dispatch(setLoading());
     try {
-        let follows: GetUserFollow[];
-        // @ts-ignore
-        const lastUpdate: number = localStorageService.getLastFollowUpdateTimestamp();
-
-        // First execution or the follows are outdated
-        if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
-            const user: ValidateTokenResponse = await getCurrentUser();
-            follows = await getUserFollowers(user.user_id);
-            localStorageService.storeFollows(follows);
-            localStorageService.storeLastFollowsUpdateTimestamp(Date.now());
-        } else {
-            follows = localStorageService.getFollows();
-        }
-
-        // User doesn't follow anyone
-        if (!follows.length) {
-            dispatch(setLoading());
-            return;
-        }
+        const user: ValidateTokenResponse = await getCurrentUser();
 
         dispatch(resetLivestreams());
 
-        const livestreams: FollowedLivestream[] = await getFollowedLivestreams(follows.map((follow) => follow.to_id));
-        console.log(livestreams);
+        const livestreams: FollowedLivestream[] = await getFollowedLivestreams(user.user_id);
+
         dispatch(saveLivestreams(livestreams));
-        dispatch(sortByViewers());
     } catch (e) {
         console.log('An unexpected error was thrown', e);
     } finally {

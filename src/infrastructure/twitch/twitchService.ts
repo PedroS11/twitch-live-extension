@@ -1,15 +1,20 @@
 import {
     FollowedLivestream,
+    GetFollowedStreams,
     GetGame,
-    GetStream,
     GetUser,
     GetUserFollow,
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
-import { getGames, getStreams, getUserFollows, getUsers, MAX_INTEGER_VALUE, validateToken } from './twitchRepository';
-import { ONE_DAY_IN_MILISECONDS } from '../../store/reducers/twitchReducer';
+import {
+    getFollowedStreams,
+    getGames,
+    getUserFollows,
+    getUsers,
+    MAX_INTEGER_VALUE,
+    validateToken,
+} from './twitchRepository';
 import { POOLING_JUST_WENT_LIVE } from '../../domain/infrastructure/background/constants';
-import * as localStorageService from '../localStorage/localStorageService';
 
 export const getGameById = async (gameId: string): Promise<GetGame> => {
     const response: GetGame[] = await getGames([gameId]);
@@ -31,50 +36,24 @@ export const getCurrentUser = async (): Promise<ValidateTokenResponse> => {
     return await validateToken();
 };
 
-export const getFollowedLivestreams = async (userIds: string[]): Promise<FollowedLivestream[]> => {
-    const streamsPromises = [];
-
-    let streams: GetStream[] = [];
-
-    while (userIds.length) {
-        const batch = userIds.splice(0, MAX_INTEGER_VALUE);
-        streamsPromises.push(getStreams(batch, [], [], [], MAX_INTEGER_VALUE));
-    }
-
-    const response: PromiseSettledResult<GetStream[]>[] = await Promise.allSettled(streamsPromises);
-
-    response.forEach((result: PromiseSettledResult<GetStream[]>) => {
-        if (result.status === 'fulfilled') {
-            streams = [...streams, ...result.value];
-        }
-    });
+export const getFollowedLivestreams = async (userId: string): Promise<FollowedLivestream[]> => {
+    const streams: GetFollowedStreams[] = await getFollowedStreams(userId);
 
     const promisesGetExtraInfo = streams.map(
-        async (stream: GetStream): Promise<FollowedLivestream> => {
+        async (stream: GetFollowedStreams): Promise<FollowedLivestream> => {
+            const streamerInfo: GetUser = await getUserById(stream.user_id);
+
             const result: Partial<FollowedLivestream> = {
                 viewer_count: stream.viewer_count,
                 id: stream.id,
                 started_at: stream.started_at,
                 title: stream.title,
+                game: stream.game_name,
+                display_name: streamerInfo.display_name,
+                profile_image_url: streamerInfo.profile_image_url,
+                user_id: streamerInfo.id,
+                url: `https://twitch.tv/${streamerInfo.login}`,
             };
-
-            const promises = [getUserById(stream.user_id), getGameById(stream.game_id)];
-            const responses: PromiseSettledResult<GetUser | GetGame>[] = await Promise.allSettled(promises);
-
-            responses.forEach((response: PromiseSettledResult<GetUser | GetGame>) => {
-                if (response.status === 'fulfilled') {
-                    if (response.value.hasOwnProperty('display_name')) {
-                        const user: GetUser = response.value as GetUser;
-                        result.display_name = user.display_name;
-                        result.profile_image_url = user.profile_image_url;
-                        result.user_id = user.id;
-                        result.url = `https://twitch.tv/${user.login}`;
-                    } else {
-                        const game: GetGame = response.value as GetGame;
-                        result.game = game.name;
-                    }
-                }
-            });
 
             return result as FollowedLivestream;
         },
@@ -96,19 +75,9 @@ export const getFollowedLivestreams = async (userIds: string[]): Promise<Followe
 };
 
 export const getJustWentLive = async () => {
-    let follows: GetUserFollow[];
+    const user: ValidateTokenResponse = await getCurrentUser();
 
-    const lastUpdate: number = localStorageService.getLastFollowUpdateTimestamp();
-
-    // First execution or the follows are outdated
-    if (!lastUpdate || Date.now() > lastUpdate + ONE_DAY_IN_MILISECONDS) {
-        const user: ValidateTokenResponse = await getCurrentUser();
-        follows = await getUserFollowers(user.user_id);
-    } else {
-        follows = localStorageService.getFollows();
-    }
-
-    const livestreams: FollowedLivestream[] = await getFollowedLivestreams(follows.map((follow) => follow.to_id));
+    const livestreams: FollowedLivestream[] = await getFollowedLivestreams(user.user_id);
 
     const nowUTC: Date = new Date(new Date().getTime());
 

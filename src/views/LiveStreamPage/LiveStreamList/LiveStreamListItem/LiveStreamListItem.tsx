@@ -7,7 +7,7 @@ import {
     ListItemAvatar,
     ListItemSecondaryAction,
     ListItemText,
-    Typography
+    Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatViewers } from '../../../../utils/formatter';
@@ -63,7 +63,12 @@ export const LiveStreamListItem = (elem: FollowedLivestream) => {
                 <ListItemText
                     primary={elem.display_name}
                     secondary={
-                        <Typography className={classes.gameText} noWrap variant={'subtitle2'} color={'textSecondary'}>
+                        <Typography
+                            className={classes.gameText}
+                            noWrap
+                            variant={'subtitle2'}
+                            color={'textSecondary'}
+                        >
                             {elem.game}
                         </Typography>
                     }

@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Switch, withStyles } from '@material-ui/core';
+import {
+    ListItem,
+    ListItemIcon,
+    ListItemSecondaryAction,
+    ListItemText,
+    Switch,
+    withStyles,
+} from '@material-ui/core';
 import { updateNotificationsState } from '../../../store/reducers/twitchReducer';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppDispatch } from '../../../store/store';

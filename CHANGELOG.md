@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.0.0 (14 July, 2021)
+
+### Fixes and Functionality:
+
+- Use of new Twitch endpoint Get Live Followed Streams
+- Use specific scopes to call the new endpoint
+- Removed button to sync follows
+- Refactored reducer and Twitch api code
+
 ## 2.3.0 (April 30, 2021)
 
 ### Fixes and Functionality:
