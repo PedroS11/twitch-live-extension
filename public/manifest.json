@@ -1,7 +1,7 @@
 {
   "name": "Twitch Live Extension",
   "description": "A browser extension that will list your followed streamers are live and will send notifications when they go live",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "Pedro Silva",
   "permissions": [
     "identity",
