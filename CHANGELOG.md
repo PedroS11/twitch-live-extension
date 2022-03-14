@@ -1,6 +1,18 @@
 # Changelog
 
-## 3.0.0 (14 July, 2021)
+## 3.0.2 (March 14, 2021)
+
+### Fixes and Functionality:
+
+- Adds a badge icon with the current number of livestreams
+
+## 3.0.1 (July 14, 2021)
+
+### Fixes and Functionality:
+
+- Fix extension name
+
+## 3.0.0 (July 14, 2021)
 
 ### Fixes and Functionality:
 

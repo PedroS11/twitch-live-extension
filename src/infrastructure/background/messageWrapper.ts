@@ -17,3 +17,9 @@ export const sendGetTokenMessage = async (prompt = false): Promise<string> =>
         type: MESSAGE_TYPES.GET_TOKEN,
         data: { prompt },
     } as BackgroundMessage);
+
+export const updateBadgeIcon = async (nrStreams: number) =>
+    await browser.runtime.sendMessage({
+        type: MESSAGE_TYPES.UPDATE_BADGE_ICON,
+        data: { nrStreams },
+    } as BackgroundMessage);

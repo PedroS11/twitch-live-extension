@@ -26,8 +26,8 @@ There's also a button to switch the Twitch account you are logged in.
 The extension is available on [Chrome Store](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0). 
 
 
-![Extension List](./assets/extension_list.png "Extension")
-![Extension Over](./assets/extension_hover.png "Extension Over")
+![Extension List](./assets/extension_no_hover_icon_changelog.png "Extension")
+![Extension Over](./assets/extension_hover_icon_changelog.png "Extension Over")
 
 
 ## Settings
@@ -37,8 +37,8 @@ In this page you can:
  - Refresh the stored follows list
  - Enable/Disable _just went live_ notifications
  
-![Settings](./assets/settings_rsz.png "Settings menu")
-![Settings With notifications enbaled](./assets/settings_enabled_rsz.png "Settings With notifications enbaled")
+![Settings](./assets/settings_disabled_icon_changelog.png "Settings menu")
+![Settings With notifications enbaled](./assets/settings_enabled_icon_changelog.png "Settings With notifications enbaled")
 
 ### Notifications
 ## **MacOS**

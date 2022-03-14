@@ -1,7 +1,7 @@
 {
-  "name": "Twitch Live Extension",
-  "description": "A browser extension that will list your followed streamers are live and will send notifications when they go live",
-  "version": "3.0.1",
+  "name": "DEMO Twitch Live Extension",
+  "description": "A browser extension that will list your followed streamers that are live and allows you to receive notifications when they start a new stream",
+  "version": "3.0.2",
   "author": "Pedro Silva",
   "permissions": [
     "identity",
@@ -14,7 +14,7 @@
       "browser-polyfill.js",
       "static/js/background.js"
     ],
-    "persistent": false
+    "persistent": true
   },
   "browser_action": {
     "default_title": "Twitch Live",
