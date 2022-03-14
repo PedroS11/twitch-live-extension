@@ -4,6 +4,10 @@ import changelogs from '../../changelogsMapping.json';
 export const processOnInstallEvents = async () => {
     const { installType } = await browser.management.getSelf();
 
+    if (installType === 'development') {
+        return;
+    }
+
     const { version } = browser.runtime.getManifest();
 
     // @ts-ignore
