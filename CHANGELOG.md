@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.3 (March 15, 2021)
+
+### Fixes and Functionality:
+
+- Update extension description
+
 ## 3.0.2 (March 14, 2021)
 
 ### Fixes and Functionality:
