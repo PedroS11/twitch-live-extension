@@ -15,6 +15,7 @@ import {
     validateToken,
 } from './twitchRepository';
 import { POOLING_JUST_WENT_LIVE } from '../../domain/infrastructure/background/constants';
+import * as localStorageService from '../localStorage/localStorageService';
 
 export const getGameById = async (gameId: string): Promise<GetGame> => {
     const response: GetGame[] = await getGames([gameId]);
@@ -34,6 +35,26 @@ export const getUserFollowers = async (userId: string): Promise<GetUserFollow[]>
 
 export const getCurrentUser = async (): Promise<ValidateTokenResponse> => {
     return await validateToken();
+};
+
+export const getNumberOfLivestreams = async (): Promise<number | null> => {
+    let nrStreams = 0;
+
+    // The first time it's installed, there's no token, so it shouldn't render the icon
+    const token: string = localStorageService.getToken();
+
+    if (!token) {
+        return null;
+    }
+
+    const user: ValidateTokenResponse = await getCurrentUser();
+
+    if (user) {
+        const streams: GetFollowedStreams[] = await getFollowedStreams(user.user_id);
+        nrStreams = streams.length;
+    }
+
+    return nrStreams;
 };
 
 export const getFollowedLivestreams = async (userId: string): Promise<FollowedLivestream[]> => {

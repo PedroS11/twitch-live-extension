@@ -11,6 +11,7 @@ import {
     sendDisableNotifMessage,
     sendEnableNotifMessage,
     sendGetTokenMessage,
+    updateBadgeIcon,
 } from '../../infrastructure/background/messageWrapper';
 import { TwitchStore } from '../../domain/store/twitchStore';
 import * as localStorageService from '../../infrastructure/localStorage/localStorageService';
@@ -45,6 +46,7 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
         dispatch(resetLivestreams());
 
         const livestreams: FollowedLivestream[] = await getFollowedLivestreams(user.user_id);
+        await updateBadgeIcon(livestreams.length);
 
         dispatch(saveLivestreams(livestreams));
     } catch (e) {
