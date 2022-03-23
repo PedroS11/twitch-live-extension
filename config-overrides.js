@@ -22,7 +22,7 @@ function override(config, env) {
     config.output.filename = 'static/js/[name].js';
     // Disable built-in SplitChunksPlugin
     config.optimization.splitChunks = {
-        cacheGroups: {default: false}
+        cacheGroups: { default: false },
     };
     // Disable runtime chunk addition for each entry point
     config.optimization.runtimeChunk = false;
@@ -42,9 +42,11 @@ function override(config, env) {
     };
 
     const browserPolyfillPlugin = new CopyWebpackPlugin({
-        patterns: [{
-            from: 'node_modules/webextension-polyfill/dist/browser-polyfill.js',
-        }],
+        patterns: [
+            {
+                from: 'node_modules/webextension-polyfill/dist/browser-polyfill.js',
+            },
+        ],
     });
 
     config.plugins.push(browserPolyfillPlugin);
@@ -58,32 +60,36 @@ function override(config, env) {
         minify: isEnvProduction && minifyOpts,
     });
     // Replace original HtmlWebpackPlugin instance in config.plugins with the above one
-    config.plugins = replacePlugin(config.plugins,
-        (name) => /HtmlWebpackPlugin/i.test(name), indexHtmlPlugin
+    config.plugins = replacePlugin(
+        config.plugins,
+        (name) => /HtmlWebpackPlugin/i.test(name),
+        indexHtmlPlugin,
     );
 
     // Custom ManifestPlugin instance to cast asset-manifest.json back to old plain format
-    const manifestPlugin = new ManifestPlugin({
+    const manifestPlugin = new ManifestPlugin.WebpackManifestPlugin({
         fileName: 'asset-manifest.json',
     });
     // Replace original ManifestPlugin instance in config.plugins with the above one
-    config.plugins = replacePlugin(config.plugins,
-        (name) => /ManifestPlugin/i.test(name), manifestPlugin
+    config.plugins = replacePlugin(
+        config.plugins,
+        (name) => /ManifestPlugin/i.test(name),
+        manifestPlugin,
     );
 
     // Custom MiniCssExtractPlugin instance to get rid of hash in filename template
     const miniCssExtractPlugin = new MiniCssExtractPlugin({
-        filename: 'static/css/[name].css'
+        filename: 'static/css/[name].css',
     });
     // Replace original MiniCssExtractPlugin instance in config.plugins with the above one
-    config.plugins = replacePlugin(config.plugins,
-        (name) => /MiniCssExtractPlugin/i.test(name), miniCssExtractPlugin
+    config.plugins = replacePlugin(
+        config.plugins,
+        (name) => /MiniCssExtractPlugin/i.test(name),
+        miniCssExtractPlugin,
     );
 
     // Remove GenerateSW plugin from config.plugins to disable service worker generation
-    config.plugins = replacePlugin(config.plugins,
-        (name) => /GenerateSW/i.test(name)
-    );
+    config.plugins = replacePlugin(config.plugins, (name) => /GenerateSW/i.test(name));
 
     return config;
 }
@@ -91,10 +97,14 @@ function override(config, env) {
 // Utility function to replace/remove specific plugin in a webpack config
 function replacePlugin(plugins, nameMatcher, newPlugin) {
     const i = plugins.findIndex((plugin) => {
-        return plugin.constructor && plugin.constructor.name &&
-            nameMatcher(plugin.constructor.name);
+        return (
+            plugin.constructor && plugin.constructor.name && nameMatcher(plugin.constructor.name)
+        );
     });
-    return i > -1?
-        plugins.slice(0, i).concat(newPlugin || []).concat(plugins.slice(i+1)) :
-        plugins;
+    return i > -1
+        ? plugins
+              .slice(0, i)
+              .concat(newPlugin || [])
+              .concat(plugins.slice(i + 1))
+        : plugins;
 }

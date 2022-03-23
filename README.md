@@ -135,3 +135,10 @@ And everyone else that helped testing and I didn't mention.
 ## License 
 
 [BSD-Clause 3](https://github.com/PedroS11/twitch-live-extension/blob/master/LICENSE.md)
+
+## Donation
+
+If you appreciated this extension and want to help me, feel free to do it!
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=2EUE3TRXGC4KQ)
+
