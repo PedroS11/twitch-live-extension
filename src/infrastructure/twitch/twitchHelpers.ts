@@ -13,15 +13,17 @@ export const getRefreshToken = async (): Promise<string> => {
 
 export const getToken = async (): Promise<string> => {
     try {
-        const tokenStorage = localStorageService.getToken();
+        // const tokenStorage = localStorageService.getToken();
+        //
+        // if (!tokenStorage) {
+        //     const token = await sendGetTokenMessage(true);
+        //     localStorageService.storeToken(token);
+        //
+        //     return token;
+        // }
+        // return tokenStorage;
 
-        if (!tokenStorage) {
-            const token = await sendGetTokenMessage(true);
-            localStorageService.storeToken(token);
-
-            return token;
-        }
-        return tokenStorage;
+        return 'TOKEN';
     } catch (e) {
         console.error('Error getting token', e?.response?.data || e.message);
         throw e;
