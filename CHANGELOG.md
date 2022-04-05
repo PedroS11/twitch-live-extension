@@ -3,7 +3,7 @@
 ## 3.1.0 (April 5th, 2021)
 
 ### Functionalities:
-- Adds how long a stream has been live
+- Shows how long a stream has been live
 
 ## 3.0.3 (March 15, 2021)
 
