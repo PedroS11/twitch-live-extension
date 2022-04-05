@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
     Avatar,
@@ -10,7 +10,7 @@ import {
     Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { formatViewers } from '../../../../utils/formatter';
+import { formatViewers, getElapsedTime } from '../../../../utils/formatter';
 import { FollowedLivestream } from '../../../../domain/infrastructure/twitch/twitch';
 import { ViewerIcon } from '../../../../components/SVG/viewerIcon';
 import { PopperTitle } from './PopperTitle';
@@ -24,9 +24,17 @@ const useStyles = makeStyles({
     gameText: {
         fontSize: 11,
     },
+    streamerDiv: {
+        paddingRight: 5,
+    },
     viewersText: {
         fontSize: 13,
         paddingRight: 3,
+    },
+    elapsedTimeText: {
+        fontSize: 11,
+        textAlign: 'right',
+        paddingBottom: 4,
     },
 });
 
@@ -36,6 +44,15 @@ export const LiveStreamListItem = (elem: FollowedLivestream) => {
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         setAnchorEl(event.currentTarget);
     };
+    const [elapsedTime, setElapsedTime] = useState(getElapsedTime(elem.started_at));
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setElapsedTime(getElapsedTime(elem.started_at));
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [elem.started_at]);
 
     const handlePopoverClose = () => {
         setAnchorEl(null);
@@ -61,6 +78,7 @@ export const LiveStreamListItem = (elem: FollowedLivestream) => {
                     <Avatar src={elem.profile_image_url} />
                 </ListItemAvatar>
                 <ListItemText
+                    className={classes.streamerDiv}
                     primary={elem.display_name}
                     secondary={
                         <Typography
@@ -85,6 +103,14 @@ export const LiveStreamListItem = (elem: FollowedLivestream) => {
                         </Typography>
                         <ViewerIcon />
                     </IconButton>
+                    <Typography
+                        noWrap
+                        variant={'subtitle2'}
+                        color={'textSecondary'}
+                        className={classes.elapsedTimeText}
+                    >
+                        {elapsedTime}
+                    </Typography>
                 </ListItemSecondaryAction>
             </ListItem>
             <PopperTitle title={elem.title} anchorEl={anchorEl} open={open} />
