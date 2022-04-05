@@ -34,6 +34,7 @@ const useStyles = makeStyles({
     elapsedTimeText: {
         fontSize: 11,
         textAlign: 'right',
+        paddingBottom: 4,
     },
 });
 
@@ -46,12 +47,12 @@ export const LiveStreamListItem = (elem: FollowedLivestream) => {
     const [elapsedTime, setElapsedTime] = useState(getElapsedTime(elem.started_at));
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        const timer = setInterval(() => {
             setElapsedTime(getElapsedTime(elem.started_at));
         }, 1000);
 
-        return () => clearTimeout(timer);
-    });
+        return () => clearInterval(timer);
+    }, [elem.started_at]);
 
     const handlePopoverClose = () => {
         setAnchorEl(null);
