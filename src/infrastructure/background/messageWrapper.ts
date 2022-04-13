@@ -12,7 +12,7 @@ export const sendDisableNotifMessage = async () =>
         type: MESSAGE_TYPES.DISABLE_NOTIFICATIONS,
     } as BackgroundMessage);
 
-export const sendGetTokenMessage = async (prompt = false): Promise<string> =>
+export const sendGetTokenMessage = async (prompt = false): Promise<void> =>
     await browser.runtime.sendMessage({
         type: MESSAGE_TYPES.GET_TOKEN,
         data: { prompt },

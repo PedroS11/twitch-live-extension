@@ -5,10 +5,9 @@ import { sendGetTokenMessage } from '../background/messageWrapper';
 import * as localStorageService from '../localStorage/localStorageService';
 
 export const getRefreshToken = async (): Promise<string> => {
-    const token = await sendGetTokenMessage();
-    localStorageService.storeToken(token);
+    await sendGetTokenMessage();
 
-    return token;
+    return localStorageService.getToken();
 };
 
 export const getToken = async (): Promise<string> => {
@@ -16,10 +15,9 @@ export const getToken = async (): Promise<string> => {
         const tokenStorage = localStorageService.getToken();
 
         if (!tokenStorage) {
-            const token = await sendGetTokenMessage(true);
-            localStorageService.storeToken(token);
+            await sendGetTokenMessage(true);
 
-            return token;
+            return localStorageService.getToken();
         }
         return tokenStorage;
     } catch (e) {

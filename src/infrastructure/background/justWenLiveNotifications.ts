@@ -1,6 +1,7 @@
 import { FollowedLivestream } from '../../domain/infrastructure/twitch/twitch';
 import { getJustWentLive } from '../twitch/twitchService';
 import { browser, Notifications } from 'webextension-polyfill-ts';
+import { isFirefox } from '../../utils/browserUtils';
 import { isWindows } from '../../utils/operatingSystem';
 
 let linkMap: { [notification: string]: string } = {};
@@ -18,9 +19,11 @@ export const processJustWentLiveNotificationsAlarm = async () => {
             const options: Notifications.CreateNotificationOptions = {
                 type: 'basic',
                 title: `${stream.display_name} just went live`,
+                // contextMessage is only supported by Chrome and Edge
+                // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications/NotificationOptions
                 contextMessage: isWindows() ? clickHereMessage : game,
                 iconUrl: stream.profile_image_url || './assets/twitchLogo.png',
-                message: isWindows() ? game : clickHereMessage,
+                message: isWindows() || isFirefox() ? game : clickHereMessage,
             };
 
             const notifId: string = await browser.notifications.create(options);
