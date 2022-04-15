@@ -76,8 +76,7 @@ export const switchAccount = (): AppThunk<void> => async (dispatch) => {
     try {
         await revokeToken();
         localStorageService.clearToken();
-        const token = await sendGetTokenMessage(true);
-        localStorageService.storeToken(token);
+        await sendGetTokenMessage(true);
     } catch (e) {
         console.log('An unexpected error was thrown', e);
     } finally {

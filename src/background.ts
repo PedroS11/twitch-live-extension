@@ -17,12 +17,16 @@ import {
     processOnNotificationClick,
 } from './infrastructure/background/justWenLiveNotifications';
 import { processOnInstallEvents } from './infrastructure/background/onInstalled';
+import * as localStorageService from './infrastructure/localStorage/localStorageService';
 
 browser.alarms.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 });
 
 browser.runtime.onMessage.addListener(async (msg: BackgroundMessage) => {
     if (msg.type === MESSAGE_TYPES.GET_TOKEN) {
-        return await fetchToken(!!msg.data.prompt);
+        const token = await fetchToken(!!msg.data.prompt);
+        // Since on Firefox the onMessage listener doesn't return the response
+        // I need to call storeToken here instead of in the method that requests the token
+        localStorageService.storeToken(token);
     } else if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
         browser.alarms.create(POOLING_ALARM_NAME, { periodInMinutes: POOLING_JUST_WENT_LIVE });
     } else if (msg.type === MESSAGE_TYPES.DISABLE_NOTIFICATIONS) {

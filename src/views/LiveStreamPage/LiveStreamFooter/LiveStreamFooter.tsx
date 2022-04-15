@@ -32,7 +32,7 @@ export const LiveStreamFooter = () => {
 
     return (
         <div className={classes.root}>
-            {livestreams.length > 0 && (
+            {livestreams.length > 0 && !loading && (
                 <Button
                     className={classes.button}
                     variant="outlined"

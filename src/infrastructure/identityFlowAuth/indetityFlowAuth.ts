@@ -21,6 +21,7 @@ export const fetchToken = async (promptVerify = false): Promise<string> => {
         url: getAuthURL(securityToken, promptVerify),
         interactive: promptVerify,
     });
+
     const url = new URL(redirectURL);
     const queryParams: URLSearchParams = new URLSearchParams(url.hash.substring(1));
 

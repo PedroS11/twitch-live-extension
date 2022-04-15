@@ -3,7 +3,12 @@
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/nlnfdlcbnpafokhpjfffmoobbejpedgj)
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/nlnfdlcbnpafokhpjfffmoobbejpedgj)
 
-A browser extension that will help you to find out when your followed streamers are live on Twitch 
+
+[![](https://img.shields.io/amo/v/twitch-live-extension.svg)](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/)
+[![](https://img.shields.io/amo/users/twitch-live-extension.svg)](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/)
+[![](https://img.shields.io/amo/rating/twitch-live-extension.svg)](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/)
+
+A browser extension that will help you find out when your followed streamers are live on Twitch 
 and will send notifications when they go live.
 ## Table of Contents
 
@@ -19,11 +24,11 @@ and will send notifications when they go live.
 To start using it, open it, log in with your Twitch account, so that the extension can have access to your follows, and, every time you click on the extension icon,
 you will see the streamers that you follow that are live.
 
-This extensions supports _**Just Went Live**_ notifications. If you want to enable them, open the extension, go to **Settings** and enable the _Just Went Live_ notifications.
+This extension supports _**Just Went Live**_ notifications. If you want to enable them, open the extension, go to **Settings** and enable the _Just Went Live_ notifications.
 
 There's also a button to switch the Twitch account you are logged in.
 
-The extension is available on [Chrome Store](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0). 
+The extension is available for [Chrome/Microsoft Edge](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/). 
 
 
 ![Extension List](./assets/extension_no_hover_icon_changelog.png "Extension")
@@ -38,15 +43,33 @@ In this page you can:
  - Enable/Disable _just went live_ notifications
  
 ![Settings](./assets/settings_disabled_icon_changelog.png "Settings menu")
-![Settings With notifications enbaled](./assets/settings_enabled_icon_changelog.png "Settings With notifications enbaled")
+![Settings With notifications enabled](./assets/settings_enabled_icon_changelog.png "Settings With notifications enabled")
 
 ### Notifications
 ## **MacOS**
- 
-![Notification](./assets/notification_mac_rsz.png "Notification")
-![Notification](./assets/notification_mac_skell_rsz.png "Notification")
+
+### Google Chrome 
+![Notification Chrome](./assets/notification_mac_rsz.png "Notification Chrome")
+
+### Firefox
+
+![Notification Firefox](./assets/notification_mac_firefox_rsz.png "Notification Firefox")
+
+In order to have Firefox notifications on Mac, you need to search for _Notifications_ on spotlight
+and enable them like this:
+
+![Enabled Notification Firefox](./assets/enabled_firefox_macos_notifications.png "Enabled Notification Firefox")
+
+### Microsoft Edge
+
+![Notification Microsoft Edge](./assets/notification_mac_edge_rsz.png "Notification Microsoft Edge")
+
 
 ## **Windows**
+
+### Google Chrome
+
+![Notification Chrome](./assets/notification_windows_garciap_rsz.png "Notification Chrome")
 
 For **Windows** users, you might get annoyed with the sound from **Chrome Notifications**. You can disable it by:
 
@@ -55,9 +78,13 @@ For **Windows** users, you might get annoyed with the sound from **Chrome Notifi
 - Scroll down to "Google Chrome" and click the Chrome icon to open the notification settings
 - Toggle "Play a sound when a notification arrives" to Off
 
-![Notification](./assets/notification_windows_garciap_rsz.png "Notification")
-![Notification](./assets/notification_windows_obasene_rsz.png "Notification")
+### Firefox
 
+![Notification Firefox](./assets/notification_windows_firefox_rsz.png "Notification Firefox")
+
+### Microsoft Edge
+
+![Notification Edge](./assets/notification_windows_edge_rsz.png "Notification Edge")
 
 ## Available Scripts
 
@@ -65,7 +92,18 @@ Before running any command, you need to create a file with your Twitch Client ID
 To get one, go to the [Twitch Api page](https://dev.twitch.tv/docs/authentication#registration) and register your app.
  
  After that, create the file `./src/config.ts` with: <br>
-``export const CLIENT_ID = "YOUR_CLIENT_ID";``
+
+```javascript
+export const CLIENT_ID = "YOUR_CLIENT_ID";
+
+export const RESPONSE_TYPE_TOKEN = 'token';
+
+export const SCOPES: string[] = ['user:read:follows'];
+
+export const OAUTH_BASE_URL = 'https://id.twitch.tv/oauth2';
+
+export const API_BASE_URL = 'https://api.twitch.tv/helix';
+```
 
 ### `yarn start`
 
@@ -126,7 +164,10 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 
 - [RafikiHd](https://twitch.tv/RafikiHD)
 
-And everyone else that helped testing and I didn't mention.
+### Graphic Designer
+- [PiwDuarte](https://twitter.com/piwduarte)
+
+And everyone else that helped to test, and I didn't mention.
 
 ## Problems or issues?
  
