@@ -1,17 +1,26 @@
 # Changelog
 
-## 3.1.0 (April 5th, 2021)
+## 3.2.0 (April 15th, 2022)
+
+### Functionalities:
+- Twitch Live Extension has now Firefox and Microsoft Edge support
+
+### Fixes:
+
+- Small UI fix
+
+## 3.1.0 (April 5th, 2022)
 
 ### Functionalities:
 - Shows how long a stream has been live
 
-## 3.0.3 (March 15, 2021)
+## 3.0.3 (March 15, 2022)
 
 ### Fixes:
 
 - Update extension description
 
-## 3.0.2 (March 14, 2021)
+## 3.0.2 (March 14, 2022)
 
 ### Functionalities:
 

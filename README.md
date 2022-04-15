@@ -4,13 +4,9 @@
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/nlnfdlcbnpafokhpjfffmoobbejpedgj)
 
 
-[![](https://img.shields.io/amo/v/arxiv-utils.svg)](https://addons.mozilla.org/en-US/firefox/addon/arxiv-utils/)
-[![](https://img.shields.io/amo/users/arxiv-utils.svg)](https://addons.mozilla.org/en-US/firefox/addon/arxiv-utils/)
-[![](https://img.shields.io/amo/rating/arxiv-utils.svg)](https://addons.mozilla.org/en-US/firefox/addon/arxiv-utils/)
-
-[![](https://img.shields.io/badge/dynamic/json?label=edge%20add-on&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fngjpcfjabahdoadnajbhnikbemhmemdg)](https://microsoftedge.microsoft.com/addons/detail/arxivutils/ngjpcfjabahdoadnajbhnikbemhmemdg)
-[![](https://img.shields.io/badge/dynamic/json?label=users&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fngjpcfjabahdoadnajbhnikbemhmemdg)](https://microsoftedge.microsoft.com/addons/detail/arxivutils/ngjpcfjabahdoadnajbhnikbemhmemdg)
-[![](https://img.shields.io/badge/dynamic/json?label=rating&suffix=/5&query=%24.averageRating&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fngjpcfjabahdoadnajbhnikbemhmemdg)](https://microsoftedge.microsoft.com/addons/detail/arxivutils/ngjpcfjabahdoadnajbhnikbemhmemdg)
+[![](https://img.shields.io/amo/v/twitch-live-extension.svg)](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/)
+[![](https://img.shields.io/amo/users/twitch-live-extension.svg)](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/)
+[![](https://img.shields.io/amo/rating/twitch-live-extension.svg)](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/)
 
 A browser extension that will help you find out when your followed streamers are live on Twitch 
 and will send notifications when they go live.
@@ -32,7 +28,7 @@ This extension supports _**Just Went Live**_ notifications. If you want to enabl
 
 There's also a button to switch the Twitch account you are logged in.
 
-The extension is available for [Chrome Store](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/). 
+The extension is available for [Chrome/Microsoft Edge](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/). 
 
 
 ![Extension List](./assets/extension_no_hover_icon_changelog.png "Extension")
@@ -47,7 +43,7 @@ In this page you can:
  - Enable/Disable _just went live_ notifications
  
 ![Settings](./assets/settings_disabled_icon_changelog.png "Settings menu")
-![Settings With notifications enbaled](./assets/settings_enabled_icon_changelog.png "Settings With notifications enbaled")
+![Settings With notifications enabled](./assets/settings_enabled_icon_changelog.png "Settings With notifications enabled")
 
 ### Notifications
 ## **MacOS**
@@ -73,7 +69,7 @@ and enable them like this:
 
 ### Google Chrome
 
-![Notification](./assets/notification_windows_garciap_rsz.png "Notification")
+![Notification Chrome](./assets/notification_windows_garciap_rsz.png "Notification Chrome")
 
 For **Windows** users, you might get annoyed with the sound from **Chrome Notifications**. You can disable it by:
 
@@ -84,9 +80,11 @@ For **Windows** users, you might get annoyed with the sound from **Chrome Notifi
 
 ### Firefox
 
+![Notification Firefox](./assets/notification_windows_firefox_rsz.png "Notification Firefox")
+
 ### Microsoft Edge
 
-
+![Notification Edge](./assets/notification_windows_edge_rsz.png "Notification Edge")
 
 ## Available Scripts
 
@@ -169,7 +167,7 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 ### Graphic Designer
 - [PiwDuarte](https://twitter.com/piwduarte)
 
-And everyone else that helped testing and I didn't mention.
+And everyone else that helped to test, and I didn't mention.
 
 ## Problems or issues?
  
