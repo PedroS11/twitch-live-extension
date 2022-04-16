@@ -45,13 +45,13 @@ In this page you can:
 ![Settings](./assets/settings_disabled_icon_changelog.png "Settings menu")
 ![Settings With notifications enabled](./assets/settings_enabled_icon_changelog.png "Settings With notifications enabled")
 
-### Notifications
-## **MacOS**
+## Notifications
+### **MacOS**
 
 ### Google Chrome 
 ![Notification Chrome](./assets/notification_mac_rsz.png "Notification Chrome")
 
-### Firefox
+#### Firefox
 
 ![Notification Firefox](./assets/notification_mac_firefox_rsz.png "Notification Firefox")
 
@@ -60,14 +60,14 @@ and enable them like this:
 
 ![Enabled Notification Firefox](./assets/enabled_firefox_macos_notifications.png "Enabled Notification Firefox")
 
-### Microsoft Edge
+#### Microsoft Edge
 
 ![Notification Microsoft Edge](./assets/notification_mac_edge_rsz.png "Notification Microsoft Edge")
 
 
-## **Windows**
+### **Windows**
 
-### Google Chrome
+#### Google Chrome
 
 ![Notification Chrome](./assets/notification_windows_garciap_rsz.png "Notification Chrome")
 
@@ -78,11 +78,11 @@ For **Windows** users, you might get annoyed with the sound from **Chrome Notifi
 - Scroll down to "Google Chrome" and click the Chrome icon to open the notification settings
 - Toggle "Play a sound when a notification arrives" to Off
 
-### Firefox
+#### Firefox
 
 ![Notification Firefox](./assets/notification_windows_firefox_rsz.png "Notification Firefox")
 
-### Microsoft Edge
+#### Microsoft Edge
 
 ![Notification Edge](./assets/notification_windows_edge_rsz.png "Notification Edge")
 
