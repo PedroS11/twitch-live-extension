@@ -140,6 +140,14 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 ### Twitch
 - [Garciap](https://twitch.tv/Garciap)
 
+- [Obasene](https://www.twitch.tv/obasene)
+
+- [rSekeleton](https://twitch.tv/Rsekeleton)
+
+- [Johlee](https://twitch.tv/Johlee)
+
+- [Andretgv](https://twitch.tv/Andretgv)
+
 - [Thenumber13_](https://twitch.tv/Thenumber13_)
 
 - [Impakt](https://twitch.tv/Impakt)
@@ -147,12 +155,6 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 - [Tio Sake](https://twitch.tv/Tio_sake)
 
 - [MeetTheMyth](https://twitch.tv/MeetTheMyth)
-
-- [Johlee](https://twitch.tv/Johlee)
-
-- [Obasene](https://www.twitch.tv/obasene)
-
-- [rSekeleton](https://twitch.tv/Rsekeleton)
 
 - [Vertigo](https://twitch.tv/Vertigob)
 
