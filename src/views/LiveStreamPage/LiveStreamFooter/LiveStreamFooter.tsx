@@ -28,11 +28,10 @@ export const LiveStreamFooter = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const { loading } = useSelector((state: RootState) => state.common);
-    const { livestreams } = useSelector((state: RootState) => state.twitch);
 
     return (
         <div className={classes.root}>
-            {livestreams.length > 0 && !loading && (
+            {!loading && (
                 <Button
                     className={classes.button}
                     variant="outlined"

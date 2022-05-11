@@ -10,9 +10,7 @@ export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
             }
             return config;
         },
-        (error) => {
-            Promise.reject(error);
-        },
+        (error) => Promise.reject(error),
     );
 
     //Add a response interceptor
@@ -22,9 +20,13 @@ export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
         },
         async (error) => {
             const originalRequest = error.config;
-            if (error.response.status === 401 && !originalRequest._retry) {
-                originalRequest._retry = true;
-                const newToken = await getRefreshToken();
+            originalRequest._retryCount = ++originalRequest._retryCount || 1;
+
+            if (originalRequest._retryCount < 3) {
+                const forceAuthenticationPopup: boolean = [401, 403].includes(
+                    error?.response?.status,
+                );
+                const newToken = await getRefreshToken(forceAuthenticationPopup);
 
                 axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
                 return axios(originalRequest);

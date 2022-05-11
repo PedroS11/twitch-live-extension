@@ -82,11 +82,11 @@ export const getFollowedLivestreams = async (userId: string): Promise<FollowedLi
 
     let livestreams: FollowedLivestream[] = [];
 
-    const responseLivestrams: PromiseSettledResult<FollowedLivestream>[] = await Promise.allSettled(
-        promisesGetExtraInfo,
-    );
+    const responseLivestreams: PromiseSettledResult<
+        FollowedLivestream
+    >[] = await Promise.allSettled(promisesGetExtraInfo);
 
-    responseLivestrams.forEach((result: PromiseSettledResult<FollowedLivestream>) => {
+    responseLivestreams.forEach((result: PromiseSettledResult<FollowedLivestream>) => {
         if (result.status === 'fulfilled') {
             livestreams = [...livestreams, result.value];
         }

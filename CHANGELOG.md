@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.2.1 (May 6th, 2022)
+
+### Fixes:
+
+- Fix retry policy to avoid wrong "Your followed channels are all offline..." message when there was an issue calling Twitch API
+
+- Set a 3 times retry when it fails calling API
+
+- Force authentication popup if API returns Unauthorized/Forbidden
+
 ## 3.2.0 (April 15th, 2022)
 
 ### Functionalities:

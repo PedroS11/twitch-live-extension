@@ -4,8 +4,8 @@ import { axiosInterceptor } from '../axios/axiosInterceptor';
 import { sendGetTokenMessage } from '../background/messageWrapper';
 import * as localStorageService from '../localStorage/localStorageService';
 
-export const getRefreshToken = async (): Promise<string> => {
-    await sendGetTokenMessage();
+export const getRefreshToken = async (promptPopup = false): Promise<string> => {
+    await sendGetTokenMessage(promptPopup);
 
     return localStorageService.getToken();
 };
