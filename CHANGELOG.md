@@ -4,9 +4,9 @@
 
 ### Fixes:
 
-- Fix retry policy to avoid wrong "Your followed channels are all offline..." message when there was an issue calling Twitch API
+- Fix the retry policy to avoid the wrong "Your followed channels are all offline..." message when there was an issue calling Twitch API
 
-- Set a 3 times retry when it fails calling API
+- Set a 3 time retry when it fails calling API
 
 - Force authentication popup if API returns Unauthorized/Forbidden
 
