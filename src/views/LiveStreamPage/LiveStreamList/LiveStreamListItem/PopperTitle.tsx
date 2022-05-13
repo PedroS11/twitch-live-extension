@@ -1,8 +1,8 @@
 import React from 'react';
-import { createStyles, Paper, Popper, Theme, Typography } from '@material-ui/core';
+import { createStyles, Paper, Popper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
         root: {
             pointerEvents: 'none',
