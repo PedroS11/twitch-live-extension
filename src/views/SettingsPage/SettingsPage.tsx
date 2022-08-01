@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Divider, List, ListSubheader } from '@material-ui/core';
-import { SettingsFooter } from './SettingsFooter/SettingsFooter';
+import { Divider, List } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../store/reducers/twitchReducer';
 import { RootState } from '../../store/reducers/rootReducer';
@@ -29,14 +28,13 @@ export const SettingsPage = () => {
     return (
         <div>
             {user && (
-                <List subheader={<ListSubheader>Settings</ListSubheader>}>
+                <List>
                     <SettingsSwitchAccount user={user} />
                     <SettingsNotifications />
                 </List>
             )}
             {loading && !user && <CenteredCircularProgress />}
             <Divider />
-            <SettingsFooter />
         </div>
     );
 };

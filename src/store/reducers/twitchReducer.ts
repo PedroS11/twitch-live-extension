@@ -1,12 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../store';
-import { setLoading } from './commonReducer';
+import { setLoadFinished, setLoading, setLoadingMore } from './commonReducer';
 import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
 import {
     FollowedLivestream,
+    FollowedLivestreamResponse,
+    TopLivestreamResponse,
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
-import { getCurrentUser, getFollowedLivestreams } from '../../infrastructure/twitch/twitchService';
+import {
+    getCurrentUser,
+    getFollowedLivestreams,
+    getTopTwitchLiveStreams,
+} from '../../infrastructure/twitch/twitchService';
 import {
     sendDisableNotifMessage,
     sendEnableNotifMessage,
@@ -16,43 +22,112 @@ import {
 import { TwitchStore } from '../../domain/store/twitchStore';
 import * as localStorageService from '../../infrastructure/localStorage/localStorageService';
 
-export const ONE_DAY_IN_MILISECONDS = 24 * 60 * 60 * 1000;
-
 const twitchSlice = createSlice({
     name: 'twitch',
     initialState: {
         livestreams: [],
+        topLivestreams: [],
+        cursor: '',
     } as TwitchStore,
     reducers: {
         saveLivestreams: (state: TwitchStore, { payload }: PayloadAction<FollowedLivestream[]>) => {
             state.livestreams = payload;
         },
+        saveTopLivestreams: (
+            state: TwitchStore,
+            { payload }: PayloadAction<TopLivestreamResponse>,
+        ) => {
+            state.topLivestreams = payload.data;
+            state.cursor = payload.cursor;
+        },
+        appendTopLivestreams: (
+            state: TwitchStore,
+            { payload }: PayloadAction<TopLivestreamResponse>,
+        ) => {
+            state.topLivestreams = [...state.topLivestreams, ...payload.data];
+            state.cursor = payload.cursor;
+        },
         resetLivestreams: (state: TwitchStore) => {
             state.livestreams = [];
+        },
+        resetTopLivestreams: (state: TwitchStore) => {
+            state.topLivestreams = [];
+            state.cursor = undefined;
         },
     },
 });
 
-const { saveLivestreams, resetLivestreams } = twitchSlice.actions;
+export const {
+    saveLivestreams,
+    resetLivestreams,
+    saveTopLivestreams,
+    resetTopLivestreams,
+    appendTopLivestreams,
+} = twitchSlice.actions;
 
 /**
  * Get the all the live streams from the favorites list
  */
-export const getLiveStreams = (): AppThunk<void> => async (dispatch) => {
+export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) => {
     dispatch(setLoading());
     try {
         const user: ValidateTokenResponse = await getCurrentUser();
 
-        dispatch(resetLivestreams());
+        let response: FollowedLivestreamResponse = {} as FollowedLivestreamResponse;
+        let data: FollowedLivestream[] = [];
 
-        const livestreams: FollowedLivestream[] = await getFollowedLivestreams(user.user_id);
-        await updateBadgeIcon(livestreams.length);
+        do {
+            response = await getFollowedLivestreams(user.user_id, response.cursor);
+            data = [...data, ...response.data];
+            dispatch(saveLivestreams(data));
+        } while (response.cursor);
 
-        dispatch(saveLivestreams(livestreams));
+        await updateBadgeIcon(data.length);
     } catch (e) {
         console.log('An unexpected error was thrown', e);
     } finally {
         dispatch(setLoading());
+    }
+};
+
+/**
+ * Get top live streams
+ */
+export const getTopLiveStreams = (): AppThunk<void> => async (dispatch, getState) => {
+    dispatch(setLoading());
+    try {
+        dispatch(setLoadFinished(false));
+        const livestreams: TopLivestreamResponse = await getTopTwitchLiveStreams();
+        dispatch(saveTopLivestreams(livestreams));
+
+        if (!livestreams.cursor) {
+            dispatch(setLoadFinished(true));
+        }
+    } catch (e) {
+        console.log('An unexpected error was thrown', e);
+    } finally {
+        dispatch(setLoading());
+    }
+};
+
+export const getMoreTopLiveStreams = (): AppThunk<void> => async (dispatch, getState) => {
+    if (getState().common.loadingMoreFinished) return;
+
+    dispatch(setLoadingMore());
+    try {
+        const livestreams: TopLivestreamResponse = await getTopTwitchLiveStreams(
+            getState().twitch.cursor,
+        );
+
+        dispatch(appendTopLivestreams(livestreams));
+
+        if (!livestreams.cursor) {
+            dispatch(setLoadFinished(true));
+        }
+    } catch (e) {
+        console.log('An unexpected error was thrown', e);
+    } finally {
+        dispatch(setLoadingMore());
     }
 };
 

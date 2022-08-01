@@ -1,11 +1,9 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { API_BASE_URL, CLIENT_ID, OAUTH_BASE_URL } from '../../config';
 import {
-    GetFollowedStreams,
     GetFollowedStreamsResponse,
     GetGame,
     GetGamesResponse,
-    GetStream,
     GetStreamsResponse,
     GetUser,
     GetUserFollow,
@@ -95,35 +93,33 @@ export const getUserFollows = async (
 };
 
 export const getStreams = async (
+    after = '',
+    before = '',
     usersIds: string[] = [],
     gamesIds: string[] = [],
     languages: string[] = [],
     usersLogins: string[] = [],
     first = 20,
-): Promise<GetStream[]> => {
+): Promise<GetStreamsResponse> => {
     try {
-        let liveStreams: GetStream[] = [];
-        let response: AxiosResponse<GetStreamsResponse>;
-        let cursor: string | undefined;
+        const url = new URL(`${API_BASE_URL}/streams`);
 
-        do {
-            const url = new URL(`${API_BASE_URL}/streams`);
+        if (after) {
+            url.searchParams.append('after', after);
+        }
+        if (before) {
+            url.searchParams.append('before', before);
+        }
+        usersIds.length && usersIds.map((userId) => url.searchParams.append('user_id', userId));
+        gamesIds.length && gamesIds.map((gameId) => url.searchParams.append('game_id', gameId));
+        languages.length && languages.map((lang) => url.searchParams.append('language', lang));
+        usersLogins.length &&
+            usersLogins.map((userLogin) => url.searchParams.append('user_login', userLogin));
+        url.searchParams.append('first', first.toString());
 
-            usersIds.length && usersIds.map((userId) => url.searchParams.append('user_id', userId));
-            gamesIds.length && gamesIds.map((gameId) => url.searchParams.append('game_id', gameId));
-            languages.length && languages.map((lang) => url.searchParams.append('language', lang));
-            usersLogins.length &&
-                usersLogins.map((userLogin) => url.searchParams.append('user_login', userLogin));
-            url.searchParams.append('first', first.toString());
-            cursor && url.searchParams.append('after', cursor);
+        const response: AxiosResponse<GetStreamsResponse> = await getApiInstance().get(url.href);
 
-            response = await getApiInstance().get(url.href);
-
-            cursor = response.data?.pagination?.cursor;
-            liveStreams = [...liveStreams, ...response.data.data];
-        } while (response.data?.pagination?.cursor);
-
-        return liveStreams;
+        return response.data;
     } catch (e) {
         console.error('Error getting streams', e?.response?.data || e.message);
         throw e;
@@ -166,21 +162,25 @@ export const getGames = async (ids: string[] = [], names: string[] = []): Promis
     }
 };
 
-export const getFollowedStreams = async (userId: string): Promise<GetFollowedStreams[]> => {
+export const getFollowedStreams = async (
+    userId: string,
+    after = '',
+    first = 10,
+): Promise<GetFollowedStreamsResponse> => {
     try {
-        let streams: GetFollowedStreams[] = [];
-        let response: AxiosResponse<GetFollowedStreamsResponse>;
-        let cursor: string | undefined;
-        do {
-            response = await getApiInstance()
-                .get(`${API_BASE_URL}/streams/followed?user_id=${userId}
-            ${cursor ? `&after=${cursor}` : ''}`);
+        const url = new URL(`${API_BASE_URL}/streams/followed?user_id=${userId}`);
 
-            cursor = response.data?.pagination?.cursor;
-            streams = [...streams, ...response.data.data];
-        } while (response.data?.pagination?.cursor);
+        if (after) {
+            url.searchParams.append('after', after);
+        }
 
-        return streams;
+        url.searchParams.append('first', first.toString());
+
+        const response: AxiosResponse<GetFollowedStreamsResponse> = await getApiInstance().get(
+            url.href,
+        );
+
+        return response.data;
     } catch (e) {
         console.error('Error getting followed streams', e?.response?.data || e.message);
         throw e;

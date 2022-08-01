@@ -4,20 +4,24 @@ import { List } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FollowedLivestream } from '../../../domain/infrastructure/twitch/twitch';
 import { LiveStreamListItem } from './LiveStreamListItem/LiveStreamListItem';
+import clsx from 'clsx';
+import { CenteredCircularProgress } from '../../../components/Progress/CenteredCircularProgress';
 
 interface LiveStreamListProps {
     liveStreams: FollowedLivestream[];
+    className?: any;
+    onScroll?: (event: any) => void;
+    loadingMore?: boolean;
 }
 
+export const MAX_HEIGHT = 400;
+export const PADDING_TOP = 5;
+
 const useStyles = makeStyles({
-    root: {
-        paddingTop: 5,
-        paddingBottom: 5,
-    },
     list: {
+        paddingTop: PADDING_TOP,
+        maxHeight: MAX_HEIGHT,
         overflow: 'auto',
-        maxHeight: 400,
-        paddingTop: 0,
         paddingBottom: 0,
         '&::-webkit-scrollbar': {
             width: '0.6em',
@@ -32,18 +36,20 @@ const useStyles = makeStyles({
     },
 });
 
-export const LiveStreamList = ({ liveStreams }: LiveStreamListProps) => {
+export const LiveStreamList = ({
+    liveStreams,
+    className,
+    onScroll,
+    loadingMore,
+}: LiveStreamListProps) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            {liveStreams.length > 0 && (
-                <List className={classes.list}>
-                    {liveStreams.map((elem: FollowedLivestream) => (
-                        <LiveStreamListItem {...elem} key={elem.id} />
-                    ))}
-                </List>
-            )}
-        </div>
+        <List className={clsx(classes.list, className)} onScroll={onScroll}>
+            {liveStreams.map((elem: FollowedLivestream) => (
+                <LiveStreamListItem {...elem} key={elem.id} />
+            ))}
+            {loadingMore && <CenteredCircularProgress />}
+        </List>
     );
 };

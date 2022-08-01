@@ -47,6 +47,7 @@ export interface GetStream {
     user_id: string;
     user_name: string;
     game_id: string;
+    game_name: string;
     type: string;
     title: string;
     viewer_count: number;
@@ -92,6 +93,32 @@ export interface FollowedLivestream {
     started_at: string;
 }
 
+export interface FollowedLivestreamResponse {
+    cursor?: string;
+    data: FollowedLivestream[];
+}
+
+//-----------------------------------------------------------------------------
+//--------------------------- TopLivestream -----------------------------------
+//-----------------------------------------------------------------------------
+
+export interface TopLivestream {
+    user_id: string;
+    url: string;
+    display_name: string;
+    profile_image_url: string;
+    thumbnail_url: string;
+    title: string;
+    game: string;
+    viewer_count: number;
+    id: string;
+    started_at: string;
+}
+
+export interface TopLivestreamResponse {
+    cursor?: string;
+    data: TopLivestream[];
+}
 //-----------------------------------------------------------------------------
 //--------------------------- Get Games -----------------------------------
 //-----------------------------------------------------------------------------

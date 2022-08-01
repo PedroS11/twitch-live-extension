@@ -21,11 +21,13 @@ module.exports = {
         'prettier', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
         'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
     ],
+    plugins: ['unused-imports'],
     rules: {
         '@typescript-eslint/ban-ts-comment': 'off',
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': ['warn'],
         'object-curly-spacing': [2, 'always'],
         'prettier/prettier': warnDevErrorProd,
+        'unused-imports/no-unused-imports': 'error',
     },
 };
