@@ -3,9 +3,10 @@ import { getJustWentLive } from '../twitch/twitchService';
 import { browser, Notifications } from 'webextension-polyfill-ts';
 import { isFirefox } from '../../utils/browserUtils';
 import { isWindows } from '../../utils/operatingSystem';
-import CreateNotificationOptions = Notifications.CreateNotificationOptions;
 
-const createNotificationOptions = (stream: FollowedLivestream): CreateNotificationOptions => {
+const createNotificationOptions = (
+    stream: FollowedLivestream,
+): Notifications.CreateNotificationOptions => {
     const game: string = (stream.game && `Streaming ${stream.game}`) || 'Stream game is not set';
     const clickHereMessage = 'Click here to watch it';
 
@@ -28,7 +29,9 @@ export const processJustWentLiveNotificationsAlarm = async () => {
         const justWentLiveStreams: FollowedLivestream[] = await getJustWentLive();
 
         justWentLiveStreams.map(async (stream: FollowedLivestream) => {
-            const options: CreateNotificationOptions = createNotificationOptions(stream);
+            const options: Notifications.CreateNotificationOptions = createNotificationOptions(
+                stream,
+            );
             const notificationId: string = await browser.notifications.create(options);
             linkMap[notificationId] = stream.url;
         });

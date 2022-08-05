@@ -34,6 +34,13 @@ The extension is available for [Chrome/Microsoft Edge](https://chrome.google.com
 ![Extension List](./assets/extension_no_hover_icon_changelog.png "Extension")
 ![Extension Over](./assets/extension_hover_icon_changelog.png "Extension Over")
 
+## Explore Top livestreams
+
+On the Explore tab, you can see the livestreams with most viewers order descently. Once you reach the bottom of the list, more streams will be loaded.
+
+![Explore](./assets/explore_changelog.png "Explore")
+![Explore Loading](./assets/explore_loading_changelog.png "Explore Loading")
+
 
 ## Settings
 
