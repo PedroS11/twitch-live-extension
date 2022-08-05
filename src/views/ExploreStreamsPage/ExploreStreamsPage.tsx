@@ -8,11 +8,7 @@ import {
     resetTopLivestreams,
 } from '../../store/reducers/twitchReducer';
 import { Typography } from '@material-ui/core';
-import {
-    LiveStreamList,
-    MAX_HEIGHT,
-    PADDING_TOP,
-} from '../LiveStreamPage/LiveStreamList/LiveStreamList';
+import { LiveStreamList, MAX_HEIGHT } from '../LiveStreamPage/LiveStreamList/LiveStreamList';
 import { CenteredCircularProgress } from '../../components/Progress/CenteredCircularProgress';
 
 const isAtTheBottom = (event: any): boolean => {
@@ -20,7 +16,7 @@ const isAtTheBottom = (event: any): boolean => {
     const liveStreamListScrollHeight: number = event.target.scrollHeight;
     const scrollPosition: number = event.target.scrollTop;
 
-    return scrollPosition + MAX_HEIGHT + PADDING_TOP >= liveStreamListScrollHeight;
+    return scrollPosition + MAX_HEIGHT >= liveStreamListScrollHeight;
 };
 
 export const ExploreStreamsPage = () => {

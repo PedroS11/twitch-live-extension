@@ -15,13 +15,12 @@ interface LiveStreamListProps {
 }
 
 export const MAX_HEIGHT = 400;
-export const PADDING_TOP = 5;
 
 const useStyles = makeStyles({
     list: {
-        paddingTop: PADDING_TOP,
         maxHeight: MAX_HEIGHT,
         overflow: 'auto',
+        paddingTop: 0,
         paddingBottom: 0,
         '&::-webkit-scrollbar': {
             width: '0.6em',
