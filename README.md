@@ -12,6 +12,8 @@ A browser extension that will help you find out when your followed streamers are
 and will send notifications when they go live.
 ## Table of Contents
 
+  * [How to Use ](#how-to-use)
+  * [Explore Top Livestreams](#explore-top-livestreams)
   * [Settings](#settings)
   * [Available Scripts](#available-scripts)
   * [Deployment](#deployment)
@@ -20,7 +22,7 @@ and will send notifications when they go live.
   * [Contribution](#contribution)
   * [License](#license)
 
- 
+## How to use
 To start using it, open it, log in with your Twitch account, so that the extension can have access to your follows, and, every time you click on the extension icon,
 you will see the streamers that you follow that are live.
 
@@ -34,9 +36,9 @@ The extension is available for [Chrome/Microsoft Edge](https://chrome.google.com
 ![Extension List](./assets/extension_no_hover_icon_changelog.png "Extension")
 ![Extension Over](./assets/extension_hover_icon_changelog.png "Extension Over")
 
-## Explore Top livestreams
+## Explore Top Livestreams
 
-On the Explore tab, you can see the livestreams with most viewers order descently. Once you reach the bottom of the list, more streams will be loaded.
+On the Explore tab, you can see the livestreams with most viewers in descending order. Once you reach the bottom of the list, more streams will be loaded.
 
 ![Explore](./assets/explore_changelog.png "Explore")
 ![Explore Loading](./assets/explore_loading_changelog.png "Explore Loading")
