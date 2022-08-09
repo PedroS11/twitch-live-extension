@@ -32,6 +32,7 @@ export const processJustWentLiveNotificationsAlarm = async () => {
             const options: Notifications.CreateNotificationOptions = createNotificationOptions(
                 stream,
             );
+
             const notificationId: string = await browser.notifications.create(options);
             linkMap[notificationId] = stream.url;
         });

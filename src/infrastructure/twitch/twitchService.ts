@@ -3,32 +3,19 @@ import {
     FollowedLivestreamResponse,
     GetFollowedStreams,
     GetFollowedStreamsResponse,
-    GetGame,
     GetStream,
     GetStreamsResponse,
     GetUser,
-    GetUserFollow,
     TopLivestream,
     TopLivestreamResponse,
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
+import { getFollowedStreams, getStreams, getUsers, validateToken } from './twitchRepository';
 import {
-    getFollowedStreams,
-    getGames,
-    getStreams,
-    getUserFollows,
-    getUsers,
-    MAX_INTEGER_VALUE,
-    validateToken,
-} from './twitchRepository';
-import { POOLING_JUST_WENT_LIVE } from '../../domain/infrastructure/background/constants';
+    POOLING_JUST_WENT_LIVE,
+    ONE_MINUTE_IN_MILLISECONDS,
+} from '../../domain/infrastructure/background/constants';
 import * as localStorageService from '../localStorage/localStorageService';
-
-export const getGameById = async (gameId: string): Promise<GetGame> => {
-    const response: GetGame[] = await getGames([gameId]);
-
-    return response?.[0];
-};
 
 export const getUserById = async (userId: string): Promise<GetUser> => {
     const response: GetUser[] = await getUsers([userId]);
@@ -36,32 +23,8 @@ export const getUserById = async (userId: string): Promise<GetUser> => {
     return response?.[0];
 };
 
-export const getUserFollowers = async (userId: string): Promise<GetUserFollow[]> => {
-    return await getUserFollows(userId, '', MAX_INTEGER_VALUE);
-};
-
 export const getCurrentUser = async (): Promise<ValidateTokenResponse> => {
     return await validateToken();
-};
-
-export const getNumberOfLivestreams = async (): Promise<number | null> => {
-    let nrStreams = 0;
-
-    // The first time it's installed, there's no token, so it shouldn't render the icon
-    const token: string = localStorageService.getToken();
-
-    if (!token) {
-        return null;
-    }
-
-    const user: ValidateTokenResponse = await getCurrentUser();
-
-    if (user) {
-        const streams: GetFollowedStreamsResponse = await getFollowedStreams(user.user_id);
-        nrStreams = streams.data.length;
-    }
-
-    return nrStreams;
 };
 
 export const getFollowedLivestreams = async (
@@ -108,17 +71,55 @@ export const getFollowedLivestreams = async (
     return response;
 };
 
+export const getAllFollowedStreams = async (userId: string): Promise<FollowedLivestream[]> => {
+    try {
+        let streams: FollowedLivestream[] = [];
+        let response: FollowedLivestreamResponse;
+        let cursor: string | undefined = '';
+        do {
+            response = await getFollowedLivestreams(userId, cursor);
+
+            cursor = response?.cursor;
+            streams = [...streams, ...response.data];
+        } while (response?.cursor);
+
+        return streams;
+    } catch (e) {
+        console.error('Error getting followed streams', e?.response?.data || e.message);
+        throw e;
+    }
+};
+
+export const getNumberOfLivestreams = async (): Promise<number | null> => {
+    let nrStreams = 0;
+    // The first time it's installed, there's no token, so it shouldn't render the icon
+    const token: string = localStorageService.getToken();
+    if (!token) {
+        return null;
+    }
+    const user: ValidateTokenResponse = await getCurrentUser();
+
+    if (user) {
+        const streams: FollowedLivestream[] = await getAllFollowedStreams(user.user_id);
+        nrStreams = streams.length;
+    }
+
+    return nrStreams;
+};
+
 export const getJustWentLive = async () => {
     const user: ValidateTokenResponse = await getCurrentUser();
 
-    const livestreams: FollowedLivestreamResponse = await getFollowedLivestreams(user.user_id);
+    const livestreams: FollowedLivestream[] = await getAllFollowedStreams(user.user_id);
 
     const nowUTC: Date = new Date(new Date().getTime());
 
-    return livestreams.data.filter(
+    return livestreams.filter(
         (stream: FollowedLivestream) =>
-            Math.round((nowUTC.getTime() - new Date(stream.started_at).getTime()) / (60 * 1000)) <=
-            POOLING_JUST_WENT_LIVE,
+            Math.round(
+                (nowUTC.getTime() - new Date(stream.started_at).getTime()) /
+                    ONE_MINUTE_IN_MILLISECONDS,
+            ) <= POOLING_JUST_WENT_LIVE,
     );
 };
 

@@ -2,12 +2,8 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import { API_BASE_URL, CLIENT_ID, OAUTH_BASE_URL } from '../../config';
 import {
     GetFollowedStreamsResponse,
-    GetGame,
-    GetGamesResponse,
     GetStreamsResponse,
     GetUser,
-    GetUserFollow,
-    GetUserFollowsResponse,
     GetUsersResponse,
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
@@ -57,41 +53,6 @@ export const validateToken = async (): Promise<ValidateTokenResponse> => {
     }
 };
 
-export const getUserFollows = async (
-    fromId = '',
-    toId = '',
-    first = 20,
-): Promise<GetUserFollow[]> => {
-    if (!fromId && !toId) {
-        throw new Error('At minimum, from_id or to_id must be provided for a query to be valid.');
-    }
-
-    try {
-        let follows: GetUserFollow[] = [];
-        let response: AxiosResponse<GetUserFollowsResponse>;
-        let cursor: string | undefined = '';
-
-        do {
-            const url = new URL(`${API_BASE_URL}/users/follows`);
-
-            fromId && url.searchParams.append('from_id', fromId);
-            toId && url.searchParams.append('to_id', toId);
-            url.searchParams.append('first', first.toString());
-            cursor && url.searchParams.append('after', cursor);
-
-            response = await getApiInstance().get(url.href);
-
-            cursor = response.data?.pagination?.cursor;
-            follows = [...follows, ...response.data.data];
-        } while (response.data?.pagination?.cursor);
-
-        return follows;
-    } catch (e) {
-        console.error('Error getting followers', e?.response?.data || e.message);
-        throw e;
-    }
-};
-
 export const getStreams = async (
     after = '',
     before = '',
@@ -136,28 +97,6 @@ export const getUsers = async (ids: string[] = [], login: string[] = []): Promis
         return response.data.data;
     } catch (e) {
         console.error('Error getting users', e?.response?.data || e.message);
-        throw e;
-    }
-};
-
-export const getGames = async (ids: string[] = [], names: string[] = []): Promise<GetGame[]> => {
-    try {
-        let games: GetGame[] = [];
-        let response: AxiosResponse<GetGamesResponse>;
-        let cursor: string | undefined;
-        do {
-            response = await getApiInstance().get(`${API_BASE_URL}/games?
-            ${ids.map((id) => `&id=${id}`).join('')}
-            ${names.map((name) => `&name=${name}`).join('')}
-            ${cursor ? `&after=${cursor}` : ''}`);
-
-            cursor = response.data?.pagination?.cursor;
-            games = [...games, ...response.data.data];
-        } while (response.data?.pagination?.cursor);
-
-        return games;
-    } catch (e) {
-        console.error('Error getting games', e?.response?.data || e.message);
         throw e;
     }
 };

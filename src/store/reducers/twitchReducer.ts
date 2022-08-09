@@ -4,13 +4,12 @@ import { setLoadFinished, setLoading, setLoadingMore } from './commonReducer';
 import { revokeToken } from '../../infrastructure/twitch/twitchRepository';
 import {
     FollowedLivestream,
-    FollowedLivestreamResponse,
     TopLivestreamResponse,
     ValidateTokenResponse,
 } from '../../domain/infrastructure/twitch/twitch';
 import {
+    getAllFollowedStreams,
     getCurrentUser,
-    getFollowedLivestreams,
     getTopTwitchLiveStreams,
 } from '../../infrastructure/twitch/twitchService';
 import {
@@ -73,14 +72,8 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) =
     try {
         const user: ValidateTokenResponse = await getCurrentUser();
 
-        let response: FollowedLivestreamResponse = {} as FollowedLivestreamResponse;
-        let data: FollowedLivestream[] = [];
-
-        do {
-            response = await getFollowedLivestreams(user.user_id, response.cursor);
-            data = [...data, ...response.data];
-            dispatch(saveLivestreams(data));
-        } while (response.cursor);
+        const data: FollowedLivestream[] = await getAllFollowedStreams(user.user_id);
+        dispatch(saveLivestreams(data));
 
         await updateBadgeIcon(data.length);
     } catch (e) {
@@ -93,7 +86,7 @@ export const getLiveStreams = (): AppThunk<void> => async (dispatch, getState) =
 /**
  * Get top live streams
  */
-export const getTopLiveStreams = (): AppThunk<void> => async (dispatch, getState) => {
+export const getTopLiveStreams = (): AppThunk<void> => async (dispatch) => {
     dispatch(setLoading());
     try {
         dispatch(setLoadFinished(false));
