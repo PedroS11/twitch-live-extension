@@ -19,7 +19,7 @@ export const getToken = (): string => getStorageData(TOKEN_KEY) || '';
 export const storeToken = (token: string) => setStorageData(TOKEN_KEY, token);
 
 /**
- * saves the current state of the notifcations
+ * saves the current state of the notifications
  * @param {boolean} state - Notifications flag
  */
 export const storeNotificationsFlag = (state: boolean) =>

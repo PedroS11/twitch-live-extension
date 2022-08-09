@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.0 (Aug 5th 2022)
+
+### Functionalities:
+- Adds explore livestreams option
+- UI refactor
+
 ## 3.2.1 (May 6th, 2022)
 
 ### Fixes:

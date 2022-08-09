@@ -1,6 +1,6 @@
-import { browser } from 'webextension-polyfill-ts';
-import { MESSAGE_TYPES } from '../../domain/infrastructure/background/constants';
 import { BackgroundMessage } from '../../domain/infrastructure/background/backgroundMessage';
+import { MESSAGE_TYPES } from '../../domain/infrastructure/background/constants';
+import { browser } from 'webextension-polyfill-ts';
 
 export const sendEnableNotifMessage = async () =>
     await browser.runtime.sendMessage({

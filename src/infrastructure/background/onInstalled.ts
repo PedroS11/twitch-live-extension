@@ -1,6 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 import changelogs from '../../changelogsMapping.json';
 
+// Open a tab with the changelog for the installed version
 export const processOnInstallEvents = async () => {
     const { installType } = await browser.management.getSelf();
 
