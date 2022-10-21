@@ -1,0 +1,29 @@
+{
+  "name": "Twitch Live Extension",
+  "description": "A browser extension that lists your live followed streamers and sends notifications when they start a new stream",
+  "version": "3.3.0",
+  "author": "Pedro Silva",
+  "permissions": [
+    "identity",
+    "notifications",
+    "alarms",
+    "https://static-cdn.jtvnw.net/jtv_user_pictures/*"
+  ],
+  "background": {
+    "scripts": [
+      "browser-polyfill.js",
+      "static/js/background.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Twitch Live",
+    "default_popup": "index.html"
+  },
+  "manifest_version": 2,
+  "icons": {
+    "16": "assets/logoTwitch16.png",
+    "48": "assets/logoTwitch48.png",
+    "128": "assets/logoTwitch128.png"
+  }
+}

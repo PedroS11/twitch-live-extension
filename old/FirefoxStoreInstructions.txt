@@ -1,0 +1,5 @@
+- Create a twitch account
+- Login on https://dev.twitch.tv/console
+- Create a new app
+- Add the extension ID to the oauth urls, like https://779651809f819e087e74fbbf6887c1d03853a22f.extensions.allizom.org
+- Install extension, log in and test it
