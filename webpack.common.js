@@ -1,11 +1,11 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin')
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
     entry: {
-        popup: path.resolve('src/popup/popup.tsx'),
+        index: path.resolve('src/popup/popup.tsx'),
         background: path.resolve('src/background/background.ts')
     },
     module: {
@@ -40,8 +40,8 @@ module.exports = {
         }),
         new HtmlPlugin({
             title: "Twitch Live Extension",
-            filename: "popup.html",
-            chunks: ['popup']
+            filename: "index.html",
+            chunks: ['index']
         })
     ],
     resolve: {
@@ -55,5 +55,9 @@ module.exports = {
         splitChunks: {
             chunks: "all"
         }
-    }
+    },
+    devServer: {
+        static: './dist',
+        hot: true,
+    },
 }
