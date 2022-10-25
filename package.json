@@ -6,7 +6,9 @@
   "scripts": {
     "start": "webpack --watch --progress --config webpack.dev.js",
     "build": "webpack --progress --config webpack.prod.js",
-    "dev": "webpack serve --config webpack.dev.js --open"
+    "dev": "webpack serve --config webpack.dev.js --open",
+    "lint": "eslint --ext .js,.ts,.jsx,.tsx src",
+    "format": "yarn run lint --fix & yarn prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "repository": {
     "type": "git",
@@ -25,10 +27,16 @@
     "@types/chrome": "^0.0.199",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.31.10",
     "html-webpack-plugin": "^5.5.0",
+    "prettier": "^2.7.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "style-loader": "^3.3.1",
