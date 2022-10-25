@@ -26,6 +26,7 @@ yarn.lock
 
 .idea
 /old/src/config.ts
+/src/config.ts
 
 build.zip
 .eslintcache
