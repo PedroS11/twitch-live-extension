@@ -55,9 +55,5 @@ module.exports = {
         splitChunks: {
             chunks: "all"
         }
-    },
-    devServer: {
-        static: './dist',
-        hot: true,
-    },
+    }
 }
