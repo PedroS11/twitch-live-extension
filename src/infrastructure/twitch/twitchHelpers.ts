@@ -1,6 +1,5 @@
 import { axiosInterceptor } from "../axios/axiosInterceptor";
 import axios, { AxiosInstance } from "axios";
-import { sendGetTokenMessage } from "../../../old/src/infrastructure/background/messageWrapper";
 import { getTokenFromStorage } from "../localStorage/localStorageService";
 import {
 	TwitchFollowedStream,
@@ -8,6 +7,7 @@ import {
 	TwitchUser,
 } from "../../domain/twitch/api";
 import { FollowedStream, TopStream } from "../../domain/twitch/service";
+import { sendGetTokenMessage } from "../background/messageWrapper";
 
 export const getRefreshToken = async (promptPopup = false): Promise<string> => {
 	await sendGetTokenMessage(promptPopup);

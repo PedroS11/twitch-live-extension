@@ -1,8 +1,8 @@
 import React from "react";
+import { Header } from "../../components/common/header/Header";
 const App = () => (
 	<div>
-		<div>a</div>
-		<div>ozzla</div>
+		<Header />
 	</div>
 );
 
