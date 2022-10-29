@@ -26,12 +26,11 @@ export const getToken = async (): Promise<string> => {
     }
 };
 
-export const createAxiosInstance = (clientId = ''): AxiosInstance => {
-    return axiosInterceptor(
+export const createAxiosInstance = (clientId = ''): AxiosInstance =>
+    axiosInterceptor(
         axios.create({
             headers: {
                 ...(clientId && { 'Client-Id': clientId }),
             },
         }),
     );
-};

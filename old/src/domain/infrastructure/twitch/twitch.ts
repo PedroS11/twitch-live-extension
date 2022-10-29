@@ -107,7 +107,6 @@ export interface TopLivestream {
     url: string;
     display_name: string;
     profile_image_url: string;
-    thumbnail_url: string;
     title: string;
     game: string;
     viewer_count: number;

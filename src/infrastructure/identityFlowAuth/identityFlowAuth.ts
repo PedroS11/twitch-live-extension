@@ -5,6 +5,7 @@ import {
 	OAUTH_BASE_URL,
 } from "../../config";
 import { v4 as uuidv4 } from "uuid";
+import { launchWebAuthFlow } from "../chrome/identity";
 
 const getAuthURL = (securityToken: string, promptVerify = false): string => {
 	let redirectUrl: string = chrome.identity.getRedirectURL();
@@ -18,33 +19,13 @@ const getAuthURL = (securityToken: string, promptVerify = false): string => {
 	)}`;
 };
 
-const launchWebAuthFlow = async (
-	url: string,
-	interactive: boolean,
-): Promise<string> =>
-	new Promise((resolve) => {
-		chrome.identity.launchWebAuthFlow(
-			{
-				url,
-				interactive,
-			},
-			(responseUrl) => resolve(responseUrl),
-		);
-	});
-
 export const fetchToken = async (promptVerify = false): Promise<string> => {
 	const securityToken: string = uuidv4();
-
-	console.log("securityToken", securityToken);
-
-	console.log("AUTH URL", getAuthURL(securityToken, promptVerify));
 
 	const redirectURL = await launchWebAuthFlow(
 		getAuthURL(securityToken, promptVerify),
 		promptVerify,
 	);
-
-	console.log("redirectURL", redirectURL);
 
 	const url = new URL(redirectURL);
 	const queryParams: URLSearchParams = new URLSearchParams(
