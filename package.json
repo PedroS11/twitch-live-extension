@@ -29,6 +29,7 @@
   "devDependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
     "@types/chrome": "^0.0.199",
     "@types/react": "^18.0.21",

@@ -21,6 +21,7 @@ export const Header = () => {
 			console.log("RESPO", response);
 		})();
 	}, []);
+
 	return (
 		<StyledTypography variant={"h4"} align={"center"}>
 			<StyledLink
