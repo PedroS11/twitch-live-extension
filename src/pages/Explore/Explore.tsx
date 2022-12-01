@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import {
-	FollowedStreamsList,
-	MAX_HEIGHT,
-} from "../FollowedStreams/FollowedStreamsList";
 import { useTwitchStore } from "../../store/twitch";
 import { Typography } from "@mui/material";
 import { CircularProgress } from "../../components/circularProgress/CircularProgress";
+import {
+	MAX_HEIGHT,
+	StreamsList,
+} from "../../components/streamsList/StreamsList";
 
 const isAtTheBottom = (event: any): boolean => {
 	// The total height you can scroll
@@ -55,7 +55,7 @@ export const Explore = () => {
 				</Typography>
 			)}
 			{!loading && topLivestreams.length > 0 && (
-				<FollowedStreamsList
+				<StreamsList
 					liveStreams={topLivestreams}
 					onScroll={async (e: any) => await loadMoreItems(e)}
 					loadingMore={loadingMore}

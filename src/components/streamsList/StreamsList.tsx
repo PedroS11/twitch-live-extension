@@ -4,7 +4,7 @@ import { List, ListProps } from "@mui/material";
 import { FollowedStream } from "../../domain/twitch/service";
 import { CircularProgress } from "../../components/circularProgress/CircularProgress";
 import styled from "@emotion/styled";
-import { FollowedStreamsListItem } from "./FollowedStreamsListItem";
+import { StreamsListItem } from "./StreamsListItem";
 
 interface FollowsStreamListProps {
 	liveStreams: FollowedStream[];
@@ -14,7 +14,7 @@ interface FollowsStreamListProps {
 
 export const MAX_HEIGHT = 400;
 
-const StreamsList = styled(List)<ListProps>(() => ({
+const StreamsListWrapper = styled(List)<ListProps>(() => ({
 	maxHeight: MAX_HEIGHT,
 	overflow: "auto",
 	paddingTop: 0,
@@ -31,18 +31,18 @@ const StreamsList = styled(List)<ListProps>(() => ({
 	},
 }));
 
-export const FollowedStreamsList = ({
+export const StreamsList = ({
 	liveStreams,
 	onScroll,
 	loadingMore,
 }: FollowsStreamListProps) => {
 	return (
-		<StreamsList onScroll={onScroll}>
+		<StreamsListWrapper onScroll={onScroll}>
 			{liveStreams.map((elem: FollowedStream) => (
-				<FollowedStreamsListItem key={elem.id} livestream={elem} />
+				<StreamsListItem key={elem.id} livestream={elem} />
 				// <div key={elem.id}>{elem.id}</div>
 			))}
 			{loadingMore && <CircularProgress />}
-		</StreamsList>
+		</StreamsListWrapper>
 	);
 };

@@ -19,7 +19,7 @@ import {
 	getElapsedTime,
 } from "../../infrastructure/utils/formatter";
 import { PopperTitle } from "./PopperTittle";
-import { ViewerIcon } from "../../components/svg/viewerIcon";
+import { ViewerIcon } from "../svg/viewerIcon";
 
 interface FollowsLivestreamListItemProps {
 	livestream: FollowedStream;
@@ -40,7 +40,7 @@ const ElapsedTimeText = styled(Typography)<TypographyProps>(() => ({
 	paddingBottom: 4,
 }));
 
-export const FollowedStreamsListItem = ({
+export const StreamsListItem = ({
 	livestream,
 }: FollowsLivestreamListItemProps) => {
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);

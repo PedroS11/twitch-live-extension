@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useTwitchStore } from "../../store/twitch";
 import { CircularProgress } from "../../components/circularProgress/CircularProgress";
 import { Typography } from "@mui/material";
-import { FollowedStreamsList } from "./FollowedStreamsList";
+import { StreamsList } from "../../components/streamsList/StreamsList";
 
-const FollowedStreamsPage = () => {
+const FollowedStreams = () => {
 	const getLivestreams = useTwitchStore((state) => state.getLivestreams);
 	const resetLivestreams = useTwitchStore((state) => state.resetLivestreams);
 	const { livestreams, loading } = useTwitchStore((state) => ({
@@ -26,9 +26,9 @@ const FollowedStreamsPage = () => {
 			)}
 
 			{loading && <CircularProgress />}
-			{!loading && <FollowedStreamsList liveStreams={livestreams} />}
+			{!loading && <StreamsList liveStreams={livestreams} />}
 		</>
 	);
 };
 
-export default FollowedStreamsPage;
+export default FollowedStreams;

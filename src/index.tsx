@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import darkTheme from "./theme/darkTheme";
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import FollowedStreamsPage from "./pages/FollowedStreams/FollowedStreamsPage";
+import FollowedStreams from "./pages/FollowedStreams/FollowedStreams";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "./components/common/header/Header";
 import { Footer } from "./components/common/footer/Footer";
@@ -19,7 +19,7 @@ const routing = (
 			<Routes>
 				<Route path={"/explore"} element={<Explore />} />
 				<Route path={"/settings"} element={<Settings />} />
-				<Route path="*" element={<FollowedStreamsPage />} />
+				<Route path="*" element={<FollowedStreams />} />
 			</Routes>
 			<Footer />
 		</BrowserRouter>
