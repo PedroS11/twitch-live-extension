@@ -9,7 +9,6 @@ import { launchWebAuthFlow } from "../chrome/identity";
 
 const getAuthURL = (securityToken: string, promptVerify = false): string => {
 	let redirectUrl: string = chrome.identity.getRedirectURL();
-	console.log("redirectUrl", redirectUrl);
 	if (redirectUrl.slice(-1) === "/") {
 		redirectUrl = redirectUrl.slice(0, -1);
 	}

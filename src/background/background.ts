@@ -52,14 +52,3 @@ chrome.notifications.onClicked.addListener(
 chrome.runtime.onInstalled.addListener(
 	async () => await processOnInstallEvents(),
 );
-
-console.log("AHAHHA");
-
-console.log("background is running"); // Now visible ✅
-
-const handler = (req, sender, sendResponse) => {
-	console.log("REQ", JSON.stringify(req));
-	sendResponse({ data: "hi" });
-};
-
-chrome.runtime.onMessage.addListener(handler);

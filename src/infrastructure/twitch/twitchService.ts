@@ -39,9 +39,8 @@ export const getUserById = async (userId: string): Promise<TwitchUser> => {
 /**
  * Gets the token information for the current logged in user
  */
-export const getCurrentUser = async (): Promise<ValidateTokenResponse> => {
-	return await validateTwitchToken();
-};
+export const getCurrentUser = async (): Promise<ValidateTokenResponse> =>
+	validateTwitchToken();
 
 export const getFollowedStreams = async (
 	userId: string,

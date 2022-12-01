@@ -18,7 +18,10 @@ export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
 		(response) => response,
 		async (error) => {
 			const originalRequest = error.config;
-			originalRequest._retryCount = ++originalRequest._retryCount || 1;
+
+			originalRequest._retryCount = originalRequest?._retryCount
+				? ++originalRequest._retryCount
+				: 1;
 
 			if (originalRequest._retryCount < 3) {
 				const forceAuthenticationPopup: boolean = [401, 403].includes(

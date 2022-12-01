@@ -4,7 +4,7 @@ import { Link, LinkProps, Typography, TypographyProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const StyledTypography = styled(Typography)<TypographyProps>(() => ({
-	marginbottom: 5,
+	marginBottom: 5,
 }));
 
 const StyledLink = styled(Link)<LinkProps>(() => ({

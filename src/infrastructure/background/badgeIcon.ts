@@ -7,10 +7,10 @@ export const displayNumberOfLivestreams = async (nrStreams: number | null) => {
 	}
 
 	const formattedNumber: string = formatViewers(nrStreams || 0);
-	await chrome.browserAction.setBadgeBackgroundColor({
+	await chrome.action.setBadgeBackgroundColor({
 		color: [76, 76, 76, 255],
 	});
-	await chrome.browserAction.setBadgeText({ text: formattedNumber });
+	await chrome.action.setBadgeText({ text: formattedNumber });
 };
 
 export const processBadgeIconAlarm = async () => {
