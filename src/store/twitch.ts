@@ -76,9 +76,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 		try {
 			const user: ValidateTokenResponse = await getCurrentUser();
 			const data: FollowedStream[] = await getAllFollowedStreams(user.user_id);
-			set({
-				livestreams: data,
-			});
+			get().saveLivestreams(data);
 			await updateBadgeIcon(data.length);
 		} catch (e) {
 			console.log("An unexpected error was thrown", e);
@@ -119,9 +117,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 			});
 
 			if (!moreTopStreams.cursor) {
-				set({
-					loadingMoreFinished: true,
-				});
+				get().setLoadingMoreFinished(true);
 			}
 		} catch (e) {
 			console.log("An unexpected error was thrown", e);
@@ -140,9 +136,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 				cursor: streams.cursor,
 			});
 			if (!streams.cursor) {
-				set({
-					loadingMoreFinished: true,
-				});
+				get().setLoadingMoreFinished(true);
 			}
 		} catch (e) {
 			console.log("An unexpected error was thrown", e);
