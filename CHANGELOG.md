@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.4.0
+## 4.0.0
 
 ### Functionalities:
 Migrate extension code to support Manifest Version 3 standards
