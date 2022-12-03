@@ -10,8 +10,18 @@ import {
 	getTopStreams,
 } from "../infrastructure/twitch/twitchService";
 import { ValidateTokenResponse } from "../domain/twitch/api";
-import { updateBadgeIcon } from "../infrastructure/background/messageWrapper";
+import {
+	sendDisableNotificationMessage,
+	sendEnableNotificationMessage,
+	sendGetTokenMessage,
+	updateBadgeIcon,
+} from "../infrastructure/background/messageWrapper";
 import { clearDuplicatedStreams } from "../infrastructure/utils/clearDuplicatedStreams";
+import {
+	clearTokenFromStorage,
+	storeNotificationsFlagOnStorage,
+} from "../infrastructure/localStorage/localStorageService";
+import { revokeTwitchToken } from "../infrastructure/twitch/twitchRepository";
 
 export interface TwitchState {
 	loading: boolean;
@@ -31,6 +41,8 @@ export interface TwitchState {
 	getUser: () => Promise<ValidateTokenResponse>;
 	fetchMoreTopLivestreams: () => void;
 	getTopLivestreams: () => void;
+	updateNotificationState: (flag: boolean) => void;
+	switchAccount: () => void;
 }
 
 export const useTwitchStore = create<TwitchState>()((set, get) => ({
@@ -99,16 +111,6 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 			const moreTopStreams: TopStreamResponse = await getTopStreams(
 				get().cursor,
 			);
-
-			console.log(
-				"TOP",
-				get().topLivestreams.map((e) => e.user_id),
-			);
-			console.log(
-				"MORE",
-				moreTopStreams.data.map((e) => e.user_id),
-			);
-
 			const mergedList = [...get().topLivestreams, ...moreTopStreams.data];
 
 			set({
@@ -142,6 +144,31 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 					loadingMoreFinished: true,
 				});
 			}
+		} catch (e) {
+			console.log("An unexpected error was thrown", e);
+		} finally {
+			get().setLoading();
+		}
+	},
+
+	updateNotificationState: async (flag: boolean) => {
+		get().setLoading();
+		await storeNotificationsFlagOnStorage(flag);
+
+		if (flag) {
+			await sendEnableNotificationMessage();
+		} else {
+			await sendDisableNotificationMessage();
+		}
+		get().setLoading();
+	},
+
+	switchAccount: async () => {
+		get().setLoading();
+		try {
+			await revokeTwitchToken();
+			await clearTokenFromStorage();
+			await sendGetTokenMessage(true);
 		} catch (e) {
 			console.log("An unexpected error was thrown", e);
 		} finally {

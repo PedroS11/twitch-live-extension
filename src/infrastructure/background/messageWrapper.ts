@@ -6,7 +6,7 @@ export const sendEnableNotificationMessage = async () =>
 		type: MESSAGE_TYPES.ENABLE_NOTIFICATIONS,
 	} as BackgroundMessage);
 
-export const sendDisableNotifMessage = async () =>
+export const sendDisableNotificationMessage = async () =>
 	await chrome.runtime.sendMessage({
 		type: MESSAGE_TYPES.DISABLE_NOTIFICATIONS,
 	} as BackgroundMessage);

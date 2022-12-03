@@ -13,6 +13,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { ValidateTokenResponse } from "../../domain/twitch/api";
 import { styled } from "@mui/material/styles";
+import { useTwitchStore } from "../../store/twitch";
 
 interface SwitchAccountProps {
 	user: ValidateTokenResponse;
@@ -40,10 +41,8 @@ const SwitchAccountButton = styled(IconButton)<IconButtonProps>(() => ({
 }));
 
 export const SwitchAccount = ({ user }: SwitchAccountProps) => {
-	// const classes = useStyles();
-	// const dispatch: AppDispatch = useDispatch();
-	//
-	// const { loading } = useSelector((state: RootState) => state.common);
+	const loading = useTwitchStore((state) => state.loading);
+	const switchAccount = useTwitchStore((state) => state.switchAccount);
 
 	return (
 		<Wrapper dense>
@@ -62,8 +61,8 @@ export const SwitchAccount = ({ user }: SwitchAccountProps) => {
 					edge="end"
 					aria-label="delete"
 					size={"small"}
-					disabled={false}
-					// onClick={async () => await dispatch(switchAccount())}
+					disabled={loading}
+					onClick={async () => await switchAccount()}
 				>
 					<ExitToAppIcon />
 				</SwitchAccountButton>

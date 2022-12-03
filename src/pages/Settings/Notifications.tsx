@@ -12,6 +12,8 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { blue } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
+import { getNotificationFlagFromStorage } from "../../infrastructure/localStorage/localStorageService";
+import { useTwitchStore } from "../../store/twitch";
 
 const Wrapper = styled(ListItem)<ListItemProps>(() => ({
 	height: 50,
@@ -39,19 +41,24 @@ const NotificationSwitch = styled(Switch)<SwitchProps>(() => ({
 }));
 
 export const Notifications = () => {
-	// const classes = useStyles();
 	const [notificationsFlag, setNotificationsFlag] = useState<boolean>(false);
-	// const dispatch: AppDispatch = useDispatch();
-	//
-	// const { loading } = useSelector((state: RootState) => state.common);
 
-	// useEffect(() => {
-	// 	setNotificationsFlag(getNotificationFlagFromStorage());
-	// }, [dispatch]);
+	const loading = useTwitchStore((state) => state.loading);
+	const updateNotificationState = useTwitchStore(
+		(state) => state.updateNotificationState,
+	);
+
+	useEffect(() => {
+		const getFlag = async () => {
+			const flag = await getNotificationFlagFromStorage();
+			setNotificationsFlag(flag);
+		};
+		getFlag();
+	}, []);
 
 	const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNotificationsFlag(event.target.checked);
-		// await dispatch(updateNotificationsState(event.target.checked));
+		await updateNotificationState(event.target.checked);
 	};
 
 	return (
@@ -67,7 +74,7 @@ export const Notifications = () => {
 					name="notifications-state"
 					color="primary"
 					inputProps={{ "aria-label": "secondary checkbox" }}
-					// disabled={loading}
+					disabled={loading}
 				/>
 			</ListItemSecondaryAction>
 		</Wrapper>
