@@ -18,13 +18,12 @@ export const getRefreshToken = async (promptPopup = false): Promise<string> => {
 
 export const getToken = async (): Promise<string> => {
 	try {
-		console.log("getToken-init");
 		const tokenStorage = await getTokenFromStorage();
-		console.log("getToken-toke", tokenStorage);
+
 		if (!tokenStorage) {
-			console.log("Send getToken");
-			const x = await sendGetTokenMessage(true);
-			console.log("END", x);
+			// As soon as Mozilla supports background messages returning data
+			// We can read the token as a background response instead of getting it from the storage
+			await sendGetTokenMessage(true);
 			return await getTokenFromStorage();
 		}
 		return tokenStorage;

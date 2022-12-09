@@ -19,14 +19,16 @@ import { processOnInstallEvents } from "../infrastructure/background/onInstalled
 
 chrome.alarms.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 });
 
+// Chrome doesn't support promises on the OnMessage callback, so I had to use .then
+// Reference: https://stackoverflow.com/questions/53024819/chrome-extension-sendresponse-not-waiting-for-async-function
+// On Manifest V2 version of the extension, I was using a Mozilla polyfill that would make the promises work
 chrome.runtime.onMessage.addListener(
 	(msg: BackgroundMessage, _, sendResponse) => {
 		if (msg.type === MESSAGE_TYPES.GET_TOKEN) {
 			fetchToken(!!msg.data.prompt)
 				.then((token) => {
-					console.log("BACK", token);
 					// Since on Firefox the onMessage listener doesn't return the response
-					// I need to call storeToken here instead of in the method that requests the token
+					// I need to call storeToken here instead of returning the token
 					return storeTokenOnStorage(token);
 				})
 				.then(() => sendResponse());
@@ -34,6 +36,7 @@ chrome.runtime.onMessage.addListener(
 			chrome.alarms.create(POOLING_ALARM_NAME, {
 				periodInMinutes: POOLING_JUST_WENT_LIVE,
 			} as chrome.alarms.AlarmCreateInfo);
+			sendResponse();
 		} else if (msg.type === MESSAGE_TYPES.DISABLE_NOTIFICATIONS) {
 			chrome.alarms.clear(POOLING_ALARM_NAME).then(() => {
 				sendResponse();
