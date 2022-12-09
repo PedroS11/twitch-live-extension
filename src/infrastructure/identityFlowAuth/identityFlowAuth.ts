@@ -18,14 +18,36 @@ const getAuthURL = (securityToken: string, promptVerify = false): string => {
 	)}`;
 };
 
+const asPromised = (block) => {
+	return new Promise((resolve, reject) => {
+		block((...results) => {
+			if (chrome.runtime.lastError) {
+				reject(chrome.extension.lastError);
+			} else {
+				// @ts-ignore
+				resolve(...results);
+			}
+		});
+	});
+};
+
 export const fetchToken = async (promptVerify = false): Promise<string> => {
 	const securityToken: string = uuidv4();
 
-	const redirectURL = await launchWebAuthFlow(
-		getAuthURL(securityToken, promptVerify),
-		promptVerify,
-	);
+	console.log("PRE");
+	const redirectURL = await asPromised((callback) => {
+		chrome.identity.launchWebAuthFlow(
+			{
+				url: getAuthURL(securityToken, promptVerify),
+				interactive: promptVerify,
+			},
+			callback,
+		);
+	});
 
+	console.log("POS");
+
+	// @ts-ignore
 	const url = new URL(redirectURL);
 	const queryParams: URLSearchParams = new URLSearchParams(
 		url.hash.substring(1),

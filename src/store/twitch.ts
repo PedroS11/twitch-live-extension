@@ -74,8 +74,11 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 	getLivestreams: async () => {
 		get().setLoading();
 		try {
+			console.log("CURRE");
 			const user: ValidateTokenResponse = await getCurrentUser();
+			console.log("FOLLO");
 			const data: FollowedStream[] = await getAllFollowedStreams(user.user_id);
+			console.log("DATA");
 			get().saveLivestreams(data);
 			await updateBadgeIcon(data.length);
 		} catch (e) {

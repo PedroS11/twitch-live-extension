@@ -18,16 +18,21 @@ export const getRefreshToken = async (promptPopup = false): Promise<string> => {
 
 export const getToken = async (): Promise<string> => {
 	try {
+		console.log("getToken-init");
 		const tokenStorage = await getTokenFromStorage();
-
+		console.log("getToken-toke", tokenStorage);
 		if (!tokenStorage) {
-			await sendGetTokenMessage(true);
-
+			console.log("Send getToken");
+			const x = await sendGetTokenMessage(true);
+			console.log("END", x);
 			return await getTokenFromStorage();
 		}
 		return tokenStorage;
 	} catch (e) {
-		console.error("Error getting token", e?.response?.data || e.message);
+		console.error(
+			"Error getting token",
+			JSON.stringify(e?.response?.data) || e.message,
+		);
 		throw e;
 	}
 };

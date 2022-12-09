@@ -19,22 +19,33 @@ import { processOnInstallEvents } from "../infrastructure/background/onInstalled
 
 chrome.alarms.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 });
 
-chrome.runtime.onMessage.addListener(async (msg: BackgroundMessage) => {
-	if (msg.type === MESSAGE_TYPES.GET_TOKEN) {
-		const token = await fetchToken(!!msg.data.prompt);
-		// Since on Firefox the onMessage listener doesn't return the response
-		// I need to call storeToken here instead of in the method that requests the token
-		await storeTokenOnStorage(token);
-	} else if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
-		chrome.alarms.create(POOLING_ALARM_NAME, {
-			periodInMinutes: POOLING_JUST_WENT_LIVE,
-		} as chrome.alarms.AlarmCreateInfo);
-	} else if (msg.type === MESSAGE_TYPES.DISABLE_NOTIFICATIONS) {
-		await chrome.alarms.clear(POOLING_ALARM_NAME);
-	} else if (msg.type === MESSAGE_TYPES.UPDATE_BADGE_ICON) {
-		await displayNumberOfLivestreams(msg.data.nrStreams);
-	}
-});
+chrome.runtime.onMessage.addListener(
+	(msg: BackgroundMessage, _, sendResponse) => {
+		if (msg.type === MESSAGE_TYPES.GET_TOKEN) {
+			fetchToken(!!msg.data.prompt)
+				.then((token) => {
+					console.log("BACK", token);
+					// Since on Firefox the onMessage listener doesn't return the response
+					// I need to call storeToken here instead of in the method that requests the token
+					return storeTokenOnStorage(token);
+				})
+				.then(() => sendResponse());
+		} else if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
+			chrome.alarms.create(POOLING_ALARM_NAME, {
+				periodInMinutes: POOLING_JUST_WENT_LIVE,
+			} as chrome.alarms.AlarmCreateInfo);
+		} else if (msg.type === MESSAGE_TYPES.DISABLE_NOTIFICATIONS) {
+			chrome.alarms.clear(POOLING_ALARM_NAME).then(() => {
+				sendResponse();
+			});
+		} else if (msg.type === MESSAGE_TYPES.UPDATE_BADGE_ICON) {
+			displayNumberOfLivestreams(msg.data.nrStreams).then(() => {
+				sendResponse();
+			});
+		}
+		return true;
+	},
+);
 
 chrome.alarms.onAlarm.addListener(async (alarm: chrome.alarms.Alarm) => {
 	if (alarm.name === POOLING_ALARM_NAME) {

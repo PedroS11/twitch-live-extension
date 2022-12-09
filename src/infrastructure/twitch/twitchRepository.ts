@@ -41,7 +41,10 @@ export const revokeTwitchToken = async (): Promise<void> => {
 			`${OAUTH_BASE_URL}/revoke?client_id=${CLIENT_ID}&token=${token}`,
 		);
 	} catch (e) {
-		console.error("Error revoking token", e?.response?.data || e.message);
+		console.error(
+			"Error revoking token",
+			JSON.stringify(e?.response?.data) || e.message,
+		);
 		throw e;
 	}
 };
@@ -56,7 +59,10 @@ export const validateTwitchToken = async (): Promise<ValidateTokenResponse> => {
 
 		return response.data;
 	} catch (e) {
-		console.error("Error validating the token", e?.response?.data || e.message);
+		console.error(
+			"Error validating the token",
+			JSON.stringify(e?.response?.data) || e.message,
+		);
 		throw e;
 	}
 };
@@ -106,7 +112,10 @@ export const getTwitchStreams = async (
 
 		return response.data;
 	} catch (e) {
-		console.error("Error getting streams", e?.response?.data || e.message);
+		console.error(
+			"Error getting streams",
+			JSON.stringify(e?.response?.data) || e.message,
+		);
 		throw e;
 	}
 };
@@ -128,7 +137,10 @@ export const getTwitchUsers = async (
 
 		return response.data;
 	} catch (e) {
-		console.error("Error getting users", e?.response?.data || e.message);
+		console.error(
+			"Error getting users",
+			JSON.stringify(e?.response?.data) || e.message,
+		);
 		throw e;
 	}
 };
@@ -160,7 +172,7 @@ export const getTwitchFollowedStreams = async (
 	} catch (e) {
 		console.error(
 			"Error getting followed streams",
-			e?.response?.data || e.message,
+			JSON.stringify(e?.response?.data) || e.message,
 		);
 		throw e;
 	}

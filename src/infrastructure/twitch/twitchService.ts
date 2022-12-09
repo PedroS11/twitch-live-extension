@@ -99,7 +99,7 @@ export const getAllFollowedStreams = async (
 	} catch (e) {
 		console.error(
 			"Error getting followed streams",
-			e?.response?.data || e.message,
+			JSON.stringify(e?.response?.data) || e.message,
 		);
 		throw e;
 	}

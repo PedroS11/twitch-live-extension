@@ -16,6 +16,10 @@
   "background": {
     "service_worker": "background.js"
   },
+  "host_permissions": [
+    "https://id.twitch.tv/oauth2/*",
+    "https://api.twitch.tv/helix/*"
+  ],
   "permissions": [
     "identity",
     "notifications",

@@ -15,13 +15,6 @@ const StyledLink = styled(Link)<LinkProps>(() => ({
 }));
 
 export const Header = () => {
-	useEffect(() => {
-		(async () => {
-			const response = await chrome.runtime.sendMessage("AAAA");
-			console.log("RESPO", response);
-		})();
-	}, []);
-
 	return (
 		<StyledTypography variant={"h4"} align={"center"}>
 			<StyledLink
