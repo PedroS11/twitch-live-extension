@@ -16,6 +16,8 @@ import {
 	processOnNotificationClick,
 } from "../infrastructure/background/justWenLiveNotifications";
 import { processOnInstallEvents } from "../infrastructure/background/onInstalled";
+import { queryState } from "../infrastructure/chrome/idle";
+import IdleState = chrome.idle.IdleState;
 
 chrome.alarms.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 });
 
@@ -54,7 +56,12 @@ chrome.alarms.onAlarm.addListener(async (alarm: chrome.alarms.Alarm) => {
 	if (alarm.name === POOLING_ALARM_NAME) {
 		await processJustWentLiveNotificationsAlarm();
 	} else if (alarm.name === BADGE_ICON_ALARM_NAME) {
-		await processBadgeIconAlarm();
+		const state: IdleState = await queryState(15);
+		// With the move to MV3, the alarm running, while computer was sleeping, was
+		// throwing errors getting the token so now I just poll the live streams when the computer is active
+		if (state === "active") {
+			await processBadgeIconAlarm();
+		}
 	}
 });
 

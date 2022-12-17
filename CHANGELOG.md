@@ -3,7 +3,7 @@
 ## 4.0.0
 
 ### Functionalities:
-Migrate extension code to support Manifest Version 3 standards
+Migrate extension to support Manifest Version 3
 
 ## 3.3.0 (Aug 5th 2022)
 
