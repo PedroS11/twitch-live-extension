@@ -21,7 +21,7 @@
     "url": "git+https://github.com/PedroS11/twitch-live-extension.git"
   },
   "author": "Pedro Silva",
-  "license": "MIT",
+  "license" : "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/PedroS11/twitch-live-extension/issues"
   },
