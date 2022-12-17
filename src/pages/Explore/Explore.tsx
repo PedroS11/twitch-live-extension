@@ -15,7 +15,7 @@ const isAtTheBottom = (event: any): boolean => {
 	return scrollPosition + MAX_HEIGHT + 0.5 >= liveStreamListScrollHeight;
 };
 
-export const Explore = () => {
+const Explore = () => {
 	const { loadingMoreFinished, loadingMore, loading, topLivestreams } =
 		useTwitchStore(
 			({ loadingMoreFinished, loadingMore, loading, topLivestreams }) => ({
@@ -65,3 +65,5 @@ export const Explore = () => {
 		</div>
 	);
 };
+
+export default Explore;

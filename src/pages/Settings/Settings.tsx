@@ -6,7 +6,7 @@ import { useTwitchStore } from "../../store/twitch";
 import { ValidateTokenResponse } from "../../domain/twitch/api";
 import { CircularProgress } from "../../components/circularProgress/CircularProgress";
 
-export const Settings = () => {
+const Settings = () => {
 	const loading = useTwitchStore((state) => state.loading);
 	const getUser = useTwitchStore((state) => state.getUser);
 
@@ -35,3 +35,5 @@ export const Settings = () => {
 		</>
 	);
 };
+
+export default Settings;
