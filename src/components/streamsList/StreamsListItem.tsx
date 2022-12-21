@@ -95,6 +95,7 @@ export const StreamsListItem = ({
 							color={"textSecondary"}
 							sx={{
 								fontSize: 11,
+								marginRight: "42px",
 							}}
 						>
 							{livestream.game}
