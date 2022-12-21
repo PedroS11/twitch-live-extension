@@ -32,7 +32,7 @@ const LoggedInUserText = styled("span")(() => ({
 	fontWeight: "bold",
 }));
 
-const SwitchAccountButton = styled(IconButton)<IconButtonProps>(() => ({
+const LogOutAccountButton = styled(IconButton)<IconButtonProps>(() => ({
 	textTransform: "none",
 	backgroundColor: "rgba(169, 112, 255, 0.4)",
 	"&:hover": {
@@ -40,9 +40,9 @@ const SwitchAccountButton = styled(IconButton)<IconButtonProps>(() => ({
 	},
 }));
 
-export const SwitchAccount = ({ user }: SwitchAccountProps) => {
+export const LogOutAccount = ({ user }: SwitchAccountProps) => {
 	const loading = useTwitchStore((state) => state.loading);
-	const switchAccount = useTwitchStore((state) => state.switchAccount);
+	const logOutAccount = useTwitchStore((state) => state.logOutAccount);
 
 	return (
 		<Wrapper dense>
@@ -57,15 +57,18 @@ export const SwitchAccount = ({ user }: SwitchAccountProps) => {
 				}
 			/>
 			<ListItemSecondaryAction>
-				<SwitchAccountButton
+				<LogOutAccountButton
 					edge="end"
 					aria-label="delete"
 					size={"small"}
 					disabled={loading}
-					onClick={async () => await switchAccount()}
+					onClick={async () => {
+						await logOutAccount();
+						window.close();
+					}}
 				>
 					<ExitToAppIcon />
-				</SwitchAccountButton>
+				</LogOutAccountButton>
 			</ListItemSecondaryAction>
 		</Wrapper>
 	);

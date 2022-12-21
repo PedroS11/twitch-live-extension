@@ -3,6 +3,7 @@ import { getNumberOfLivestreams } from "../twitch/twitchService";
 
 export const displayNumberOfLivestreams = async (nrStreams: number | null) => {
 	if (nrStreams === null) {
+		await chrome.action.setBadgeText({ text: "" });
 		return;
 	}
 

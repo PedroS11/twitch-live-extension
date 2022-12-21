@@ -28,7 +28,7 @@ you will see the streamers that you follow that are live.
 
 This extension supports _**Just Went Live**_ notifications. If you want to enable them, open the extension, go to **Settings** and enable the _Just Went Live_ notifications.
 
-There's also a button to switch the Twitch account you are logged in.
+There's also a button to log out of the Twitch account you are using on the extension.
 
 The extension is available for [Chrome/Microsoft Edge](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/).
 

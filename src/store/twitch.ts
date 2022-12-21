@@ -42,7 +42,7 @@ export interface TwitchState {
 	fetchMoreTopLivestreams: () => void;
 	getTopLivestreams: () => void;
 	updateNotificationState: (flag: boolean) => void;
-	switchAccount: () => void;
+	logOutAccount: () => void;
 }
 
 export const useTwitchStore = create<TwitchState>()((set, get) => ({
@@ -157,12 +157,13 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 		get().setLoading();
 	},
 
-	switchAccount: async () => {
+	logOutAccount: async () => {
 		get().setLoading();
 		try {
 			await revokeTwitchToken();
 			await clearTokenFromStorage();
-			await sendGetTokenMessage(true);
+			await updateBadgeIcon(null);
+			await sendDisableNotificationMessage();
 		} catch (e) {
 			console.log("An unexpected error was thrown", e);
 		} finally {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SwitchAccount } from "./SwitchAccount";
+import { LogOutAccount } from "./LogOutAccount";
 import { Divider, List } from "@mui/material";
 import { Notifications } from "./Notifications";
 import { useTwitchStore } from "../../store/twitch";
@@ -26,7 +26,7 @@ const Settings = () => {
 		<>
 			{user && (
 				<List>
-					<SwitchAccount user={user} />
+					<LogOutAccount user={user} />
 					<Notifications />
 				</List>
 			)}
