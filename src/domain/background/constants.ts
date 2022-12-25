@@ -1,5 +1,4 @@
 export enum MESSAGE_TYPES {
-	GET_TOKEN = "get-token",
 	ENABLE_NOTIFICATIONS = "enable-notifications",
 	DISABLE_NOTIFICATIONS = "disable-notifications",
 	UPDATE_BADGE_ICON = "update-badge-icon",

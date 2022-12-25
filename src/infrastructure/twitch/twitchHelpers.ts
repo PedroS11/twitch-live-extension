@@ -1,19 +1,22 @@
 import { axiosInterceptor } from "../axios/axiosInterceptor";
 import axios, { AxiosInstance } from "axios";
-import { getTokenFromStorage } from "../localStorage/localStorageService";
+import {
+	getTokenFromStorage,
+	storeTokenOnStorage,
+} from "../localStorage/localStorageService";
 import {
 	TwitchFollowedStream,
 	TwitchStream,
 	TwitchUser,
 } from "../../domain/twitch/api";
 import { FollowedStream, TopStream } from "../../domain/twitch/service";
-import { sendGetTokenMessage } from "../background/messageWrapper";
 import fetchAdapter from "@vespaiach/axios-fetch-adapter";
+import { fetchToken } from "../identityFlowAuth/identityFlowAuth";
 
 export const getRefreshToken = async (promptPopup = false): Promise<string> => {
-	await sendGetTokenMessage(promptPopup);
-
-	return await getTokenFromStorage();
+	const token = await fetchToken(promptPopup);
+	await storeTokenOnStorage(token);
+	return token;
 };
 
 export const getToken = async (): Promise<string> => {
@@ -23,8 +26,9 @@ export const getToken = async (): Promise<string> => {
 		if (!tokenStorage) {
 			// As soon as Mozilla supports background messages returning data
 			// We can read the token as a background response instead of getting it from the storage
-			await sendGetTokenMessage(true);
-			return await getTokenFromStorage();
+			const token = await fetchToken(true);
+			await storeTokenOnStorage(token);
+			return token;
 		}
 		return tokenStorage;
 	} catch (e) {

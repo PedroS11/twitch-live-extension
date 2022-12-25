@@ -11,12 +11,6 @@ export const sendDisableNotificationMessage = async () =>
 		type: MESSAGE_TYPES.DISABLE_NOTIFICATIONS,
 	} as BackgroundMessage);
 
-export const sendGetTokenMessage = async (prompt = false): Promise<void> =>
-	chrome.runtime.sendMessage({
-		type: MESSAGE_TYPES.GET_TOKEN,
-		data: { prompt },
-	} as BackgroundMessage);
-
 export const updateBadgeIcon = async (nrStreams: number) =>
 	chrome.runtime.sendMessage({
 		type: MESSAGE_TYPES.UPDATE_BADGE_ICON,

@@ -13,7 +13,6 @@ import { ValidateTokenResponse } from "../domain/twitch/api";
 import {
 	sendDisableNotificationMessage,
 	sendEnableNotificationMessage,
-	sendGetTokenMessage,
 	updateBadgeIcon,
 } from "../infrastructure/background/messageWrapper";
 import { clearDuplicatedStreams } from "../infrastructure/utils/clearDuplicatedStreams";

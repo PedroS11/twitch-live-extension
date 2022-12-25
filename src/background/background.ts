@@ -26,15 +26,7 @@ chrome.alarms.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 });
 // On Manifest V2 version of the extension, I was using a Mozilla polyfill that would make the promises work
 chrome.runtime.onMessage.addListener(
 	(msg: BackgroundMessage, _, sendResponse) => {
-		if (msg.type === MESSAGE_TYPES.GET_TOKEN) {
-			fetchToken(!!msg.data.prompt)
-				.then((token) => {
-					// Since on Firefox the onMessage listener doesn't return the response
-					// I need to call storeToken here instead of returning the token
-					return storeTokenOnStorage(token);
-				})
-				.then(() => sendResponse());
-		} else if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
+		if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
 			chrome.alarms.create(POOLING_ALARM_NAME, {
 				periodInMinutes: POOLING_JUST_WENT_LIVE,
 			} as chrome.alarms.AlarmCreateInfo);
@@ -53,13 +45,13 @@ chrome.runtime.onMessage.addListener(
 );
 
 chrome.alarms.onAlarm.addListener(async (alarm: chrome.alarms.Alarm) => {
-	if (alarm.name === POOLING_ALARM_NAME) {
-		await processJustWentLiveNotificationsAlarm();
-	} else if (alarm.name === BADGE_ICON_ALARM_NAME) {
-		const state: IdleState = await queryState(15);
-		// With the move to MV3, the alarm running, while computer was sleeping, was
-		// throwing errors getting the token so now I just poll the live streams when the computer is active
-		if (state === "active") {
+	const state: IdleState = await queryState(15);
+	// With the move to MV3, the alarm running, while computer was sleeping, was
+	// throwing errors getting the token so now I just poll the live streams when the computer is active
+	if (state === "active") {
+		if (alarm.name === POOLING_ALARM_NAME) {
+			await processJustWentLiveNotificationsAlarm();
+		} else if (alarm.name === BADGE_ICON_ALARM_NAME) {
 			await processBadgeIconAlarm();
 		}
 	}
