@@ -131,11 +131,11 @@ Builds the app for production to the `build` folder without inline scripts.<br /
 - Run `yarn build`.
 - Open [chrome://extensions](chrome://extensions)
 - Enable `Developer mode`
-- Press ``Load unpacked`` and upload the ``build`` folder
+- Press `Load unpacked` and upload the `dist` folder
 
 ## Frameworks
 
-This extension was developed using [React](https://reactjs.org/), [Redux Toolkit](https://redux-toolkit.js.org/) and [Material-UI](https://material-ui.com/).
+This extension was developed using [React](https://reactjs.org/), [Zustand](https://github.com/pmndrs/zustand) and [Material-UI](https://material-ui.com/).
 
 ## Resources
 [Changelog](https://github.com/PedroS11/twitch-live-extension/blob/master/CHANGELOG.md)
