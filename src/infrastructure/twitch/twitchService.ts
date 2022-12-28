@@ -1,166 +1,173 @@
 import {
-    FollowedLivestream,
-    FollowedLivestreamResponse,
-    GetFollowedStreams,
-    GetFollowedStreamsResponse,
-    GetStream,
-    GetStreamsResponse,
-    GetUser,
-    TopLivestream,
-    TopLivestreamResponse,
-    ValidateTokenResponse,
-} from '../../domain/infrastructure/twitch/twitch';
-import { getFollowedStreams, getStreams, getUsers, validateToken } from './twitchRepository';
+	getTwitchFollowedStreams,
+	getTwitchStreams,
+	getTwitchUsers,
+	validateTwitchToken,
+} from "./twitchRepository";
+import { getTokenFromStorage } from "../localStorage/localStorageService";
 import {
-    POOLING_JUST_WENT_LIVE,
-    ONE_MINUTE_IN_MILLISECONDS,
-} from '../../domain/infrastructure/background/constants';
-import * as localStorageService from '../localStorage/localStorageService';
+	GetFollowedStreamsResponse,
+	GetStreamsResponse,
+	GetUsersResponse,
+	TwitchFollowedStream,
+	TwitchStream,
+	TwitchUser,
+	ValidateTokenResponse,
+} from "../../domain/twitch/api";
+import {
+	FollowedStream,
+	FollowedStreamResponse,
+	TopStream,
+	TopStreamResponse,
+} from "../../domain/twitch/service";
+import { createFollowedTopStream } from "./twitchHelpers";
+import {
+	ONE_MINUTE_IN_MILLISECONDS,
+	POOLING_JUST_WENT_LIVE,
+} from "../../domain/background/constants";
 
-export const getUserById = async (userId: string): Promise<GetUser> => {
-    const response: GetUser[] = await getUsers([userId]);
+/**
+ * Gets Twitch user by its id
+ * @param {string} userId - Twitch user id
+ */
+export const getUserById = async (userId: string): Promise<TwitchUser> => {
+	const response: GetUsersResponse = await getTwitchUsers([userId]);
 
-    return response?.[0];
+	return response?.data[0];
 };
 
-export const getCurrentUser = async (): Promise<ValidateTokenResponse> => {
-    return await validateToken();
+/**
+ * Gets the token information for the current logged in user
+ */
+export const getCurrentUser = async (): Promise<ValidateTokenResponse> =>
+	validateTwitchToken();
+
+export const getFollowedStreams = async (
+	userId: string,
+	cursor?: string,
+): Promise<FollowedStreamResponse> => {
+	const streams: GetFollowedStreamsResponse = await getTwitchFollowedStreams(
+		userId,
+		cursor,
+		20,
+	);
+
+	const promisesGetExtraInfo = streams.data.map(
+		async (stream: TwitchFollowedStream): Promise<FollowedStream> => {
+			const streamer: TwitchUser = await getUserById(stream.user_id);
+
+			const result: FollowedStream = createFollowedTopStream(stream, streamer);
+
+			return result as FollowedStream;
+		},
+	);
+
+	const response: FollowedStreamResponse = {
+		cursor: streams.pagination?.cursor,
+		data: [],
+	};
+
+	const responseLivestreams: PromiseSettledResult<FollowedStream>[] =
+		await Promise.allSettled(promisesGetExtraInfo);
+
+	responseLivestreams.forEach(
+		(result: PromiseSettledResult<FollowedStream>) => {
+			if (result.status === "fulfilled") {
+				response.data = [...response.data, result.value];
+			}
+		},
+	);
+
+	return response;
 };
 
-export const getFollowedLivestreams = async (
-    userId: string,
-    cursor?: string,
-): Promise<FollowedLivestreamResponse> => {
-    const streams: GetFollowedStreamsResponse = await getFollowedStreams(userId, cursor, 20);
+export const getAllFollowedStreams = async (
+	userId: string,
+): Promise<FollowedStream[]> => {
+	try {
+		let streams: FollowedStream[] = [];
+		let response: FollowedStreamResponse;
+		let cursor: string | undefined = "";
+		do {
+			response = await getFollowedStreams(userId, cursor);
 
-    const promisesGetExtraInfo = streams.data.map(
-        async (stream: GetFollowedStreams): Promise<FollowedLivestream> => {
-            const streamerInfo: GetUser = await getUserById(stream.user_id);
+			cursor = response?.cursor;
+			streams = [...streams, ...response.data];
+		} while (response?.cursor);
 
-            const result: Partial<FollowedLivestream> = {
-                viewer_count: stream.viewer_count,
-                id: stream.id,
-                started_at: stream.started_at,
-                title: stream.title,
-                game: stream.game_name,
-                display_name: streamerInfo.display_name,
-                profile_image_url: streamerInfo.profile_image_url,
-                user_id: streamerInfo.id,
-                url: `https://twitch.tv/${streamerInfo.login}`,
-            };
-
-            return result as FollowedLivestream;
-        },
-    );
-
-    const response: FollowedLivestreamResponse = {
-        cursor: streams.pagination?.cursor,
-        data: [],
-    };
-
-    const responseLivestreams: PromiseSettledResult<
-        FollowedLivestream
-    >[] = await Promise.allSettled(promisesGetExtraInfo);
-
-    responseLivestreams.forEach((result: PromiseSettledResult<FollowedLivestream>) => {
-        if (result.status === 'fulfilled') {
-            response.data = [...response.data, result.value];
-        }
-    });
-
-    return response;
-};
-
-export const getAllFollowedStreams = async (userId: string): Promise<FollowedLivestream[]> => {
-    try {
-        let streams: FollowedLivestream[] = [];
-        let response: FollowedLivestreamResponse;
-        let cursor: string | undefined = '';
-        do {
-            response = await getFollowedLivestreams(userId, cursor);
-
-            cursor = response?.cursor;
-            streams = [...streams, ...response.data];
-        } while (response?.cursor);
-
-        return streams;
-    } catch (e) {
-        console.error('Error getting followed streams', e?.response?.data || e.message);
-        throw e;
-    }
+		return streams;
+	} catch (e) {
+		console.error(
+			"Error getting followed streams",
+			JSON.stringify(e?.response?.data) || e.message,
+		);
+		throw e;
+	}
 };
 
 export const getNumberOfLivestreams = async (): Promise<number | null> => {
-    let nrStreams = 0;
-    // The first time it's installed, there's no token, so it shouldn't render the icon
-    const token: string = localStorageService.getToken();
-    if (!token) {
-        return null;
-    }
-    const user: ValidateTokenResponse = await getCurrentUser();
+	let nrStreams = 0;
+	// The first time it's installed, there's no token, so it shouldn't render the icon
+	const token: string = await getTokenFromStorage();
+	if (!token) {
+		return null;
+	}
+	const user: ValidateTokenResponse = await getCurrentUser();
 
-    if (user) {
-        const streams: FollowedLivestream[] = await getAllFollowedStreams(user.user_id);
-        nrStreams = streams.length;
-    }
+	if (user) {
+		const streams: FollowedStream[] = await getAllFollowedStreams(user.user_id);
+		nrStreams = streams.length;
+	}
 
-    return nrStreams;
+	return nrStreams;
 };
 
 export const getJustWentLive = async () => {
-    const user: ValidateTokenResponse = await getCurrentUser();
+	const user: ValidateTokenResponse = await getCurrentUser();
 
-    const livestreams: FollowedLivestream[] = await getAllFollowedStreams(user.user_id);
+	const livestreams: FollowedStream[] = await getAllFollowedStreams(
+		user.user_id,
+	);
 
-    const nowUTC: Date = new Date(new Date().getTime());
+	const nowUTC: Date = new Date(new Date().getTime());
 
-    return livestreams.filter(
-        (stream: FollowedLivestream) =>
-            Math.round(
-                (nowUTC.getTime() - new Date(stream.started_at).getTime()) /
-                    ONE_MINUTE_IN_MILLISECONDS,
-            ) <= POOLING_JUST_WENT_LIVE,
-    );
+	return livestreams.filter(
+		(stream: FollowedStream) =>
+			Math.round(
+				(nowUTC.getTime() - new Date(stream.started_at).getTime()) /
+					ONE_MINUTE_IN_MILLISECONDS,
+			) <= POOLING_JUST_WENT_LIVE,
+	);
 };
 
-export const getTopTwitchLiveStreams = async (cursor?: string): Promise<TopLivestreamResponse> => {
-    const streams: GetStreamsResponse = await getStreams(cursor);
+export const getTopStreams = async (
+	cursor?: string,
+): Promise<TopStreamResponse> => {
+	const streams: GetStreamsResponse = await getTwitchStreams(cursor);
 
-    const promisesGetExtraInfo = streams.data.map(
-        async (stream: GetStream): Promise<TopLivestream> => {
-            const streamerInfo: GetUser = await getUserById(stream.user_id);
+	const promisesGetExtraInfo = streams.data.map(
+		async (stream: TwitchStream): Promise<TopStream> => {
+			const streamer: TwitchUser = await getUserById(stream.user_id);
 
-            const result: Partial<TopLivestream> = {
-                viewer_count: stream.viewer_count,
-                id: stream.id,
-                started_at: stream.started_at,
-                title: stream.title,
-                game: stream.game_name,
-                display_name: streamerInfo.display_name,
-                profile_image_url: streamerInfo.profile_image_url,
-                user_id: streamerInfo.id,
-                url: `https://twitch.tv/${streamerInfo.login}`,
-                thumbnail_url: stream.thumbnail_url,
-            };
+			const result: TopStream = createFollowedTopStream(stream, streamer);
 
-            return result as TopLivestream;
-        },
-    );
+			return result as TopStream;
+		},
+	);
 
-    const response: TopLivestreamResponse = {
-        cursor: streams.pagination?.cursor,
-        data: [],
-    };
+	const response: TopStreamResponse = {
+		cursor: streams.pagination?.cursor,
+		data: [],
+	};
 
-    const responseLivestreams: PromiseSettledResult<TopLivestream>[] = await Promise.allSettled(
-        promisesGetExtraInfo,
-    );
+	const responseLivestreams: PromiseSettledResult<TopStream>[] =
+		await Promise.allSettled(promisesGetExtraInfo);
 
-    responseLivestreams.forEach((result: PromiseSettledResult<TopLivestream>) => {
-        if (result.status === 'fulfilled') {
-            response.data = [...response.data, result.value];
-        }
-    });
+	responseLivestreams.forEach((result: PromiseSettledResult<TopStream>) => {
+		if (result.status === "fulfilled") {
+			response.data = [...response.data, result.value];
+		}
+	});
 
-    return response;
+	return response;
 };

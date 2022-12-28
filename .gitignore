@@ -10,6 +10,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -24,6 +25,7 @@ yarn-error.log*
 yarn.lock
 
 .idea
+/old/src/config.ts
 /src/config.ts
 
 build.zip

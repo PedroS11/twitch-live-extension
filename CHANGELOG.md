@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.0.0
+
+### Functionalities:
+Migrate extension to support Manifest Version 3
+
 ## 3.3.0 (Aug 5th 2022)
 
 ### Functionalities:
@@ -61,7 +66,7 @@
 
 ### Functionalities:
 
-- Display title on mouse over a stream 
+- Display title on mouse over a stream
 
 ## 2.2.0 (March 1, 2021)
 

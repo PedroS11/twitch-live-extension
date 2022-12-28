@@ -1,4 +1,4 @@
-# Twitch Live Extension 
+# Twitch Live Extension
 [![](https://img.shields.io/chrome-web-store/v/nlnfdlcbnpafokhpjfffmoobbejpedgj)](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj)
 [![](https://img.shields.io/chrome-web-store/users/nlnfdlcbnpafokhpjfffmoobbejpedgj)](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj)
 [![](https://img.shields.io/chrome-web-store/stars/nlnfdlcbnpafokhpjfffmoobbejpedgj)](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj)
@@ -8,19 +8,19 @@
 [![](https://img.shields.io/amo/users/twitch-live-extension.svg)](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/)
 [![](https://img.shields.io/amo/rating/twitch-live-extension.svg)](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/)
 
-A browser extension that will help you find out when your followed streamers are live on Twitch 
+A browser extension that will help you find out when your followed streamers are live on Twitch
 and will send notifications when they go live.
 ## Table of Contents
 
-  * [How to Use ](#how-to-use)
-  * [Explore Top Livestreams](#explore-top-livestreams)
-  * [Settings](#settings)
-  * [Available Scripts](#available-scripts)
-  * [Deployment](#deployment)
-  * [Frameworks](#frameworks)
-  * [Resources](#resources)
-  * [Contribution](#contribution)
-  * [License](#license)
+* [How to Use ](#how-to-use)
+* [Explore Top Livestreams](#explore-top-livestreams)
+* [Settings](#settings)
+* [Available Scripts](#available-scripts)
+* [Deployment](#deployment)
+* [Frameworks](#frameworks)
+* [Resources](#resources)
+* [Contribution](#contribution)
+* [License](#license)
 
 ## How to use
 To start using it, open it, log in with your Twitch account, so that the extension can have access to your follows, and, every time you click on the extension icon,
@@ -28,9 +28,9 @@ you will see the streamers that you follow that are live.
 
 This extension supports _**Just Went Live**_ notifications. If you want to enable them, open the extension, go to **Settings** and enable the _Just Went Live_ notifications.
 
-There's also a button to switch the Twitch account you are logged in.
+There's also a button to log out of the Twitch account you are using on the extension.
 
-The extension is available for [Chrome/Microsoft Edge](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/). 
+The extension is available for [Chrome/Microsoft Edge](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/).
 
 
 ![Extension List](./assets/extension_no_hover_icon_changelog.png "Extension")
@@ -47,17 +47,16 @@ On the Explore tab, you can see the livestreams with most viewers in descending 
 ## Settings
 
 In this page you can:
- - Switch Twitch account
- - Refresh the stored follows list
- - Enable/Disable _just went live_ notifications
- 
+- Switch Twitch account
+- Enable/Disable _just went live_ notifications
+
 ![Settings](./assets/settings_disabled_icon_changelog.png "Settings menu")
 ![Settings With notifications enabled](./assets/settings_enabled_icon_changelog.png "Settings With notifications enabled")
 
 ## Notifications
 ### **MacOS**
 
-### Google Chrome 
+### Google Chrome
 ![Notification Chrome](./assets/notification_mac_rsz.png "Notification Chrome")
 
 #### Firefox
@@ -97,10 +96,10 @@ For **Windows** users, you might get annoyed with the sound from **Chrome Notifi
 
 ## Available Scripts
 
-Before running any command, you need to create a file with your Twitch Client ID. 
+Before running any command, you need to create a file with your Twitch Client ID.
 To get one, go to the [Twitch Api page](https://dev.twitch.tv/docs/authentication#registration) and register your app.
- 
- After that, create the file `./src/config.ts` with: <br>
+
+After that, create the file `./src/config.ts` with: <br>
 
 ```javascript
 export const CLIENT_ID = "YOUR_CLIENT_ID";
@@ -132,11 +131,11 @@ Builds the app for production to the `build` folder without inline scripts.<br /
 - Run `yarn build`.
 - Open [chrome://extensions](chrome://extensions)
 - Enable `Developer mode`
-- Press ``Load unpacked`` and upload the ``build`` folder 
+- Press `Load unpacked` and upload the `dist` folder
 
 ## Frameworks
 
-This extension was developed using [React](https://reactjs.org/), [Redux Toolkit](https://redux-toolkit.js.org/) and [Material-UI](https://material-ui.com/).
+This extension was developed using [React](https://reactjs.org/), [Zustand](https://github.com/pmndrs/zustand) and [Material-UI](https://material-ui.com/).
 
 ## Resources
 [Changelog](https://github.com/PedroS11/twitch-live-extension/blob/master/CHANGELOG.md)
@@ -178,13 +177,13 @@ This extension was developed using [React](https://reactjs.org/), [Redux Toolkit
 ### Graphic Designer
 - [PiwDuarte](https://twitter.com/piwduarte)
 
-And everyone else that helped to test, and I didn't mention.
+And everyone else that gave feedback and suggestions.
 
 ## Problems or issues?
- 
- If you encounter any problems, bugs or other issues with the repo, please create an [issue in the GitHub repo](https://github.com/PedroS11/twitch-live-extension/issues). 
 
-## License 
+If you encounter any problems, bugs or other issues with the repo, please create an [issue in the GitHub repo](https://github.com/PedroS11/twitch-live-extension/issues).
+
+## License
 
 [BSD-Clause 3](https://github.com/PedroS11/twitch-live-extension/blob/master/LICENSE.md)
 
@@ -193,4 +192,3 @@ And everyone else that helped to test, and I didn't mention.
 If you appreciated this extension and want to help me, feel free to do it!
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=2EUE3TRXGC4KQ)
-

@@ -1,40 +1,41 @@
-import { AxiosInstance } from 'axios';
-import { getToken, getRefreshToken } from '../twitch/twitchHelpers';
+import { getToken, getRefreshToken } from "../twitch/twitchHelpers";
+import { AxiosInstance } from "axios";
 
 export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
-    axios.interceptors.request.use(
-        async (config) => {
-            const token = await getToken();
-            if (token) {
-                config.headers['Authorization'] = `Bearer ${token}`;
-            }
-            return config;
-        },
-        (error) => Promise.reject(error),
-    );
+	axios.interceptors.request.use(
+		async (config) => {
+			const token = await getToken();
+			if (token) {
+				config.headers["Authorization"] = `Bearer ${token}`;
+			}
+			return config;
+		},
+		(error) => Promise.reject(error),
+	);
 
-    //Add a response interceptor
-    axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        async (error) => {
-            const originalRequest = error.config;
-            originalRequest._retryCount = ++originalRequest._retryCount || 1;
+	//Add a response interceptor
+	axios.interceptors.response.use(
+		(response) => response,
+		async (error) => {
+			const originalRequest = error.config;
 
-            if (originalRequest._retryCount < 3) {
-                const forceAuthenticationPopup: boolean = [401, 403].includes(
-                    error?.response?.status,
-                );
-                const newToken = await getRefreshToken(forceAuthenticationPopup);
+			originalRequest._retryCount = originalRequest?._retryCount
+				? ++originalRequest._retryCount
+				: 1;
 
-                axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-                return axios(originalRequest);
-            }
+			if (originalRequest._retryCount < 3) {
+				const forceAuthenticationPopup: boolean = [401, 403].includes(
+					error?.response?.status,
+				);
+				const newToken = await getRefreshToken(forceAuthenticationPopup);
 
-            return Promise.reject(error);
-        },
-    );
+				axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+				return axios(originalRequest);
+			}
 
-    return axios;
+			return Promise.reject(error);
+		},
+	);
+
+	return axios;
 };

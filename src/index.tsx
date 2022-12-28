@@ -1,34 +1,55 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { store } from './store/store';
-import { Provider } from 'react-redux';
-import './index.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { SettingsPage } from './views/SettingsPage/SettingsPage';
-import darkTheme from './themes/darkTheme';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
-import { BottomNavigation } from './views/Common/BottomNavigation/BottomNavigation';
-import { Header } from './views/Common/Header/Header';
-import { ExploreStreamsPage } from './views/ExploreStreamsPage/ExploreStreamsPage';
+import React from "react";
+import ReactDOM from "react-dom";
+import darkTheme from "./theme/darkTheme";
+import { ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Header } from "./components/common/header/Header";
+import { Footer } from "./components/common/footer/Footer";
+import "./index.css";
 
-const routing = (
-    <Provider store={store}>
-        <ThemeProvider theme={darkTheme}>
-            <Paper square>
-                <Router>
-                    <Header />
-                    <Switch>
-                        <Route path="/settings" component={SettingsPage} />
-                        <Route path="/explore" component={ExploreStreamsPage} />
-                        <Route component={App} />
-                    </Switch>
-                    <BottomNavigation />
-                </Router>
-            </Paper>
-        </ThemeProvider>
-    </Provider>
+const Explore = React.lazy(() => import("./pages/Explore/Explore"));
+const Settings = React.lazy(() => import("./pages/Settings/Settings"));
+const FollowedStreams = React.lazy(
+	() => import("./pages/FollowedStreams/FollowedStreams"),
 );
 
-ReactDOM.render(routing, document.getElementById('root'));
+const routing = (
+	<ThemeProvider theme={darkTheme}>
+		<BrowserRouter>
+			<CssBaseline />
+			<Header />
+			<Routes>
+				<Route
+					path={"/explore"}
+					element={
+						<React.Suspense fallback={<>...</>}>
+							<Explore />
+						</React.Suspense>
+					}
+				/>
+				<Route
+					path={"/settings"}
+					element={
+						<React.Suspense fallback={<>...</>}>
+							<Settings />
+						</React.Suspense>
+					}
+				/>
+				<Route
+					path="*"
+					element={
+						<React.Suspense fallback={<>...</>}>
+							<FollowedStreams />
+						</React.Suspense>
+					}
+				/>
+			</Routes>
+			<Footer />
+		</BrowserRouter>
+	</ThemeProvider>
+);
+
+const root = document.createElement("div");
+document.body.appendChild(root);
+ReactDOM.render(routing, root);
