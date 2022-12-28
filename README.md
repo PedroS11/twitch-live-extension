@@ -47,7 +47,7 @@ On the Explore tab, you can see the livestreams with most viewers in descending 
 ## Settings
 
 In this page you can:
-- Switch Twitch account
+- Log out Twitch account
 - Enable/Disable _just went live_ notifications
 
 ![Settings](./assets/settings_disabled_icon_changelog.png "Settings menu")
