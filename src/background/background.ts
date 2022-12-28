@@ -46,14 +46,13 @@ chrome.runtime.onMessage.addListener(
 
 chrome.alarms.onAlarm.addListener(async (alarm: chrome.alarms.Alarm) => {
 	const state: IdleState = await queryState(15);
+	if (state === "locked") return;
 	// With the move to MV3, the alarm running, while computer was sleeping, was
 	// throwing errors getting the token so now I just poll the live streams when the computer is active
-	if (state === "active") {
-		if (alarm.name === POOLING_ALARM_NAME) {
-			await processJustWentLiveNotificationsAlarm();
-		} else if (alarm.name === BADGE_ICON_ALARM_NAME) {
-			await processBadgeIconAlarm();
-		}
+	if (alarm.name === POOLING_ALARM_NAME) {
+		await processJustWentLiveNotificationsAlarm();
+	} else if (alarm.name === BADGE_ICON_ALARM_NAME) {
+		await processBadgeIconAlarm();
 	}
 });
 
