@@ -1,4 +1,3 @@
-import { fetchToken } from "../infrastructure/identityFlowAuth/identityFlowAuth";
 import {
 	BADGE_ICON_ALARM_NAME,
 	MESSAGE_TYPES,
@@ -10,7 +9,6 @@ import {
 	displayNumberOfLivestreams,
 	processBadgeIconAlarm,
 } from "../infrastructure/background/badgeIcon";
-import { storeTokenOnStorage } from "../infrastructure/localStorage/localStorageService";
 import {
 	processJustWentLiveNotificationsAlarm,
 	processOnNotificationClick,
@@ -18,6 +16,7 @@ import {
 import { processOnInstallEvents } from "../infrastructure/background/onInstalled";
 import { queryState } from "../infrastructure/chrome/idle";
 import IdleState = chrome.idle.IdleState;
+import InstalledDetails = chrome.runtime.InstalledDetails;
 
 chrome.alarms.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 });
 
@@ -62,5 +61,5 @@ chrome.notifications.onClicked.addListener(
 );
 
 chrome.runtime.onInstalled.addListener(
-	async () => await processOnInstallEvents(),
+	async (details: InstalledDetails) => await processOnInstallEvents(details),
 );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Link, LinkProps, Typography, TypographyProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
