@@ -1,9 +1,15 @@
 # Changelog
 
+## 4.0.1
+
+### Functionalities:
+- Ignore Chrome Update events so the last version page stop opening too many times
+- Remove unused imports
+
 ## 4.0.0
 
 ### Functionalities:
-Migrate extension to support Manifest Version 3
+- Migrate extension to support Manifest Version 3
 
 ## 3.3.0 (Aug 5th 2022)
 

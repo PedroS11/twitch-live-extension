@@ -17,13 +17,14 @@ module.exports = {
 		sourceType: "module",
 		project: "./tsconfig.json",
 	},
-	plugins: ["react", "@typescript-eslint"],
+	plugins: ["react", "@typescript-eslint", "unused-imports"],
 	rules: {
 		indent: ["error", "tab"],
 		"linebreak-style": ["error", "unix"],
 		quotes: ["error", "double"],
 		semi: ["error", "always"],
 		"@typescript-eslint/ban-ts-comment": "off",
+		"unused-imports/no-unused-imports": "error",
 	},
 	settings: {
 		react: {
