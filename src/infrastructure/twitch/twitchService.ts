@@ -45,11 +45,12 @@ export const getCurrentUser = async (): Promise<ValidateTokenResponse> =>
 export const getFollowedStreams = async (
 	userId: string,
 	cursor?: string,
+	first = 20,
 ): Promise<FollowedStreamResponse> => {
 	const streams: GetFollowedStreamsResponse = await getTwitchFollowedStreams(
 		userId,
 		cursor,
-		20,
+		first,
 	);
 
 	const promisesGetExtraInfo = streams.data.map(
@@ -89,7 +90,7 @@ export const getAllFollowedStreams = async (
 		let response: FollowedStreamResponse;
 		let cursor: string | undefined = "";
 		do {
-			response = await getFollowedStreams(userId, cursor);
+			response = await getFollowedStreams(userId, cursor, 100);
 
 			cursor = response?.cursor;
 			streams = [...streams, ...response.data];
@@ -170,4 +171,18 @@ export const getTopStreams = async (
 	});
 
 	return response;
+};
+
+export const searchFollowedStreams = async (
+	query: string,
+): Promise<FollowedStream[]> => {
+	const user: ValidateTokenResponse = await getCurrentUser();
+
+	const allFollowedStreams: FollowedStream[] = await getAllFollowedStreams(
+		user.user_id,
+	);
+
+	return allFollowedStreams.filter((stream: FollowedStream) =>
+		stream.display_name.toLowerCase().includes(query.toLowerCase()),
+	);
 };
