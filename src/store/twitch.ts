@@ -27,6 +27,7 @@ export interface TwitchState {
 	loading: boolean;
 	loadingMore: boolean;
 	loadingMoreFinished: boolean;
+
 	livestreams: FollowedStream[];
 	searchedLivestreams: FollowedStream[];
 	topLivestreams: TopStream[];
@@ -35,6 +36,7 @@ export interface TwitchState {
 	setLoading: () => void;
 	setLoadingMore: () => void;
 	setLoadingMoreFinished: (value: boolean) => void;
+
 	saveLivestreams: (streams: FollowedStream[]) => void;
 	saveSearchedLivestreams: (streams: FollowedStream[]) => void;
 
@@ -45,7 +47,7 @@ export interface TwitchState {
 	getLivestreams: () => void;
 	getTopLivestreams: () => void;
 	fetchMoreTopLivestreams: () => void;
-	searchLivestreams: (query: string) => void;
+	searchLivestreams: (query: string) => Promise<void>;
 
 	getUser: () => Promise<ValidateTokenResponse>;
 
@@ -57,6 +59,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 	loading: false,
 	loadingMore: false,
 	loadingMoreFinished: false,
+
 	livestreams: [],
 	searchedLivestreams: [],
 	topLivestreams: [],
@@ -97,8 +100,9 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 		}
 	},
 
-	searchLivestreams: async (query: string) => {
+	searchLivestreams: async (query: string): Promise<void> => {
 		get().setLoading();
+		get().resetSearchedLivestreams();
 		try {
 			const data: FollowedStream[] = await searchFollowedStreams(query);
 			get().saveSearchedLivestreams(data);
