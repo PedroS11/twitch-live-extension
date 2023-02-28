@@ -80,7 +80,6 @@ export const StreamsListItem = ({
 				sx={{
 					backgroundColor: "#4c4c4c",
 					height: 50,
-					lineHeight: "normal",
 				}}
 			>
 				<ListItemAvatar>
