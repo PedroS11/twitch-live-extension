@@ -32,9 +32,9 @@ There's also a button to log out of the Twitch account you are using on the exte
 
 The extension is available for [Chrome/Microsoft Edge](https://chrome.google.com/webstore/detail/twitch-live-extension/nlnfdlcbnpafokhpjfffmoobbejpedgj?hl=pt-PT&authuser=0) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/twitch-live-extension/).
 
-
-![Extension List](./assets/extension_no_hover_icon_changelog.png "Extension")
-![Extension Over](./assets/extension_hover_icon_changelog.png "Extension Over")
+![Extension](./assets/extension_with_search_changelog.png "Extension")
+![Extension Hover](./assets/extension_hover_changelog.png "Extension Hover")
+![Extension Search Results](./assets/extension_with_search_results_changelog.png "Extension Search Results")
 
 ## Explore Top Livestreams
 
