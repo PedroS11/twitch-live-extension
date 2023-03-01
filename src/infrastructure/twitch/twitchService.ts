@@ -172,17 +172,3 @@ export const getTopStreams = async (
 
 	return response;
 };
-
-export const searchFollowedStreams = async (
-	query: string,
-): Promise<FollowedStream[]> => {
-	const user: ValidateTokenResponse = await getCurrentUser();
-
-	const allFollowedStreams: FollowedStream[] = await getAllFollowedStreams(
-		user.user_id,
-	);
-
-	return allFollowedStreams.filter((stream: FollowedStream) =>
-		stream.display_name.toLowerCase().includes(query.toLowerCase()),
-	);
-};

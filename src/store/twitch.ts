@@ -8,7 +8,6 @@ import {
 	getAllFollowedStreams,
 	getCurrentUser,
 	getTopStreams,
-	searchFollowedStreams,
 } from "../infrastructure/twitch/twitchService";
 import { ValidateTokenResponse } from "../domain/twitch/api";
 import {
@@ -29,7 +28,6 @@ export interface TwitchState {
 	loadingMoreFinished: boolean;
 
 	livestreams: FollowedStream[];
-	searchedLivestreams: FollowedStream[];
 	topLivestreams: TopStream[];
 	cursor?: string;
 
@@ -38,16 +36,13 @@ export interface TwitchState {
 	setLoadingMoreFinished: (value: boolean) => void;
 
 	saveLivestreams: (streams: FollowedStream[]) => void;
-	saveSearchedLivestreams: (streams: FollowedStream[]) => void;
 
 	resetLivestreams: () => void;
 	resetTopLivestreams: () => void;
-	resetSearchedLivestreams: () => void;
 
 	getLivestreams: () => void;
 	getTopLivestreams: () => void;
 	fetchMoreTopLivestreams: () => void;
-	searchLivestreams: (query: string) => Promise<void>;
 
 	getUser: () => Promise<ValidateTokenResponse>;
 
@@ -61,7 +56,6 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 	loadingMoreFinished: false,
 
 	livestreams: [],
-	searchedLivestreams: [],
 	topLivestreams: [],
 
 	setLoading: () => {
@@ -80,10 +74,8 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 		set({ loadingMoreFinished: value }),
 
 	saveLivestreams: (streams: FollowedStream[]) => set({ livestreams: streams }),
-	saveSearchedLivestreams: (streams: FollowedStream[]) =>
-		set({ searchedLivestreams: streams }),
+
 	resetLivestreams: () => set({ livestreams: [] }),
-	resetSearchedLivestreams: () => set({ searchedLivestreams: [] }),
 	resetTopLivestreams: () => set({ topLivestreams: [], cursor: undefined }),
 
 	getLivestreams: async () => {
@@ -93,19 +85,6 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 			const data: FollowedStream[] = await getAllFollowedStreams(user.user_id);
 			get().saveLivestreams(data);
 			await updateBadgeIcon(data.length);
-		} catch (e) {
-			console.log("An unexpected error was thrown", e);
-		} finally {
-			get().setLoading();
-		}
-	},
-
-	searchLivestreams: async (query: string): Promise<void> => {
-		get().setLoading();
-		get().resetSearchedLivestreams();
-		try {
-			const data: FollowedStream[] = await searchFollowedStreams(query);
-			get().saveSearchedLivestreams(data);
 		} catch (e) {
 			console.log("An unexpected error was thrown", e);
 		} finally {
