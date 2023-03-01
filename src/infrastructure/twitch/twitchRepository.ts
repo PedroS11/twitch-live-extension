@@ -2,7 +2,6 @@ import type { AxiosInstance, AxiosResponse } from "axios";
 import { API_BASE_URL, CLIENT_ID, OAUTH_BASE_URL } from "../../config";
 import { createTwitchInstance, getToken } from "./twitchHelpers";
 import {
-	GetFollowedChannelsResponse,
 	GetFollowedStreamsResponse,
 	GetStreamsResponse,
 	GetUsersResponse,
@@ -180,6 +179,13 @@ export const getTwitchFollowedStreams = async (
 	}
 };
 
+/**
+ * Search channels based on am input
+ * @param {string} query - The URI-encoded search string
+ * @param {boolean} liveOnly - A Boolean value that determines whether the response includes only channels that are currently streaming live. Set to true to get only channels that are streaming live; otherwise, false to get live and offline channels
+ * @param {string} after - The cursor used to get the next page of results.
+ * @param {number} first - The maximum number of items to return per page in the response.
+ */
 export const searchTwitchChannels = async (
 	query: string,
 	liveOnly = false,
@@ -203,36 +209,6 @@ export const searchTwitchChannels = async (
 	} catch (e) {
 		console.error(
 			"Error searching channels",
-			JSON.stringify(e?.response?.data) || e.message,
-		);
-		throw e;
-	}
-};
-
-export const getTwitchFollowedChannels = async (
-	userId: string,
-	broadcasterId: string,
-	after = "",
-	first = 10,
-): Promise<GetFollowedChannelsResponse> => {
-	try {
-		const url = new URL(
-			`${API_BASE_URL}/channels/followed?user_id=${userId}&broadcaster_id=${broadcasterId}`,
-		);
-
-		if (after) {
-			url.searchParams.append("after", after);
-		}
-
-		url.searchParams.append("first", first.toString());
-
-		const response: AxiosResponse<GetFollowedChannelsResponse> =
-			await getApiInstance().get(url.href);
-
-		return response.data;
-	} catch (e) {
-		console.error(
-			"Error getting followed streams",
 			JSON.stringify(e?.response?.data) || e.message,
 		);
 		throw e;

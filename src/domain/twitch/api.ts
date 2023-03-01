@@ -8,10 +8,6 @@ type SearchPaginationResponse<T> = SearchResponse<T> & {
 	};
 };
 
-type SearchPaginationWithTotalResponse<T> = SearchPaginationResponse<T> & {
-	total: number;
-};
-
 //-----------------------------------------------------------------------------
 //--------------------------- Validate Token ----------------------------------
 //-----------------------------------------------------------------------------
@@ -86,6 +82,10 @@ export interface TwitchFollowedStream {
 export type GetFollowedStreamsResponse =
 	SearchPaginationResponse<TwitchFollowedStream>;
 
+//-----------------------------------------------------------------------------
+//----------------------------- Search Channels -------------------------------
+//-----------------------------------------------------------------------------
+
 export interface TwitchChannel {
 	broadcaster_language: string;
 	broadcaster_login: string;
@@ -101,12 +101,3 @@ export interface TwitchChannel {
 }
 
 export type SearchChannelsResponse = SearchPaginationResponse<TwitchChannel>;
-
-export interface TwitchFollowedChannels {
-	broadcaster_id: string;
-	broadcaster_login: string;
-	broadcaster_name: string;
-	followed_at: string;
-}
-export type GetFollowedChannelsResponse =
-	SearchPaginationWithTotalResponse<TwitchFollowedChannels>;
