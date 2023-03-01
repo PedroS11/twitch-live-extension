@@ -180,7 +180,7 @@ export const getTwitchFollowedStreams = async (
 };
 
 /**
- * Search channels based on am input
+ * Gets the channels that match the specified query and have streamed content within the past 6 months.
  * @param {string} query - The URI-encoded search string
  * @param {boolean} liveOnly - A Boolean value that determines whether the response includes only channels that are currently streaming live. Set to true to get only channels that are streaming live; otherwise, false to get live and offline channels
  * @param {string} after - The cursor used to get the next page of results.
