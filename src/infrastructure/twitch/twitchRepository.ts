@@ -5,6 +5,7 @@ import {
 	GetFollowedStreamsResponse,
 	GetStreamsResponse,
 	GetUsersResponse,
+	SearchChannelsResponse,
 	ValidateTokenResponse,
 } from "../../domain/twitch/api";
 
@@ -172,6 +173,42 @@ export const getTwitchFollowedStreams = async (
 	} catch (e) {
 		console.error(
 			"Error getting followed streams",
+			JSON.stringify(e?.response?.data) || e.message,
+		);
+		throw e;
+	}
+};
+
+/**
+ * Gets the channels that match the specified query and have streamed content within the past 6 months.
+ * @param {string} query - The URI-encoded search string
+ * @param {boolean} liveOnly - A Boolean value that determines whether the response includes only channels that are currently streaming live. Set to true to get only channels that are streaming live; otherwise, false to get live and offline channels
+ * @param {string} after - The cursor used to get the next page of results.
+ * @param {number} first - The maximum number of items to return per page in the response.
+ */
+export const searchTwitchChannels = async (
+	query: string,
+	liveOnly = false,
+	first = 20,
+	after = "",
+): Promise<SearchChannelsResponse> => {
+	try {
+		const url = new URL(`${API_BASE_URL}/search/channels?query=${query}`);
+
+		if (after) {
+			url.searchParams.append("after", after);
+		}
+
+		url.searchParams.append("first", first.toString());
+		url.searchParams.append("live_only", String(liveOnly));
+
+		const response: AxiosResponse<SearchChannelsResponse> =
+			await getApiInstance().get(url.href);
+
+		return response.data;
+	} catch (e) {
+		console.error(
+			"Error searching channels",
 			JSON.stringify(e?.response?.data) || e.message,
 		);
 		throw e;

@@ -37,7 +37,6 @@ const ViewersNumberText = styled(Typography)<TypographyProps>(() => ({
 const ElapsedTimeText = styled(Typography)<TypographyProps>(() => ({
 	fontSize: 11,
 	textAlign: "right",
-	paddingBottom: 4,
 }));
 
 export const StreamsListItem = ({
@@ -103,7 +102,12 @@ export const StreamsListItem = ({
 					}
 				/>
 				<ListItemSecondaryAction>
-					<IconButton edge="end" disabled size={"small"}>
+					<IconButton
+						edge="end"
+						disabled
+						size={"small"}
+						sx={{ paddingTop: 0, paddingBottom: "2px" }}
+					>
 						<ViewersNumberText
 							noWrap
 							variant={"subtitle1"}

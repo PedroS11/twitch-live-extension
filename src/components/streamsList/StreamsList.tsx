@@ -16,8 +16,9 @@ export const MAX_HEIGHT = 400;
 
 const StreamsListWrapper = styled(List)<ListProps>(() => ({
 	maxHeight: MAX_HEIGHT,
-	overflow: "auto",
 	paddingTop: 0,
+	overflowY: "auto",
+	position: "relative",
 	paddingBottom: 0,
 	"&::-webkit-scrollbar": {
 		width: "0.6em",

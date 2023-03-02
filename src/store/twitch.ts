@@ -26,6 +26,7 @@ export interface TwitchState {
 	loading: boolean;
 	loadingMore: boolean;
 	loadingMoreFinished: boolean;
+
 	livestreams: FollowedStream[];
 	topLivestreams: TopStream[];
 	cursor?: string;
@@ -33,13 +34,18 @@ export interface TwitchState {
 	setLoading: () => void;
 	setLoadingMore: () => void;
 	setLoadingMoreFinished: (value: boolean) => void;
+
 	saveLivestreams: (streams: FollowedStream[]) => void;
+
 	resetLivestreams: () => void;
 	resetTopLivestreams: () => void;
+
 	getLivestreams: () => void;
-	getUser: () => Promise<ValidateTokenResponse>;
-	fetchMoreTopLivestreams: () => void;
 	getTopLivestreams: () => void;
+	fetchMoreTopLivestreams: () => void;
+
+	getUser: () => Promise<ValidateTokenResponse>;
+
 	updateNotificationState: (flag: boolean) => void;
 	logOutAccount: () => void;
 }
@@ -48,6 +54,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 	loading: false,
 	loadingMore: false,
 	loadingMoreFinished: false,
+
 	livestreams: [],
 	topLivestreams: [],
 
@@ -67,6 +74,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 		set({ loadingMoreFinished: value }),
 
 	saveLivestreams: (streams: FollowedStream[]) => set({ livestreams: streams }),
+
 	resetLivestreams: () => set({ livestreams: [] }),
 	resetTopLivestreams: () => set({ topLivestreams: [], cursor: undefined }),
 
