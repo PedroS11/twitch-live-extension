@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.1.1
+
+### Fixes:
+- Fix changelog tab not opening when there's a new installation or update
+
+## 4.1.0
+
+### Functionalities:
+- Add search bar to Favorites tab
+
 ## 4.0.1
 
 ### Functionalities:
