@@ -43,8 +43,9 @@ interface SearchBarProps {
 	onChangeHandler: React.ChangeEventHandler<
 		HTMLTextAreaElement | HTMLInputElement
 	>;
+	inputRef: React.Ref<any>;
 }
-export const SearchBar = ({ onChangeHandler }: SearchBarProps) => {
+export const SearchBar = ({ onChangeHandler, inputRef }: SearchBarProps) => {
 	return (
 		<Search>
 			<SearchIconWrapper>
@@ -53,6 +54,7 @@ export const SearchBar = ({ onChangeHandler }: SearchBarProps) => {
 			<StyledInputBase
 				placeholder="Search…"
 				inputProps={{ "aria-label": "search" }}
+				inputRef={inputRef}
 				onChange={(e) => onChangeHandler(e)}
 			/>
 		</Search>
