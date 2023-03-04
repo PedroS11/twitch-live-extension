@@ -1,9 +1,9 @@
 # Changelog
 
-## 4.1.1
+## 4.2.0
 
-### Fixes:
-- Fix changelog tab not opening when there's a new installation or update
+### Functionalities:
+- Make search bar always focus
 
 ## 4.1.0
 

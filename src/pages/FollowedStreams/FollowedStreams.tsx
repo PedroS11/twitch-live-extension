@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useTwitchStore } from "../../store/twitch";
 import { CircularProgress } from "../../components/circularProgress/CircularProgress";
 import { debounce, Typography } from "@mui/material";
@@ -10,6 +10,8 @@ const FollowedStreams = () => {
 	const [inputSearch, setInputSearch] = useState("");
 	const [isTyping, setIsTyping] = useState(false);
 	const [searchedLivestreams, setSearchedLivestreams] = useState([]);
+
+	const inputRef = useRef<HTMLInputElement>();
 
 	const getLivestreams = useTwitchStore((state) => state.getLivestreams);
 	const resetLivestreams = useTwitchStore((state) => state.resetLivestreams);
@@ -59,6 +61,10 @@ const FollowedStreams = () => {
 		inputSearch.length > 0 && searchedLivestreams.length > 0;
 
 	useEffect(() => {
+		inputRef.current?.focus();
+	}, [inputRef.current]);
+
+	useEffect(() => {
 		getLivestreams();
 		return () => {
 			resetLivestreams();
@@ -71,6 +77,7 @@ const FollowedStreams = () => {
 			{livestreams.length > 0 && (
 				<SearchBar
 					onChangeHandler={(e) => searchLivestreamsHandler(e.target.value)}
+					inputRef={(element: HTMLInputElement) => (inputRef.current = element)}
 				/>
 			)}
 
