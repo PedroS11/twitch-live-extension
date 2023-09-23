@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.2.1
+
+### Functionalities:
+- Update dependencies to latest minor
+
+### Fixes:
+- Stop "JustWentLive" alarm to run if there's no token saved/not logged in
+
 ## 4.2.0
 
 ### Functionalities:
