@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.2.1
+## 4.2.1 (September 26 2023)
 
 ### Functionalities:
 - Update dependencies to latest minor
@@ -8,28 +8,28 @@
 ### Fixes:
 - Stop "JustWentLive" alarm to run if there's no token saved/not logged in
 
-## 4.2.0
+## 4.2.0 (March 4th 2023)
 
 ### Functionalities:
 - Make search bar always focus
 
-## 4.1.0
+## 4.1.0 (March 2nd 2023)
 
 ### Functionalities:
 - Add search bar to Favorites tab
 
-## 4.0.1
+## 4.0.1 (February 23rd 2023)
 
 ### Functionalities:
 - Ignore Chrome Update events so the last version page stop opening too many times
 - Remove unused imports
 
-## 4.0.0
+## 4.0.0 (December 28 2022)
 
 ### Functionalities:
 - Migrate extension to support Manifest Version 3
 
-## 3.3.0 (Aug 5th 2022)
+## 3.3.0 (August 5th 2022)
 
 ### Functionalities:
 - Adds explore livestreams option
