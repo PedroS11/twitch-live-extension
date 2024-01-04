@@ -3,6 +3,7 @@ import { isWindows } from "../utils/operatingSystemFinder";
 import { getJustWentLive } from "../twitch/twitchService";
 import { FollowedStream } from "../../domain/twitch/service";
 import { clearNotification, createNotification } from "../chrome/notifications";
+import { getTokenFromStorage } from "../localStorage/localStorageService";
 
 let linkMap: { [notification: string]: string } = {};
 
@@ -27,6 +28,10 @@ const createNotificationOptions = (
 export const processJustWentLiveNotificationsAlarm = async () => {
 	try {
 		linkMap = {};
+		const token: string = await getTokenFromStorage();
+		if (!token) {
+			return;
+		}
 		const justWentLiveStreams: FollowedStream[] = await getJustWentLive();
 
 		justWentLiveStreams.map(async (stream: FollowedStream) => {
