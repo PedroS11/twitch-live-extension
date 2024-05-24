@@ -10,7 +10,6 @@ import {
 	TwitchUser,
 } from "../../domain/twitch/api";
 import { FollowedStream, TopStream } from "../../domain/twitch/service";
-import fetchAdapter from "@vespaiach/axios-fetch-adapter";
 import { fetchToken } from "../identityFlowAuth/identityFlowAuth";
 
 export const getRefreshToken = async (promptPopup = false): Promise<string> => {
@@ -46,7 +45,7 @@ export const createTwitchInstance = (clientId = ""): AxiosInstance =>
 			headers: {
 				...(clientId && { "Client-Id": clientId }),
 			},
-			adapter: fetchAdapter,
+			adapter: "fetch",
 		}),
 	);
 
