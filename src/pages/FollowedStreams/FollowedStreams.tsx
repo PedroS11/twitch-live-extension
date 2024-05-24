@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useTwitchStore } from "../../store/twitch";
 import { CircularProgress } from "../../components/circularProgress/CircularProgress";
 import { debounce, Typography } from "@mui/material";
-import { StreamsList } from "../../components/streamsList/StreamsList";
+import { ScrollableList } from "../../components/streamsList/ScrollableList";
 import { SearchBar } from "../../components/searchBar/SearchBar";
 import { FollowedStream } from "../../domain/twitch/service";
+import { StreamListItem } from "../../components/streamsList/StreamListItem";
 
 const FollowedStreams = () => {
 	const [inputSearch, setInputSearch] = useState("");
 	const [isTyping, setIsTyping] = useState(false);
 	const [searchedLivestreams, setSearchedLivestreams] = useState([]);
-
-	const inputRef = useRef<HTMLInputElement>();
+	const [renderedStreams, setRenderedStreams] = useState([]);
 
 	const getLivestreams = useTwitchStore((state) => state.getLivestreams);
 	const resetLivestreams = useTwitchStore((state) => state.resetLivestreams);
@@ -51,18 +51,14 @@ const FollowedStreams = () => {
 		debouncedSearch(query);
 	};
 
+	const streamsFoundOnSearch = (): boolean =>
+		inputSearch.length > 0 && searchedLivestreams.length > 0;
+
 	const noStreamsFoundOnSearch = (): boolean =>
 		!loading &&
 		!isTyping &&
 		inputSearch.length > 0 &&
 		searchedLivestreams.length === 0;
-
-	const streamsFoundOnSearch = (): boolean =>
-		inputSearch.length > 0 && searchedLivestreams.length > 0;
-
-	useEffect(() => {
-		inputRef.current?.focus();
-	}, [inputRef.current]);
 
 	useEffect(() => {
 		getLivestreams();
@@ -72,12 +68,26 @@ const FollowedStreams = () => {
 		};
 	}, []);
 
+	useEffect(() => {
+		setRenderedStreams(
+			streamsFoundOnSearch()
+				? searchedLivestreams
+				: noStreamsFoundOnSearch()
+					? []
+					: livestreams,
+		);
+	}, [
+		streamsFoundOnSearch(),
+		searchedLivestreams,
+		noStreamsFoundOnSearch(),
+		livestreams,
+	]);
+
 	return (
 		<>
 			{livestreams.length > 0 && (
 				<SearchBar
 					onChangeHandler={(e) => searchLivestreamsHandler(e.target.value)}
-					inputRef={(element: HTMLInputElement) => (inputRef.current = element)}
 				/>
 			)}
 
@@ -95,15 +105,11 @@ const FollowedStreams = () => {
 
 			{loading && <CircularProgress />}
 			{!loading && (
-				<StreamsList
-					liveStreams={
-						streamsFoundOnSearch()
-							? searchedLivestreams
-							: noStreamsFoundOnSearch()
-								? []
-								: livestreams
-					}
-				/>
+				<ScrollableList>
+					{renderedStreams.map((stream) => (
+						<StreamListItem key={stream.id} stream={stream} />
+					))}
+				</ScrollableList>
 			)}
 		</>
 	);

@@ -1,7 +1,7 @@
 import { alpha, styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
 	padding: theme.spacing(0, 2),
@@ -43,9 +43,14 @@ interface SearchBarProps {
 	onChangeHandler: React.ChangeEventHandler<
 		HTMLTextAreaElement | HTMLInputElement
 	>;
-	inputRef: React.Ref<any>;
 }
-export const SearchBar = ({ onChangeHandler, inputRef }: SearchBarProps) => {
+export const SearchBar = ({ onChangeHandler }: SearchBarProps) => {
+	const inputRef = useRef<HTMLInputElement>();
+
+	useEffect(() => {
+		inputRef.current?.focus();
+	}, [inputRef.current]);
+
 	return (
 		<Search>
 			<SearchIconWrapper>
@@ -54,7 +59,7 @@ export const SearchBar = ({ onChangeHandler, inputRef }: SearchBarProps) => {
 			<StyledInputBase
 				placeholder="Search…"
 				inputProps={{ "aria-label": "search" }}
-				inputRef={inputRef}
+				inputRef={(element: HTMLInputElement) => (inputRef.current = element)}
 				onChange={(e) => onChangeHandler(e)}
 			/>
 		</Search>

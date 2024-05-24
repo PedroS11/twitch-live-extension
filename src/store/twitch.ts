@@ -1,12 +1,15 @@
 import { create } from "zustand";
 import {
 	FollowedStream,
+	TopGame,
+	TopGamesResponse,
 	TopStream,
 	TopStreamResponse,
 } from "../domain/twitch/service";
 import {
 	getAllFollowedStreams,
 	getCurrentUser,
+	getTopGames,
 	getTopStreams,
 } from "../infrastructure/twitch/twitchService";
 import { ValidateTokenResponse } from "../domain/twitch/api";
@@ -29,6 +32,7 @@ export interface TwitchState {
 
 	livestreams: FollowedStream[];
 	topLivestreams: TopStream[];
+	topGames: TopGame[];
 	cursor?: string;
 
 	setLoading: () => void;
@@ -39,10 +43,13 @@ export interface TwitchState {
 
 	resetLivestreams: () => void;
 	resetTopLivestreams: () => void;
+	resetTopGames: () => void;
 
 	getLivestreams: () => void;
 	getTopLivestreams: () => void;
+	getTopGames: () => void;
 	fetchMoreTopLivestreams: () => void;
+	fetchMoreTopGames: () => void;
 
 	getUser: () => Promise<ValidateTokenResponse>;
 
@@ -57,6 +64,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 
 	livestreams: [],
 	topLivestreams: [],
+	topGames: [],
 
 	setLoading: () => {
 		set((state) => ({
@@ -77,6 +85,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 
 	resetLivestreams: () => set({ livestreams: [] }),
 	resetTopLivestreams: () => set({ topLivestreams: [], cursor: undefined }),
+	resetTopGames: () => set({ topGames: [], cursor: undefined }),
 
 	getLivestreams: async () => {
 		get().setLoading();
@@ -140,6 +149,51 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 			const streams: TopStreamResponse = await getTopStreams();
 			set({
 				topLivestreams: streams.data,
+				cursor: streams.cursor,
+			});
+			if (!streams.cursor) {
+				get().setLoadingMoreFinished(true);
+			}
+		} catch (e) {
+			console.log("An unexpected error was thrown", e);
+		} finally {
+			get().setLoading();
+		}
+	},
+
+	fetchMoreTopGames: async () => {
+		if (get().loadingMoreFinished) {
+			return;
+		}
+
+		get().setLoadingMore();
+
+		try {
+			const moreTopStreams: TopGamesResponse = await getTopGames(get().cursor);
+			const mergedList = [...get().topGames, ...moreTopStreams.data];
+
+			set({
+				topGames: mergedList,
+				cursor: moreTopStreams.cursor,
+			});
+
+			if (!moreTopStreams.cursor) {
+				get().setLoadingMoreFinished(true);
+			}
+		} catch (e) {
+			console.log("An unexpected error was thrown", e);
+		} finally {
+			get().setLoadingMore();
+		}
+	},
+
+	getTopGames: async () => {
+		get().setLoading();
+		try {
+			get().setLoadingMoreFinished(false);
+			const streams: TopGamesResponse = await getTopGames();
+			set({
+				topGames: streams.data,
 				cursor: streams.cursor,
 			});
 			if (!streams.cursor) {

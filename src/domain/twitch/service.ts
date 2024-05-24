@@ -2,6 +2,8 @@
 //----------------------------- FollowedStream --------------------------------
 //-----------------------------------------------------------------------------
 
+import { TwitchTopGame } from "./api";
+
 export interface FollowedStream {
 	user_id: string;
 	url: string;
@@ -28,4 +30,17 @@ export type TopStream = FollowedStream;
 export interface TopStreamResponse {
 	cursor?: string;
 	data: TopStream[];
+}
+
+//-----------------------------------------------------------------------------
+//--------------------------- TopStream -----------------------------------
+//-----------------------------------------------------------------------------
+
+export type TopGame = TwitchTopGame & {
+	viewer_count: number;
+};
+
+export interface TopGamesResponse {
+	cursor?: string;
+	data: TopGame[];
 }

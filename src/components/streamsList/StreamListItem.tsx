@@ -21,8 +21,8 @@ import {
 import { PopperTitle } from "./PopperTittle";
 import { ViewerIcon } from "../svg/viewerIcon";
 
-interface FollowsLivestreamListItemProps {
-	livestream: FollowedStream;
+interface StreamListItemProps {
+	stream: FollowedStream;
 }
 
 const StreamerWrapper = styled(ListItemText)<ListItemTextProps>(() => ({
@@ -39,9 +39,7 @@ const ElapsedTimeText = styled(Typography)<TypographyProps>(() => ({
 	textAlign: "right",
 }));
 
-export const StreamsListItem = ({
-	livestream,
-}: FollowsLivestreamListItemProps) => {
+export const StreamListItem = ({ stream }: StreamListItemProps) => {
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 	const handlePopoverOpen = (
 		event: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -49,16 +47,16 @@ export const StreamsListItem = ({
 		setAnchorEl(event.currentTarget);
 	};
 	const [elapsedTime, setElapsedTime] = useState(
-		getElapsedTime(livestream.started_at),
+		getElapsedTime(stream.started_at),
 	);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
-			setElapsedTime(getElapsedTime(livestream.started_at));
+			setElapsedTime(getElapsedTime(stream.started_at));
 		}, 1000);
 
 		return () => clearInterval(timer);
-	}, [livestream.started_at]);
+	}, [stream.started_at]);
 
 	const handlePopoverClose = () => {
 		setAnchorEl(null);
@@ -72,7 +70,7 @@ export const StreamsListItem = ({
 				component="a"
 				target="_blank"
 				rel="noopener noreferrer"
-				href={livestream.url}
+				href={stream.url}
 				divider
 				dense
 				onMouseEnter={handlePopoverOpen}
@@ -83,10 +81,10 @@ export const StreamsListItem = ({
 				}}
 			>
 				<ListItemAvatar>
-					<Avatar src={livestream.profile_image_url} />
+					<Avatar src={stream.profile_image_url} />
 				</ListItemAvatar>
 				<StreamerWrapper
-					primary={livestream.display_name}
+					primary={stream.display_name}
 					secondary={
 						<Typography
 							noWrap
@@ -97,7 +95,7 @@ export const StreamsListItem = ({
 								marginRight: "42px",
 							}}
 						>
-							{livestream.game}
+							{stream.game}
 						</Typography>
 					}
 				/>
@@ -113,7 +111,7 @@ export const StreamsListItem = ({
 							variant={"subtitle1"}
 							color={"textSecondary"}
 						>
-							{formatViewers(livestream.viewer_count)}
+							{formatViewers(stream.viewer_count)}
 						</ViewersNumberText>
 						<ViewerIcon />
 					</IconButton>
@@ -122,7 +120,7 @@ export const StreamsListItem = ({
 					</ElapsedTimeText>
 				</ListItemSecondaryAction>
 			</ListItemButton>
-			<PopperTitle title={livestream.title} anchorEl={anchorEl} open={open} />
+			<PopperTitle title={stream.title} anchorEl={anchorEl} open={open} />
 		</>
 	);
 };

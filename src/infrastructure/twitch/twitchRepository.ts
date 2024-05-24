@@ -4,6 +4,7 @@ import { createTwitchInstance, getToken } from "./twitchHelpers";
 import {
 	GetFollowedStreamsResponse,
 	GetStreamsResponse,
+	GetTopGamesResponse,
 	GetUsersResponse,
 	SearchChannelsResponse,
 	ValidateTokenResponse,
@@ -209,6 +210,43 @@ export const searchTwitchChannels = async (
 	} catch (e) {
 		console.error(
 			"Error searching channels",
+			JSON.stringify(e?.response?.data) || e.message,
+		);
+		throw e;
+	}
+};
+
+/**
+ * Gets information about all broadcasts on Twitch.
+ * @param {number} first - The maximum number of items to return per page in the response.
+ * @param {string} after - The cursor used to get the next page of results.
+ * @param {string} before - The cursor used to get the previous page of results.
+ */
+export const getTwitchTopGames = async (
+	first = 20,
+	after = "",
+	before = "",
+): Promise<GetTopGamesResponse> => {
+	try {
+		const url = new URL(`${API_BASE_URL}/search/games/top`);
+
+		if (after) {
+			url.searchParams.append("after", after);
+		}
+
+		if (before) {
+			url.searchParams.append("before", before);
+		}
+
+		url.searchParams.append("first", first.toString());
+
+		const response: AxiosResponse<GetTopGamesResponse> =
+			await getApiInstance().get(url.href);
+
+		return response.data;
+	} catch (e) {
+		console.error(
+			"Error getting top games",
 			JSON.stringify(e?.response?.data) || e.message,
 		);
 		throw e;

@@ -4,8 +4,9 @@ import { Typography } from "@mui/material";
 import { CircularProgress } from "../../components/circularProgress/CircularProgress";
 import {
 	MAX_HEIGHT,
-	StreamsList,
-} from "../../components/streamsList/StreamsList";
+	ScrollableList,
+} from "../../components/streamsList/ScrollableList";
+import { StreamListItem } from "../../components/streamsList/StreamListItem";
 
 const isAtTheBottom = (event: any): boolean => {
 	// The total height you can scroll
@@ -36,7 +37,7 @@ const Explore = () => {
 		(state) => state.resetTopLivestreams,
 	);
 
-	const loadMoreItems = async (event: any) => {
+	const loadMoreItems = async (event) => {
 		if (isAtTheBottom(event) && !loadingMoreFinished && !loadingMore) {
 			await fetchMoreTopLivestreams();
 		}
@@ -55,11 +56,14 @@ const Explore = () => {
 				</Typography>
 			)}
 			{!loading && topLivestreams.length > 0 && (
-				<StreamsList
-					liveStreams={topLivestreams}
-					onScroll={async (e: any) => await loadMoreItems(e)}
+				<ScrollableList
+					onScroll={async (e) => await loadMoreItems(e)}
 					loadingMore={loadingMore}
-				/>
+				>
+					{topLivestreams.map((stream) => (
+						<StreamListItem key={stream.id} stream={stream} />
+					))}
+				</ScrollableList>
 			)}
 			{loading && <CircularProgress />}
 		</div>

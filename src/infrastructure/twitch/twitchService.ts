@@ -1,6 +1,7 @@
 import {
 	getTwitchFollowedStreams,
 	getTwitchStreams,
+	getTwitchTopGames,
 	getTwitchUsers,
 	validateTwitchToken,
 } from "./twitchRepository";
@@ -8,15 +9,19 @@ import { getTokenFromStorage } from "../localStorage/localStorageService";
 import {
 	GetFollowedStreamsResponse,
 	GetStreamsResponse,
+	GetTopGamesResponse,
 	GetUsersResponse,
 	TwitchFollowedStream,
 	TwitchStream,
+	TwitchTopGame,
 	TwitchUser,
 	ValidateTokenResponse,
 } from "../../domain/twitch/api";
 import {
 	FollowedStream,
 	FollowedStreamResponse,
+	TopGame,
+	TopGamesResponse,
 	TopStream,
 	TopStreamResponse,
 } from "../../domain/twitch/service";
@@ -165,6 +170,44 @@ export const getTopStreams = async (
 		await Promise.allSettled(promisesGetExtraInfo);
 
 	responseLivestreams.forEach((result: PromiseSettledResult<TopStream>) => {
+		if (result.status === "fulfilled") {
+			response.data = [...response.data, result.value];
+		}
+	});
+
+	return response;
+};
+
+export const getTopGames = async (
+	cursor?: string,
+): Promise<TopGamesResponse> => {
+	const topGames: GetTopGamesResponse = await getTwitchTopGames(20, cursor);
+
+	const promisesTopGames = topGames.data.map(
+		async (game: TwitchTopGame): Promise<TopGame> => {
+			const stream: GetStreamsResponse = await getTwitchStreams(
+				"",
+				"",
+				undefined,
+				[game.id],
+			);
+
+			return {
+				...game,
+				viewer_count: stream.data?.[0]?.viewer_count || 0,
+			};
+		},
+	);
+
+	const response: TopGamesResponse = {
+		cursor: topGames.pagination?.cursor,
+		data: [],
+	};
+
+	const promisesSettled: PromiseSettledResult<TopGame>[] =
+		await Promise.allSettled(promisesTopGames);
+
+	promisesSettled.forEach((result: PromiseSettledResult<TopGame>) => {
 		if (result.status === "fulfilled") {
 			response.data = [...response.data, result.value];
 		}

@@ -101,3 +101,16 @@ export interface TwitchChannel {
 }
 
 export type SearchChannelsResponse = SearchPaginationResponse<TwitchChannel>;
+
+//-----------------------------------------------------------------------------
+//--------------------------- Get Top Games -----------------------------------
+//-----------------------------------------------------------------------------
+
+export interface TwitchTopGame {
+	id: string;
+	name: string;
+	box_art_url: string;
+	igdb_id: string;
+}
+
+export type GetTopGamesResponse = SearchPaginationResponse<TwitchTopGame>;
