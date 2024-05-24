@@ -17,12 +17,7 @@ const StyledLink = styled(Link)<LinkProps>(() => ({
 export const Header = () => {
 	return (
 		<StyledTypography variant={"h4"} align={"center"}>
-			<StyledLink
-				target="_blank"
-				rel="noopener noreferrer"
-				href="https://twitch.tv"
-				underline={"none"}
-			>
+			<StyledLink target="_blank" rel="noopener noreferrer" href="https://twitch.tv" underline={"none"}>
 				Twitch Live
 			</StyledLink>
 		</StyledTypography>

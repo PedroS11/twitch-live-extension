@@ -40,9 +40,7 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 interface SearchBarProps {
-	onChangeHandler: React.ChangeEventHandler<
-		HTMLTextAreaElement | HTMLInputElement
-	>;
+	onChangeHandler: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
 	inputRef: React.Ref<any>;
 }
 export const SearchBar = ({ onChangeHandler, inputRef }: SearchBarProps) => {

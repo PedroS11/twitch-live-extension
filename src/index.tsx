@@ -10,9 +10,7 @@ import "./index.css";
 
 const Explore = React.lazy(() => import("./pages/Explore/Explore"));
 const Settings = React.lazy(() => import("./pages/Settings/Settings"));
-const FollowedStreams = React.lazy(
-	() => import("./pages/FollowedStreams/FollowedStreams"),
-);
+const FollowedStreams = React.lazy(() => import("./pages/FollowedStreams/FollowedStreams"));
 
 const routing = (
 	<ThemeProvider theme={darkTheme}>

@@ -1,2 +1,1 @@
-export const isWindows = (): boolean =>
-	navigator.appVersion.includes("Windows");
+export const isWindows = (): boolean => navigator.appVersion.includes("Windows");

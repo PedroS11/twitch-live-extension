@@ -38,14 +38,9 @@ const getApiInstance = (): AxiosInstance => {
 export const revokeTwitchToken = async (): Promise<void> => {
 	try {
 		const token: string = await getToken();
-		await getOAuthInstance().post(
-			`${OAUTH_BASE_URL}/revoke?client_id=${CLIENT_ID}&token=${token}`,
-		);
+		await getOAuthInstance().post(`${OAUTH_BASE_URL}/revoke?client_id=${CLIENT_ID}&token=${token}`);
 	} catch (e) {
-		console.error(
-			"Error revoking token",
-			JSON.stringify(e?.response?.data) || e.message,
-		);
+		console.error("Error revoking token", JSON.stringify(e?.response?.data) || e.message);
 		throw e;
 	}
 };
@@ -55,15 +50,11 @@ export const revokeTwitchToken = async (): Promise<void> => {
  */
 export const validateTwitchToken = async (): Promise<ValidateTokenResponse> => {
 	try {
-		const response: AxiosResponse<ValidateTokenResponse> =
-			await getOAuthInstance().get(`${OAUTH_BASE_URL}/validate`);
+		const response: AxiosResponse<ValidateTokenResponse> = await getOAuthInstance().get(`${OAUTH_BASE_URL}/validate`);
 
 		return response.data;
 	} catch (e) {
-		console.error(
-			"Error validating the token",
-			JSON.stringify(e?.response?.data) || e.message,
-		);
+		console.error("Error validating the token", JSON.stringify(e?.response?.data) || e.message);
 		throw e;
 	}
 };
@@ -96,27 +87,17 @@ export const getTwitchStreams = async (
 		if (before) {
 			url.searchParams.append("before", before);
 		}
-		usersIds.length &&
-			usersIds.map((userId) => url.searchParams.append("user_id", userId));
-		gamesIds.length &&
-			gamesIds.map((gameId) => url.searchParams.append("game_id", gameId));
-		languages.length &&
-			languages.map((lang) => url.searchParams.append("language", lang));
-		usersLogins.length &&
-			usersLogins.map((userLogin) =>
-				url.searchParams.append("user_login", userLogin),
-			);
+		usersIds.length && usersIds.map((userId) => url.searchParams.append("user_id", userId));
+		gamesIds.length && gamesIds.map((gameId) => url.searchParams.append("game_id", gameId));
+		languages.length && languages.map((lang) => url.searchParams.append("language", lang));
+		usersLogins.length && usersLogins.map((userLogin) => url.searchParams.append("user_login", userLogin));
 		url.searchParams.append("first", first.toString());
 
-		const response: AxiosResponse<GetStreamsResponse> =
-			await getApiInstance().get(url.href);
+		const response: AxiosResponse<GetStreamsResponse> = await getApiInstance().get(url.href);
 
 		return response.data;
 	} catch (e) {
-		console.error(
-			"Error getting streams",
-			JSON.stringify(e?.response?.data) || e.message,
-		);
+		console.error("Error getting streams", JSON.stringify(e?.response?.data) || e.message);
 		throw e;
 	}
 };
@@ -126,22 +107,15 @@ export const getTwitchStreams = async (
  * @param {string[]} ids - User ID. Multiple user IDs can be specified. Limit: 100.
  * @param {string[]} login - User login name. Multiple login names can be specified. Limit: 100.
  */
-export const getTwitchUsers = async (
-	ids: string[] = [],
-	login: string[] = [],
-): Promise<GetUsersResponse> => {
+export const getTwitchUsers = async (ids: string[] = [], login: string[] = []): Promise<GetUsersResponse> => {
 	try {
-		const response: AxiosResponse<GetUsersResponse> = await getApiInstance()
-			.get(`${API_BASE_URL}/users?
+		const response: AxiosResponse<GetUsersResponse> = await getApiInstance().get(`${API_BASE_URL}/users?
             ${ids.map((id) => `&id=${id}`).join("")}
             ${login.map((login) => `&login=${login}`).join("")}`);
 
 		return response.data;
 	} catch (e) {
-		console.error(
-			"Error getting users",
-			JSON.stringify(e?.response?.data) || e.message,
-		);
+		console.error("Error getting users", JSON.stringify(e?.response?.data) || e.message);
 		throw e;
 	}
 };
@@ -166,15 +140,11 @@ export const getTwitchFollowedStreams = async (
 
 		url.searchParams.append("first", first.toString());
 
-		const response: AxiosResponse<GetFollowedStreamsResponse> =
-			await getApiInstance().get(url.href);
+		const response: AxiosResponse<GetFollowedStreamsResponse> = await getApiInstance().get(url.href);
 
 		return response.data;
 	} catch (e) {
-		console.error(
-			"Error getting followed streams",
-			JSON.stringify(e?.response?.data) || e.message,
-		);
+		console.error("Error getting followed streams", JSON.stringify(e?.response?.data) || e.message);
 		throw e;
 	}
 };
@@ -202,15 +172,11 @@ export const searchTwitchChannels = async (
 		url.searchParams.append("first", first.toString());
 		url.searchParams.append("live_only", String(liveOnly));
 
-		const response: AxiosResponse<SearchChannelsResponse> =
-			await getApiInstance().get(url.href);
+		const response: AxiosResponse<SearchChannelsResponse> = await getApiInstance().get(url.href);
 
 		return response.data;
 	} catch (e) {
-		console.error(
-			"Error searching channels",
-			JSON.stringify(e?.response?.data) || e.message,
-		);
+		console.error("Error searching channels", JSON.stringify(e?.response?.data) || e.message);
 		throw e;
 	}
 };

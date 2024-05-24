@@ -5,10 +5,7 @@
  * @param {string} url - OAuth url
  * @param {boolean} interactive - Prompt the authentication window to open
  */
-export const launchWebAuthFlow = async (
-	url: string,
-	interactive: boolean,
-): Promise<string> =>
+export const launchWebAuthFlow = async (url: string, interactive: boolean): Promise<string> =>
 	new Promise((resolve, reject) =>
 		chrome.identity.launchWebAuthFlow(
 			{

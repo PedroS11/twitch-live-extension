@@ -79,8 +79,7 @@ export interface TwitchFollowedStream {
 	tag_ids: string[];
 }
 
-export type GetFollowedStreamsResponse =
-	SearchPaginationResponse<TwitchFollowedStream>;
+export type GetFollowedStreamsResponse = SearchPaginationResponse<TwitchFollowedStream>;
 
 //-----------------------------------------------------------------------------
 //----------------------------- Search Channels -------------------------------

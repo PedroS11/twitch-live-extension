@@ -7,11 +7,8 @@ import { getTokenFromStorage } from "../localStorage/localStorageService";
 
 let linkMap: { [notification: string]: string } = {};
 
-const createNotificationOptions = (
-	stream: FollowedStream,
-): chrome.notifications.NotificationOptions<true> => {
-	const game: string =
-		(stream.game && `Streaming ${stream.game}`) || "Stream game is not set";
+const createNotificationOptions = (stream: FollowedStream): chrome.notifications.NotificationOptions<true> => {
+	const game: string = (stream.game && `Streaming ${stream.game}`) || "Stream game is not set";
 	const clickHereMessage = "Click here to watch it";
 
 	return {
@@ -35,8 +32,7 @@ export const processJustWentLiveNotificationsAlarm = async () => {
 		const justWentLiveStreams: FollowedStream[] = await getJustWentLive();
 
 		justWentLiveStreams.map(async (stream: FollowedStream) => {
-			const options: chrome.notifications.NotificationOptions<true> =
-				createNotificationOptions(stream);
+			const options: chrome.notifications.NotificationOptions<true> = createNotificationOptions(stream);
 
 			const notificationId: string = await createNotification(options);
 			linkMap[notificationId] = stream.url;

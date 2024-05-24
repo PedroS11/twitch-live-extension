@@ -1,9 +1,4 @@
-import {
-	CLIENT_ID,
-	RESPONSE_TYPE_TOKEN,
-	SCOPES,
-	OAUTH_BASE_URL,
-} from "../../config";
+import { CLIENT_ID, RESPONSE_TYPE_TOKEN, SCOPES, OAUTH_BASE_URL } from "../../config";
 import { v4 as uuidv4 } from "uuid";
 import { launchWebAuthFlow } from "../chrome/identity";
 
@@ -21,15 +16,10 @@ const getAuthURL = (securityToken: string, promptVerify = false): string => {
 export const fetchToken = async (promptVerify = false): Promise<string> => {
 	const securityToken: string = uuidv4();
 
-	const redirectURL = await launchWebAuthFlow(
-		getAuthURL(securityToken, promptVerify),
-		promptVerify,
-	);
+	const redirectURL = await launchWebAuthFlow(getAuthURL(securityToken, promptVerify), promptVerify);
 
 	const url = new URL(redirectURL);
-	const queryParams: URLSearchParams = new URLSearchParams(
-		url.hash.substring(1),
-	);
+	const queryParams: URLSearchParams = new URLSearchParams(url.hash.substring(1));
 
 	const token = queryParams.get("access_token");
 	const state = queryParams.get("state");

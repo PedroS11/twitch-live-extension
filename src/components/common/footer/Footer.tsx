@@ -1,9 +1,5 @@
 import React from "react";
-import {
-	BottomNavigation,
-	BottomNavigationAction,
-	BottomNavigationProps,
-} from "@mui/material";
+import { BottomNavigation, BottomNavigationAction, BottomNavigationProps } from "@mui/material";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -31,24 +27,9 @@ export const Footer = () => {
 					setValue(newValue);
 				}}
 			>
-				<BottomNavigationAction
-					label="Favorites"
-					component={Link}
-					to="/"
-					icon={<FavoriteIcon />}
-				/>
-				<BottomNavigationAction
-					label="Explore"
-					component={Link}
-					to="/explore"
-					icon={<ExploreIcon />}
-				/>
-				<BottomNavigationAction
-					label="Settings"
-					component={Link}
-					to="/settings"
-					icon={<SettingsIcon />}
-				/>
+				<BottomNavigationAction label="Favorites" component={Link} to="/" icon={<FavoriteIcon />} />
+				<BottomNavigationAction label="Explore" component={Link} to="/explore" icon={<ExploreIcon />} />
+				<BottomNavigationAction label="Settings" component={Link} to="/settings" icon={<SettingsIcon />} />
 			</FooterWrapper>
 		</>
 	);

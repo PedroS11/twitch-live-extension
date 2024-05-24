@@ -19,14 +19,10 @@ export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
 		async (error) => {
 			const originalRequest = error.config;
 
-			originalRequest._retryCount = originalRequest?._retryCount
-				? ++originalRequest._retryCount
-				: 1;
+			originalRequest._retryCount = originalRequest?._retryCount ? ++originalRequest._retryCount : 1;
 
 			if (originalRequest._retryCount < 3) {
-				const forceAuthenticationPopup: boolean = [401, 403].includes(
-					error?.response?.status,
-				);
+				const forceAuthenticationPopup: boolean = [401, 403].includes(error?.response?.status);
 				const newToken = await getRefreshToken(forceAuthenticationPopup);
 
 				axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;

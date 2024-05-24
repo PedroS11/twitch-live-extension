@@ -1,14 +1,7 @@
 import { axiosInterceptor } from "../axios/axiosInterceptor";
 import axios, { AxiosInstance } from "axios";
-import {
-	getTokenFromStorage,
-	storeTokenOnStorage,
-} from "../localStorage/localStorageService";
-import {
-	TwitchFollowedStream,
-	TwitchStream,
-	TwitchUser,
-} from "../../domain/twitch/api";
+import { getTokenFromStorage, storeTokenOnStorage } from "../localStorage/localStorageService";
+import { TwitchFollowedStream, TwitchStream, TwitchUser } from "../../domain/twitch/api";
 import { FollowedStream, TopStream } from "../../domain/twitch/service";
 import { fetchToken } from "../identityFlowAuth/identityFlowAuth";
 
@@ -31,10 +24,7 @@ export const getToken = async (): Promise<string> => {
 		}
 		return tokenStorage;
 	} catch (e) {
-		console.error(
-			"Error getting token",
-			JSON.stringify(e?.response?.data) || e.message,
-		);
+		console.error("Error getting token", JSON.stringify(e?.response?.data) || e.message);
 		throw e;
 	}
 };

@@ -3,16 +3,12 @@ export const createNotification = (
 	notificationId = "",
 ): Promise<string> =>
 	new Promise((resolve, reject) =>
-		chrome.notifications.create(
-			notificationId,
-			options,
-			(notificationId: string) => {
-				if (chrome.runtime.lastError) {
-					reject(chrome.runtime.lastError);
-				}
-				resolve(notificationId);
-			},
-		),
+		chrome.notifications.create(notificationId, options, (notificationId: string) => {
+			if (chrome.runtime.lastError) {
+				reject(chrome.runtime.lastError);
+			}
+			resolve(notificationId);
+		}),
 	);
 
 export const clearNotification = (notificationId: string): Promise<boolean> =>

@@ -1,14 +1,6 @@
 import { create } from "zustand";
-import {
-	FollowedStream,
-	TopStream,
-	TopStreamResponse,
-} from "../domain/twitch/service";
-import {
-	getAllFollowedStreams,
-	getCurrentUser,
-	getTopStreams,
-} from "../infrastructure/twitch/twitchService";
+import { FollowedStream, TopStream, TopStreamResponse } from "../domain/twitch/service";
+import { getAllFollowedStreams, getCurrentUser, getTopStreams } from "../infrastructure/twitch/twitchService";
 import { ValidateTokenResponse } from "../domain/twitch/api";
 import {
 	sendDisableNotificationMessage,
@@ -70,8 +62,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 			loadingMore: !state.loadingMore,
 		}));
 	},
-	setLoadingMoreFinished: (value: boolean) =>
-		set({ loadingMoreFinished: value }),
+	setLoadingMoreFinished: (value: boolean) => set({ loadingMoreFinished: value }),
 
 	saveLivestreams: (streams: FollowedStream[]) => set({ livestreams: streams }),
 
@@ -113,9 +104,7 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 		get().setLoadingMore();
 
 		try {
-			const moreTopStreams: TopStreamResponse = await getTopStreams(
-				get().cursor,
-			);
+			const moreTopStreams: TopStreamResponse = await getTopStreams(get().cursor);
 			const mergedList = [...get().topLivestreams, ...moreTopStreams.data];
 
 			set({

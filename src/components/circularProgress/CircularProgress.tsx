@@ -1,8 +1,5 @@
 import React from "react";
-import {
-	CircularProgress as Progress,
-	CircularProgressProps,
-} from "@mui/material";
+import { CircularProgress as Progress, CircularProgressProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const Wrapper = styled("div")(() => ({

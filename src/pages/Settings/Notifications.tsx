@@ -44,9 +44,7 @@ export const Notifications = () => {
 	const [notificationsFlag, setNotificationsFlag] = useState<boolean>(false);
 
 	const loading = useTwitchStore((state) => state.loading);
-	const updateNotificationState = useTwitchStore(
-		(state) => state.updateNotificationState,
-	);
+	const updateNotificationState = useTwitchStore((state) => state.updateNotificationState);
 
 	useEffect(() => {
 		const getFlag = async () => {
