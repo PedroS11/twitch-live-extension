@@ -1,6 +1,6 @@
 {
   "name": "twitch-live-extension",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "description": "A browser extension that will help you to find out when your favorite streamers are live on Twitch",
   "main": "index.js",
   "scripts": {
@@ -36,8 +36,7 @@
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "@vespaiach/axios-fetch-adapter": "0.3.1",
-    "axios": "0.27.2",
+    "axios": "^1.7.2",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",

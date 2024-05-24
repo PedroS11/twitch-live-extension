@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.2 (May 24 2024)
+
+### Fixes:
+- Upgrade axios version to use the native fetchAdapter
+
 ## 4.2.1 (September 26 2023)
 
 ### Functionalities:
