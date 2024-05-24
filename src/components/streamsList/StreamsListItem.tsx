@@ -14,10 +14,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 
 import { FollowedStream } from "../../domain/twitch/service";
 import styled from "@emotion/styled";
-import {
-	formatViewers,
-	getElapsedTime,
-} from "../../infrastructure/utils/formatter";
+import { formatViewers, getElapsedTime } from "../../infrastructure/utils/formatter";
 import { PopperTitle } from "./PopperTittle";
 import { ViewerIcon } from "../svg/viewerIcon";
 
@@ -34,23 +31,21 @@ const ViewersNumberText = styled(Typography)<TypographyProps>(() => ({
 	paddingRight: 3,
 }));
 
-const ElapsedTimeText = styled(Typography)<TypographyProps>(() => ({
-	fontSize: 11,
-	textAlign: "right",
-}));
+const ElapsedTimeText = styled(Typography)<TypographyProps>(
+	() =>
+		({
+			fontSize: 11,
+			textAlign: "right",
+			// https://github.com/mui/material-ui/issues/30569
+		} as any),
+);
 
-export const StreamsListItem = ({
-	livestream,
-}: FollowsLivestreamListItemProps) => {
+export const StreamsListItem = ({ livestream }: FollowsLivestreamListItemProps) => {
 	const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-	const handlePopoverOpen = (
-		event: React.MouseEvent<HTMLElement, MouseEvent>,
-	) => {
+	const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
 		setAnchorEl(event.currentTarget);
 	};
-	const [elapsedTime, setElapsedTime] = useState(
-		getElapsedTime(livestream.started_at),
-	);
+	const [elapsedTime, setElapsedTime] = useState(getElapsedTime(livestream.started_at));
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -102,17 +97,8 @@ export const StreamsListItem = ({
 					}
 				/>
 				<ListItemSecondaryAction>
-					<IconButton
-						edge="end"
-						disabled
-						size={"small"}
-						sx={{ paddingTop: 0, paddingBottom: "2px" }}
-					>
-						<ViewersNumberText
-							noWrap
-							variant={"subtitle1"}
-							color={"textSecondary"}
-						>
+					<IconButton edge="end" disabled size={"small"} sx={{ paddingTop: 0, paddingBottom: "2px" }}>
+						<ViewersNumberText noWrap variant={"subtitle1"} color={"textSecondary"}>
 							{formatViewers(livestream.viewer_count)}
 						</ViewersNumberText>
 						<ViewerIcon />

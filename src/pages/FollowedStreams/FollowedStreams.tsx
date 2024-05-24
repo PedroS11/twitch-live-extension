@@ -52,13 +52,9 @@ const FollowedStreams = () => {
 	};
 
 	const noStreamsFoundOnSearch = (): boolean =>
-		!loading &&
-		!isTyping &&
-		inputSearch.length > 0 &&
-		searchedLivestreams.length === 0;
+		!loading && !isTyping && inputSearch.length > 0 && searchedLivestreams.length === 0;
 
-	const streamsFoundOnSearch = (): boolean =>
-		inputSearch.length > 0 && searchedLivestreams.length > 0;
+	const streamsFoundOnSearch = (): boolean => inputSearch.length > 0 && searchedLivestreams.length > 0;
 
 	useEffect(() => {
 		inputRef.current?.focus();
@@ -82,27 +78,15 @@ const FollowedStreams = () => {
 			)}
 
 			{!loading && livestreams.length === 0 && (
-				<Typography align={"center"}>
-					Your followed channels are all offline...
-				</Typography>
+				<Typography align={"center"}>Your followed channels are all offline...</Typography>
 			)}
 
-			{noStreamsFoundOnSearch() && (
-				<Typography align={"center"}>
-					Your search doesn't match any streams
-				</Typography>
-			)}
+			{noStreamsFoundOnSearch() && <Typography align={"center"}>{`Your search doesn't match any streams`}</Typography>}
 
 			{loading && <CircularProgress />}
 			{!loading && (
 				<StreamsList
-					liveStreams={
-						streamsFoundOnSearch()
-							? searchedLivestreams
-							: noStreamsFoundOnSearch()
-								? []
-								: livestreams
-					}
+					liveStreams={streamsFoundOnSearch() ? searchedLivestreams : noStreamsFoundOnSearch() ? [] : livestreams}
 				/>
 			)}
 		</>

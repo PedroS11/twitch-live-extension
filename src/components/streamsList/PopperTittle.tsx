@@ -1,18 +1,15 @@
 import React from "react";
-import {
-	Paper,
-	PaperProps,
-	Popper,
-	PopperProps,
-	Typography,
-	TypographyProps,
-} from "@mui/material";
+import { Paper, PaperProps, Popper, PopperProps, Typography, TypographyProps } from "@mui/material";
 import styled from "@emotion/styled";
 
-const Wrapper = styled(Popper)<PopperProps>(() => ({
-	pointerEvents: "none",
-	maxWidth: 300,
-}));
+const Wrapper = styled(Popper)<PopperProps>(
+	() =>
+		({
+			pointerEvents: "none",
+			maxWidth: 300,
+			// https://github.com/mui/material-ui/issues/30569
+		} as any),
+);
 
 const GreyPaper = styled(Paper)<PaperProps>(() => ({
 	backgroundColor: "#383737",
