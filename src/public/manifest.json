@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Twitch Live Extension",
+  "name": "TEST Twitch Live Extension",
   "description": "A browser extension that lists your live followed streamers and sends notifications when they start a new stream",
   "version": "4.2.2",
   "icons": {
