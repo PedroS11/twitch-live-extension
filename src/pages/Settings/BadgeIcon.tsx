@@ -9,11 +9,19 @@ import {
 	Switch,
 	SwitchProps,
 } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import GroupsIcon from "@mui/icons-material/Groups";
 import { blue } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
-import { isNotificationFlagEnabled } from "../../infrastructure/localStorage/localStorageService";
+import {
+	isBadgeIconFlagEnabled,
+	storeBadgeIconFlagOnStorage,
+} from "../../infrastructure/localStorage/localStorageService";
 import { useTwitchStore } from "../../store/twitch";
+import {
+	sendDisableBadgeIconMessage,
+	sendEnableBadgeIconMessage,
+	updateBadgeIcon,
+} from "../../infrastructure/background/messageWrapper";
 
 const Wrapper = styled(ListItem)<ListItemProps>(() => ({
 	height: 50,
@@ -24,7 +32,7 @@ const Icon = styled(ListItemIcon)<ListItemIconProps>(() => ({
 	minWidth: 40,
 }));
 
-const NotificationSwitch = styled(Switch)<SwitchProps>(() => ({
+const BadgeIconSwitch = styled(Switch)<SwitchProps>(() => ({
 	paddingRight: 0,
 	width: 50,
 	switchBase: {
@@ -40,38 +48,46 @@ const NotificationSwitch = styled(Switch)<SwitchProps>(() => ({
 	track: {},
 }));
 
-export const Notifications = () => {
-	const [notificationsFlag, setNotificationsFlag] = useState<boolean>(false);
+export const BadgeIcon = () => {
+	const [badgeIconFlag, setBadgeIconFlag] = useState<boolean>(true);
 
-	const loading = useTwitchStore((state) => state.loading);
-	const updateNotificationState = useTwitchStore(
-		(state) => state.updateNotificationState,
-	);
+	const { livestreams, loading } = useTwitchStore((state) => ({
+		livestreams: state.livestreams,
+		loading: state.loading,
+	}));
 
 	useEffect(() => {
 		const getFlag = async () => {
-			const flag = await isNotificationFlagEnabled();
-			setNotificationsFlag(flag);
+			const flag = await isBadgeIconFlagEnabled();
+			setBadgeIconFlag(flag);
 		};
 		getFlag();
 	}, []);
 
 	const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		setNotificationsFlag(event.target.checked);
-		await updateNotificationState(event.target.checked);
+		setBadgeIconFlag(event.target.checked);
+		await storeBadgeIconFlagOnStorage(event.target.checked);
+
+		if (event.target.checked) {
+			await sendEnableBadgeIconMessage();
+			await updateBadgeIcon(livestreams.length);
+		} else {
+			await sendDisableBadgeIconMessage();
+			await updateBadgeIcon(null);
+		}
 	};
 
 	return (
 		<Wrapper dense>
 			<Icon>
-				<NotificationsIcon />
+				<GroupsIcon />
 			</Icon>
-			<ListItemText primary={<span>Just went live notification</span>} />
+			<ListItemText primary={<span>Show number of live streams</span>} />
 			<ListItemSecondaryAction>
-				<NotificationSwitch
-					checked={notificationsFlag}
+				<BadgeIconSwitch
+					checked={badgeIconFlag}
 					onChange={async (e) => await handleChange(e)}
-					name="notifications-state"
+					name="badge-icon-state"
 					color="primary"
 					inputProps={{ "aria-label": "secondary checkbox" }}
 					disabled={loading}

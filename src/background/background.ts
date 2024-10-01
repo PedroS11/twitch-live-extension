@@ -18,26 +18,27 @@ import { queryState } from "../infrastructure/chrome/idle";
 import IdleState = chrome.idle.IdleState;
 import InstalledDetails = chrome.runtime.InstalledDetails;
 
-chrome.alarms.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 });
-
 // Chrome doesn't support promises on the OnMessage callback, so I had to use .then
 // Reference: https://stackoverflow.com/questions/53024819/chrome-extension-sendresponse-not-waiting-for-async-function
 // On Manifest V2 version of the extension, I was using a Mozilla polyfill that would make the promises work
 chrome.runtime.onMessage.addListener(
 	(msg: BackgroundMessage, _, sendResponse) => {
 		if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
-			chrome.alarms.create(POOLING_ALARM_NAME, {
-				periodInMinutes: POOLING_JUST_WENT_LIVE,
-			} as chrome.alarms.AlarmCreateInfo);
-			sendResponse();
+			chrome.alarms
+				.create(POOLING_ALARM_NAME, {
+					periodInMinutes: POOLING_JUST_WENT_LIVE,
+				} as chrome.alarms.AlarmCreateInfo)
+				.then(sendResponse);
 		} else if (msg.type === MESSAGE_TYPES.DISABLE_NOTIFICATIONS) {
-			chrome.alarms.clear(POOLING_ALARM_NAME).then(() => {
-				sendResponse();
-			});
+			chrome.alarms.clear(POOLING_ALARM_NAME).then(sendResponse);
+		} else if (msg.type === MESSAGE_TYPES.ENABLE_BADGE_ICON) {
+			chrome.alarms
+				.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 })
+				.then(sendResponse);
+		} else if (msg.type === MESSAGE_TYPES.DISABLE_BADGE_ICON) {
+			chrome.alarms.clear(BADGE_ICON_ALARM_NAME).then(sendResponse);
 		} else if (msg.type === MESSAGE_TYPES.UPDATE_BADGE_ICON) {
-			displayNumberOfLivestreams(msg.data.nrStreams).then(() => {
-				sendResponse();
-			});
+			displayNumberOfLivestreams(msg.data.nrStreams).then(sendResponse);
 		}
 		return true;
 	},

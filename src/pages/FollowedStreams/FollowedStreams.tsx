@@ -5,6 +5,7 @@ import { debounce, Typography } from "@mui/material";
 import { StreamsList } from "../../components/streamsList/StreamsList";
 import { SearchBar } from "../../components/searchBar/SearchBar";
 import { FollowedStream } from "../../domain/twitch/service";
+import { setupLocalStorageSettings } from "../../infrastructure/utils/setupLocalStorageSettings";
 
 const FollowedStreams = () => {
 	const [inputSearch, setInputSearch] = useState("");
@@ -14,7 +15,6 @@ const FollowedStreams = () => {
 	const inputRef = useRef<HTMLInputElement>();
 
 	const getLivestreams = useTwitchStore((state) => state.getLivestreams);
-	const resetLivestreams = useTwitchStore((state) => state.resetLivestreams);
 
 	const { livestreams, loading } = useTwitchStore((state) => ({
 		livestreams: state.livestreams,
@@ -65,12 +65,24 @@ const FollowedStreams = () => {
 	}, [inputRef.current]);
 
 	useEffect(() => {
+		(async () => {
+			// Since the App launches from this component
+			// Make it setup all the settings on load
+			await setupLocalStorageSettings();
+		})();
+
 		getLivestreams();
 		return () => {
-			resetLivestreams();
 			debouncedSearch.clear();
 		};
 	}, []);
+
+	let livestreamsToRender = livestreams;
+	if (streamsFoundOnSearch()) {
+		livestreamsToRender = searchedLivestreams;
+	} else if (noStreamsFoundOnSearch()) {
+		livestreamsToRender = [];
+	}
 
 	return (
 		<>
@@ -89,22 +101,13 @@ const FollowedStreams = () => {
 
 			{noStreamsFoundOnSearch() && (
 				<Typography align={"center"}>
+					{/* eslint-disable-next-line react/no-unescaped-entities */}
 					Your search doesn't match any streams
 				</Typography>
 			)}
 
 			{loading && <CircularProgress />}
-			{!loading && (
-				<StreamsList
-					liveStreams={
-						streamsFoundOnSearch()
-							? searchedLivestreams
-							: noStreamsFoundOnSearch()
-								? []
-								: livestreams
-					}
-				/>
-			)}
+			{!loading && <StreamsList liveStreams={livestreamsToRender} />}
 		</>
 	);
 };

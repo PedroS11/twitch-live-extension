@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.3.0 (October 2024)
+
+### Functionalities:
+- Enable/Disable toggle for the live streams icon
+
 ## 4.2.2 (May 24 2024)
 
 ### Fixes:

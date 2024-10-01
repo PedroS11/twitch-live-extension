@@ -5,6 +5,7 @@ import { Notifications } from "./Notifications";
 import { useTwitchStore } from "../../store/twitch";
 import { ValidateTokenResponse } from "../../domain/twitch/api";
 import { CircularProgress } from "../../components/circularProgress/CircularProgress";
+import { BadgeIcon } from "./BadgeIcon";
 
 const Settings = () => {
 	const loading = useTwitchStore((state) => state.loading);
@@ -28,6 +29,7 @@ const Settings = () => {
 				<List>
 					<LogOutAccount user={user} />
 					<Notifications />
+					<BadgeIcon />
 				</List>
 			)}
 			{loading && !user && <CircularProgress />}
