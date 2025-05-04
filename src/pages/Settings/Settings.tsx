@@ -34,7 +34,7 @@ const Settings = () => {
 					<BadgeIcon />
 				</List>
 			)}
-			{!user && (
+			{!user && !loading && (
 				<List>
 					<RefreshToken />
 				</List>
