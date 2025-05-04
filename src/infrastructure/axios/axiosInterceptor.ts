@@ -24,10 +24,7 @@ export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
 				: 1;
 
 			if (originalRequest._retryCount < 3) {
-				const forceAuthenticationPopup: boolean = [401, 403].includes(
-					error?.response?.status,
-				);
-				const newToken = await getRefreshToken(forceAuthenticationPopup);
+				const newToken = await getRefreshToken();
 
 				axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 				return axios(originalRequest);
