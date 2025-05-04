@@ -12,7 +12,7 @@ import {
 import { FollowedStream, TopStream } from "../../domain/twitch/service";
 import { fetchToken } from "../identityFlowAuth/identityFlowAuth";
 
-export const getRefreshToken = async (promptPopup = false): Promise<string> => {
+export const refreshToken = async (promptPopup = false): Promise<string> => {
 	const token = await fetchToken(promptPopup);
 	await storeTokenOnStorage(token);
 	return token;

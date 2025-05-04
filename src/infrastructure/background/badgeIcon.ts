@@ -1,18 +1,16 @@
 import { formatViewers } from "../utils/formatter";
 import { getNumberOfLivestreams } from "../twitch/twitchService";
 import { isBadgeIconFlagEnabled } from "../localStorage/localStorageService";
+import { clearBadgeText, setInfoBadgeText } from "../utils/setBadgeIcon";
 
 export const displayNumberOfLivestreams = async (nrStreams: number | null) => {
 	const badgeIconFlag: boolean = await isBadgeIconFlagEnabled();
 
 	if (badgeIconFlag && Number.isFinite(nrStreams)) {
 		const formattedNumber: string = formatViewers(nrStreams || 0);
-		await chrome.action.setBadgeBackgroundColor({
-			color: [76, 76, 76, 255],
-		});
-		await chrome.action.setBadgeText({ text: formattedNumber });
+		await setInfoBadgeText(formattedNumber);
 	} else {
-		await chrome.action.setBadgeText({ text: "" });
+		await clearBadgeText();
 		return;
 	}
 };
