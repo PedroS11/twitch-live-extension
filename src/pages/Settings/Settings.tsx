@@ -34,6 +34,11 @@ const Settings = () => {
 					<BadgeIcon />
 				</List>
 			)}
+			{!user && (
+				<List>
+					<RefreshToken />
+				</List>
+			)}
 			{loading && !user && <CircularProgress />}
 			<Divider />
 		</>
