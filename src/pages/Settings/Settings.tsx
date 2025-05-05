@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LogOutAccount } from "./LogOutAccount";
-import { Divider, List } from "@mui/material";
+import { List } from "@mui/material";
 import { Notifications } from "./Notifications";
 import { useTwitchStore } from "../../store/twitch";
 import { ValidateTokenResponse } from "../../domain/twitch/api";
@@ -40,7 +40,6 @@ const Settings = () => {
 				</List>
 			)}
 			{loading && !user && <CircularProgress />}
-			<Divider />
 		</>
 	);
 };

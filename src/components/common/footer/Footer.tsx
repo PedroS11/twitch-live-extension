@@ -3,6 +3,7 @@ import {
 	BottomNavigation,
 	BottomNavigationAction,
 	BottomNavigationProps,
+	Divider,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -24,6 +25,7 @@ export const Footer = () => {
 
 	return (
 		<>
+			<Divider />
 			<FooterWrapper
 				showLabels
 				value={value}
