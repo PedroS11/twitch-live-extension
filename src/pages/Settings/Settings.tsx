@@ -12,11 +12,11 @@ const Settings = () => {
 	const loading = useTwitchStore((state) => state.loading);
 	const getUser = useTwitchStore((state) => state.getUser);
 
-	const [user, setUser] = useState<ValidateTokenResponse>();
+	const [user, setUser] = useState<ValidateTokenResponse | undefined>();
 
 	useEffect(() => {
 		const getUserData = async () => {
-			const userData: ValidateTokenResponse = await getUser();
+			const userData: ValidateTokenResponse | undefined = await getUser();
 
 			setUser(userData);
 		};

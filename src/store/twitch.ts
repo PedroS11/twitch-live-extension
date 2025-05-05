@@ -18,6 +18,7 @@ import {
 import { clearDuplicatedStreams } from "../infrastructure/utils/clearDuplicatedStreams";
 import {
 	clearTokenFromStorage,
+	getTokenFromStorage,
 	storeNotificationsFlagOnStorage,
 } from "../infrastructure/localStorage/localStorageService";
 import { revokeTwitchToken } from "../infrastructure/twitch/twitchRepository";
@@ -44,7 +45,7 @@ export interface TwitchState {
 	getTopLivestreams: () => void;
 	fetchMoreTopLivestreams: () => void;
 
-	getUser: () => Promise<ValidateTokenResponse>;
+	getUser: () => Promise<ValidateTokenResponse | undefined>;
 
 	updateNotificationState: (flag: boolean) => void;
 	logOutAccount: () => void;
@@ -92,10 +93,14 @@ export const useTwitchStore = create<TwitchState>()((set, get) => ({
 		}
 	},
 
-	getUser: async (): Promise<ValidateTokenResponse> => {
+	getUser: async (): Promise<ValidateTokenResponse | undefined> => {
 		get().setLoading();
 		let user: ValidateTokenResponse;
 		try {
+			const token = await getTokenFromStorage();
+			if (!token) {
+				return undefined;
+			}
 			user = await getCurrentUser();
 		} catch (e) {
 			console.log("An unexpected error was thrown", e);
