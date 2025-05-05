@@ -4,6 +4,7 @@ const HtmlPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
+	devtool: "cheap-module-source-map",
 	entry: {
 		index: path.resolve("src/index.tsx"),
 		background: path.resolve("src/background/background.ts"),
