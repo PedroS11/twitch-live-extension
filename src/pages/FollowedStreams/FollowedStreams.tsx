@@ -74,12 +74,6 @@ const FollowedStreams = () => {
 			await setupLocalStorageSettings();
 			const token = await getTokenFromStorage();
 			setLoggedIn(!!token);
-			// if (!token) {
-			// 	setLoggedIn(false);
-			// } else {
-			// 	const user = await getCurrentUser();
-			// 	setLoggedIn(!!user);
-			// }
 
 			if (loggedIn) {
 				getLivestreams();
