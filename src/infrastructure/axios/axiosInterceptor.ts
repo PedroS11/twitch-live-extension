@@ -1,8 +1,8 @@
 import { getToken, refreshToken } from "../twitch/twitchHelpers";
 import { AxiosInstance } from "axios";
 import {
+	authErrorBadgeDisplayed,
 	clearBadgeText,
-	getBadgeText,
 	setErrorBadgeText,
 } from "../utils/setBadgeIcon";
 import { AUTH_ERROR_BADGE_TEST } from "../../domain/background/constants";
@@ -21,8 +21,8 @@ export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
 
 	axios.interceptors.response.use(
 		async (response) => {
-			const badgeText = await getBadgeText();
-			if (badgeText === AUTH_ERROR_BADGE_TEST) {
+			const authErrorTextDisplayed = await authErrorBadgeDisplayed();
+			if (authErrorTextDisplayed) {
 				await clearBadgeText();
 			}
 

@@ -5,9 +5,10 @@ import { debounce, Typography } from "@mui/material";
 import { StreamsList } from "../../components/streamsList/StreamsList";
 import { SearchBar } from "../../components/searchBar/SearchBar";
 import { FollowedStream } from "../../domain/twitch/service";
-import { getCurrentUser } from "../../infrastructure/twitch/twitchService";
 import { LoginToTwitch } from "./LoginToTwitch";
 import { setupLocalStorageSettings } from "../../infrastructure/utils/setupLocalStorageSettings";
+import { getTokenFromStorage } from "../../infrastructure/localStorage/localStorageService";
+import { getCurrentUser } from "../../infrastructure/twitch/twitchService";
 
 const FollowedStreams = () => {
 	const [inputSearch, setInputSearch] = useState("");
@@ -72,9 +73,15 @@ const FollowedStreams = () => {
 			// Since the App launches from this component
 			// Make it setup all the settings on load
 			await setupLocalStorageSettings();
-			const user = await getCurrentUser();
+			const token = await getTokenFromStorage();
 
-			setLoggedIn(!!user);
+			if (!token) {
+				setLoggedIn(false);
+			} else {
+				const user = await getCurrentUser();
+				setLoggedIn(!!user);
+			}
+
 			if (loggedIn) {
 				getLivestreams();
 			}
@@ -83,7 +90,7 @@ const FollowedStreams = () => {
 		return () => {
 			debouncedSearch.clear();
 		};
-	}, []);
+	}, [loggedIn]);
 
 	let livestreamsToRender = livestreams;
 	if (streamsFoundOnSearch()) {

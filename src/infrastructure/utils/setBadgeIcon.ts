@@ -1,3 +1,5 @@
+import { AUTH_ERROR_BADGE_TEST } from "../../domain/background/constants";
+
 export const setErrorBadgeText = async (text: string) => {
 	await chrome.action.setBadgeBackgroundColor({
 		color: "#f30000",
@@ -18,4 +20,9 @@ export const setInfoBadgeText = async (text: string) => {
 
 export const getBadgeText = async () => {
 	return chrome.action.getBadgeText({});
+};
+
+export const authErrorBadgeDisplayed = async () => {
+	const badgeText = await getBadgeText();
+	return badgeText === AUTH_ERROR_BADGE_TEST;
 };
