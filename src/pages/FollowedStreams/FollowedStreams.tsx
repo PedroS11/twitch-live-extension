@@ -8,7 +8,6 @@ import { FollowedStream } from "../../domain/twitch/service";
 import { LoginToTwitch } from "./LoginToTwitch";
 import { setupLocalStorageSettings } from "../../infrastructure/utils/setupLocalStorageSettings";
 import { getTokenFromStorage } from "../../infrastructure/localStorage/localStorageService";
-import { getCurrentUser } from "../../infrastructure/twitch/twitchService";
 
 const FollowedStreams = () => {
 	const [inputSearch, setInputSearch] = useState("");
@@ -74,13 +73,13 @@ const FollowedStreams = () => {
 			// Make it setup all the settings on load
 			await setupLocalStorageSettings();
 			const token = await getTokenFromStorage();
-
-			if (!token) {
-				setLoggedIn(false);
-			} else {
-				const user = await getCurrentUser();
-				setLoggedIn(!!user);
-			}
+			setLoggedIn(!!token);
+			// if (!token) {
+			// 	setLoggedIn(false);
+			// } else {
+			// 	const user = await getCurrentUser();
+			// 	setLoggedIn(!!user);
+			// }
 
 			if (loggedIn) {
 				getLivestreams();

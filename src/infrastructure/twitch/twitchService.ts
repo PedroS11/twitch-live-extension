@@ -114,7 +114,6 @@ export const getAllFollowedStreams = async (
 };
 
 export const getNumberOfLivestreams = async (): Promise<number | null> => {
-	let nrStreams = 0;
 	// The first time it's installed, there's no token, so it shouldn't render the icon
 	const token: string = await getTokenFromStorage();
 	if (!token) {
@@ -124,10 +123,10 @@ export const getNumberOfLivestreams = async (): Promise<number | null> => {
 
 	if (user) {
 		const streams: FollowedStream[] = await getAllFollowedStreams(user.user_id);
-		nrStreams = streams.length;
+		return streams.length;
 	}
 
-	return nrStreams;
+	return null;
 };
 
 export const getJustWentLive = async () => {
