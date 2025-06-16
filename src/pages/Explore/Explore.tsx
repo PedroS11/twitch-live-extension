@@ -6,6 +6,7 @@ import {
 	MAX_HEIGHT,
 	StreamsList,
 } from "../../components/streamsList/StreamsList";
+import { getTokenFromStorage } from "../../infrastructure/localStorage/localStorageService";
 
 const isAtTheBottom = (event: any): boolean => {
 	// The total height you can scroll
@@ -43,16 +44,19 @@ const Explore = () => {
 	};
 
 	useEffect(() => {
-		getTopLivestreams();
+		(async () => {
+			const token = await getTokenFromStorage();
+			if (token) {
+				getTopLivestreams();
+			}
+		})();
 		return () => resetTopLivestreams();
 	}, []);
 
 	return (
 		<div>
 			{!loading && topLivestreams.length === 0 && (
-				<Typography align={"center"}>
-					Your followed channels are all offline...
-				</Typography>
+				<Typography align={"center"}>No channels to display</Typography>
 			)}
 			{!loading && topLivestreams.length > 0 && (
 				<StreamsList

@@ -1,5 +1,11 @@
-import { getToken, getRefreshToken } from "../twitch/twitchHelpers";
+import { getToken, refreshToken } from "../twitch/twitchHelpers";
 import { AxiosInstance } from "axios";
+import {
+	authErrorBadgeDisplayed,
+	clearBadgeText,
+	setErrorBadgeText,
+} from "../utils/setBadgeIcon";
+import { AUTH_ERROR_BADGE_TEST } from "../../domain/background/constants";
 
 export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
 	axios.interceptors.request.use(
@@ -13,9 +19,15 @@ export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
 		(error) => Promise.reject(error),
 	);
 
-	//Add a response interceptor
 	axios.interceptors.response.use(
-		(response) => response,
+		async (response) => {
+			const authErrorTextDisplayed = await authErrorBadgeDisplayed();
+			if (authErrorTextDisplayed) {
+				await clearBadgeText();
+			}
+
+			return response;
+		},
 		async (error) => {
 			const originalRequest = error.config;
 
@@ -23,15 +35,19 @@ export const axiosInterceptor = (axios: AxiosInstance): AxiosInstance => {
 				? ++originalRequest._retryCount
 				: 1;
 
-			if (originalRequest._retryCount < 3) {
-				const forceAuthenticationPopup: boolean = [401, 403].includes(
-					error?.response?.status,
-				);
-				const newToken = await getRefreshToken(forceAuthenticationPopup);
+			try {
+				if (originalRequest._retryCount < 1) {
+					const newToken = await refreshToken();
 
-				axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-				return axios(originalRequest);
+					axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+					return axios(originalRequest);
+				}
+			} catch (error) {
+				await setErrorBadgeText(AUTH_ERROR_BADGE_TEST);
+
+				return Promise.reject(error);
 			}
+			await setErrorBadgeText(AUTH_ERROR_BADGE_TEST);
 
 			return Promise.reject(error);
 		},

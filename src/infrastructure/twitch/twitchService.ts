@@ -39,8 +39,15 @@ export const getUserById = async (userId: string): Promise<TwitchUser> => {
 /**
  * Gets the token information for the current logged in user
  */
-export const getCurrentUser = async (): Promise<ValidateTokenResponse> =>
-	validateTwitchToken();
+export const getCurrentUser = async (): Promise<
+	ValidateTokenResponse | undefined
+> => {
+	try {
+		return await validateTwitchToken();
+	} catch (e) {
+		return undefined;
+	}
+};
 
 export const getFollowedStreams = async (
 	userId: string,
@@ -107,24 +114,26 @@ export const getAllFollowedStreams = async (
 };
 
 export const getNumberOfLivestreams = async (): Promise<number | null> => {
-	let nrStreams = 0;
 	// The first time it's installed, there's no token, so it shouldn't render the icon
 	const token: string = await getTokenFromStorage();
 	if (!token) {
 		return null;
 	}
-	const user: ValidateTokenResponse = await getCurrentUser();
+	const user: ValidateTokenResponse | undefined = await getCurrentUser();
 
 	if (user) {
 		const streams: FollowedStream[] = await getAllFollowedStreams(user.user_id);
-		nrStreams = streams.length;
+		return streams.length;
 	}
 
-	return nrStreams;
+	return null;
 };
 
 export const getJustWentLive = async () => {
-	const user: ValidateTokenResponse = await getCurrentUser();
+	const user: ValidateTokenResponse | undefined = await getCurrentUser();
+	if (!user) {
+		return [];
+	}
 
 	const livestreams: FollowedStream[] = await getAllFollowedStreams(
 		user.user_id,

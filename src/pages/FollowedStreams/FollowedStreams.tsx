@@ -5,12 +5,15 @@ import { debounce, Typography } from "@mui/material";
 import { StreamsList } from "../../components/streamsList/StreamsList";
 import { SearchBar } from "../../components/searchBar/SearchBar";
 import { FollowedStream } from "../../domain/twitch/service";
+import { LoginToTwitch } from "./LoginToTwitch";
 import { setupLocalStorageSettings } from "../../infrastructure/utils/setupLocalStorageSettings";
+import { getTokenFromStorage } from "../../infrastructure/localStorage/localStorageService";
 
 const FollowedStreams = () => {
 	const [inputSearch, setInputSearch] = useState("");
 	const [isTyping, setIsTyping] = useState(false);
 	const [searchedLivestreams, setSearchedLivestreams] = useState([]);
+	const [loggedIn, setLoggedIn] = useState(false);
 
 	const inputRef = useRef<HTMLInputElement>();
 
@@ -69,19 +72,28 @@ const FollowedStreams = () => {
 			// Since the App launches from this component
 			// Make it setup all the settings on load
 			await setupLocalStorageSettings();
+			const token = await getTokenFromStorage();
+			setLoggedIn(!!token);
+
+			if (loggedIn) {
+				getLivestreams();
+			}
 		})();
 
-		getLivestreams();
 		return () => {
 			debouncedSearch.clear();
 		};
-	}, []);
+	}, [loggedIn]);
 
 	let livestreamsToRender = livestreams;
 	if (streamsFoundOnSearch()) {
 		livestreamsToRender = searchedLivestreams;
 	} else if (noStreamsFoundOnSearch()) {
 		livestreamsToRender = [];
+	}
+
+	if (!loggedIn) {
+		return <LoginToTwitch />;
 	}
 
 	return (

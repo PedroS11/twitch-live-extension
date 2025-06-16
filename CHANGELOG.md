@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.3.1 (May 2025)
+
+### Functionalities:
+- Fix undesired authentication popups from happening
+
 ## 4.3.0 (October 2024)
 
 ### Functionalities:
