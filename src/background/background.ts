@@ -18,15 +18,12 @@ import { queryState } from "../infrastructure/chrome/idle";
 import { fetchToken } from "../infrastructure/identityFlowAuth/identityFlowAuth";
 import IdleState = chrome.idle.IdleState;
 import InstalledDetails = chrome.runtime.InstalledDetails;
+import { storeTokenOnStorage } from "../infrastructure/localStorage/localStorageService";
+import { isFirefox } from "../infrastructure/utils/browserFinder";
 
 // Firefox MV3 requires using browser.runtime with Promise returns
 // Chrome uses chrome.runtime with sendResponse callback
 // Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1843898
-declare const browser: typeof chrome | undefined;
-const isFirefox = navigator.userAgent.includes("Firefox");
-
-// Main token storage key (must match localStorageConstants.ts)
-const TOKEN_KEY = "tle-token";
 
 // Firefox message handler - stores token directly to storage since popup gets suspended during auth
 const handleMessageFirefox = (
@@ -62,7 +59,7 @@ const handleMessageFirefox = (
 		// Store token directly to main storage so popup finds it when reopened
 		fetchToken(promptVerify)
 			.then(async (token) => {
-				await chrome.storage.local.set({ [TOKEN_KEY]: token });
+				await storeTokenOnStorage(token);
 			})
 			.catch(() => {
 				// Error handling - token fetch failed
@@ -118,7 +115,7 @@ const handleMessageChrome = (
 // Both Firefox and Chrome now use the same callback pattern, but Firefox uses storage workaround for FETCH_TOKEN
 chrome.runtime.onMessage.addListener(
 	(msg: BackgroundMessage, sender, sendResponse) => {
-		if (isFirefox) {
+		if (isFirefox()) {
 			return handleMessageFirefox(msg, sender, sendResponse);
 		} else {
 			return handleMessageChrome(msg, sendResponse);

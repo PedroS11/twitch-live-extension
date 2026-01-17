@@ -1,12 +1,12 @@
 import { BackgroundMessage } from "../../domain/background/backgroundMessage";
 import { MESSAGE_TYPES } from "../../domain/background/constants";
+import { isFirefox } from "../utils/browserFinder";
 
 // Use browser.runtime for Firefox (native Promise support), chrome.runtime for Chrome
 declare const browser: typeof chrome | undefined;
-const isFirefox = navigator.userAgent.includes("Firefox");
 const hasBrowserRuntime = typeof browser !== "undefined";
 const runtime =
-	isFirefox && hasBrowserRuntime ? browser.runtime : chrome.runtime;
+	isFirefox() && hasBrowserRuntime ? browser.runtime : chrome.runtime;
 
 export const sendEnableNotificationMessage = async () =>
 	runtime.sendMessage({
@@ -37,7 +37,7 @@ export const updateBadgeIcon = async (nrStreams: number) =>
 export const sendFetchTokenMessage = async (
 	promptVerify = false,
 ): Promise<string> => {
-	if (isFirefox) {
+	if (isFirefox()) {
 		// Firefox MV3: popup gets suspended during OAuth flow, can't receive response
 		// Background stores token directly to storage, popup finds it on next open
 		runtime
