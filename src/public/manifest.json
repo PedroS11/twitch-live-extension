@@ -14,7 +14,8 @@
     "default_icon": "icon.png"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
   },
   "host_permissions": [
     "https://id.twitch.tv/oauth2/*",

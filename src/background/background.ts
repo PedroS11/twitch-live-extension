@@ -15,34 +15,122 @@ import {
 } from "../infrastructure/background/justWenLiveNotifications";
 import { processOnInstallEvents } from "../infrastructure/background/onInstalled";
 import { queryState } from "../infrastructure/chrome/idle";
+import { fetchToken } from "../infrastructure/identityFlowAuth/identityFlowAuth";
 import IdleState = chrome.idle.IdleState;
 import InstalledDetails = chrome.runtime.InstalledDetails;
 
-// Chrome doesn't support promises on the OnMessage callback, so I had to use .then
-// Reference: https://stackoverflow.com/questions/53024819/chrome-extension-sendresponse-not-waiting-for-async-function
-// On Manifest V2 version of the extension, I was using a Mozilla polyfill that would make the promises work
-chrome.runtime.onMessage.addListener(
-	(msg: BackgroundMessage, _, sendResponse) => {
-		if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
-			chrome.alarms
-				.create(POOLING_ALARM_NAME, {
-					periodInMinutes: POOLING_JUST_WENT_LIVE,
-				} as chrome.alarms.AlarmCreateInfo)
-				.then(sendResponse);
-		} else if (msg.type === MESSAGE_TYPES.DISABLE_NOTIFICATIONS) {
-			chrome.alarms.clear(POOLING_ALARM_NAME).then(sendResponse);
-		} else if (msg.type === MESSAGE_TYPES.ENABLE_BADGE_ICON) {
-			chrome.alarms
-				.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 })
-				.then(sendResponse);
-		} else if (msg.type === MESSAGE_TYPES.DISABLE_BADGE_ICON) {
-			chrome.alarms.clear(BADGE_ICON_ALARM_NAME).then(sendResponse);
-		} else if (msg.type === MESSAGE_TYPES.UPDATE_BADGE_ICON) {
-			displayNumberOfLivestreams(msg.data.nrStreams).then(sendResponse);
-		}
+// Firefox MV3 requires using browser.runtime with Promise returns
+// Chrome uses chrome.runtime with sendResponse callback
+// Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1843898
+declare const browser: typeof chrome | undefined;
+const isFirefox = navigator.userAgent.includes("Firefox");
+console.log("Browser detected:", isFirefox ? "Firefox" : "Chrome/Other");
+
+// Main token storage key (must match localStorageConstants.ts)
+const TOKEN_KEY = "tle-token";
+
+// Firefox message handler - stores token directly to storage since popup gets suspended during auth
+const handleMessageFirefox = (
+	msg: BackgroundMessage,
+	_sender: chrome.runtime.MessageSender,
+	sendResponse: (response?: unknown) => void,
+): boolean => {
+	console.log("Background received message (Firefox):", msg.type);
+
+	if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
+		chrome.alarms
+			.create(POOLING_ALARM_NAME, {
+				periodInMinutes: POOLING_JUST_WENT_LIVE,
+			} as chrome.alarms.AlarmCreateInfo)
+			.then(sendResponse);
 		return true;
-	},
-);
+	} else if (msg.type === MESSAGE_TYPES.DISABLE_NOTIFICATIONS) {
+		chrome.alarms.clear(POOLING_ALARM_NAME).then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.ENABLE_BADGE_ICON) {
+		chrome.alarms
+			.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 })
+			.then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.DISABLE_BADGE_ICON) {
+		chrome.alarms.clear(BADGE_ICON_ALARM_NAME).then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.UPDATE_BADGE_ICON) {
+		displayNumberOfLivestreams(msg.data.nrStreams).then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.FETCH_TOKEN) {
+		const promptVerify = msg.data?.promptVerify ?? false;
+
+		// Firefox MV3: popup gets suspended during OAuth, can't receive message response
+		// Store token directly to main storage so popup finds it when reopened
+		fetchToken(promptVerify)
+			.then(async (token) => {
+				console.log("Firefox: Token obtained, storing directly to main storage");
+				await chrome.storage.local.set({ [TOKEN_KEY]: token });
+				console.log("Firefox: Token stored successfully");
+			})
+			.catch((error) => {
+				console.error("Firefox: Error fetching token:", error);
+			});
+
+		// Return false - we're using storage, not sendResponse
+		return false;
+	}
+	return false;
+};
+
+// Chrome message handler - uses sendResponse callback
+const handleMessageChrome = (
+	msg: BackgroundMessage,
+	sendResponse: (response?: unknown) => void,
+): boolean => {
+	console.log("Background received message (Chrome):", msg.type);
+
+	if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
+		chrome.alarms
+			.create(POOLING_ALARM_NAME, {
+				periodInMinutes: POOLING_JUST_WENT_LIVE,
+			} as chrome.alarms.AlarmCreateInfo)
+			.then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.DISABLE_NOTIFICATIONS) {
+		chrome.alarms.clear(POOLING_ALARM_NAME).then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.ENABLE_BADGE_ICON) {
+		chrome.alarms
+			.create(BADGE_ICON_ALARM_NAME, { periodInMinutes: 1 })
+			.then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.DISABLE_BADGE_ICON) {
+		chrome.alarms.clear(BADGE_ICON_ALARM_NAME).then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.UPDATE_BADGE_ICON) {
+		displayNumberOfLivestreams(msg.data.nrStreams).then(sendResponse);
+		return true;
+	} else if (msg.type === MESSAGE_TYPES.FETCH_TOKEN) {
+		const promptVerify = msg.data?.promptVerify ?? false;
+		fetchToken(promptVerify)
+			.then((token) => {
+				console.log("token2", token);
+				sendResponse({ success: true, token });
+			})
+			.catch((error) => {
+				sendResponse({ success: false, error: error.message });
+			});
+		return true;
+	}
+	return false;
+};
+
+// Register the message listener
+// Both Firefox and Chrome now use the same callback pattern, but Firefox uses storage workaround for FETCH_TOKEN
+chrome.runtime.onMessage.addListener((msg: BackgroundMessage, sender, sendResponse) => {
+	if (isFirefox) {
+		return handleMessageFirefox(msg, sender, sendResponse);
+	} else {
+		return handleMessageChrome(msg, sendResponse);
+	}
+});
 
 chrome.alarms.onAlarm.addListener(async (alarm: chrome.alarms.Alarm) => {
 	const state: IdleState = await queryState(15);

@@ -4,6 +4,7 @@ export enum MESSAGE_TYPES {
 	ENABLE_BADGE_ICON = "enable-notifications-icon",
 	DISABLE_BADGE_ICON = "disable-notifications-icon",
 	UPDATE_BADGE_ICON = "update-badge-icon",
+	FETCH_TOKEN = "fetch-token",
 }
 
 export const POOLING_JUST_WENT_LIVE = 2;
