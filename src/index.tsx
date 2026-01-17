@@ -1,55 +1,56 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import { Suspense, lazy } from "react";
+import { createRoot } from "react-dom/client";
 import darkTheme from "./theme/darkTheme";
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { Header } from "./components/common/header/Header";
 import { Footer } from "./components/common/footer/Footer";
 import "./index.css";
 
-const Explore = React.lazy(() => import("./pages/Explore/Explore"));
-const Settings = React.lazy(() => import("./pages/Settings/Settings"));
-const FollowedStreams = React.lazy(
+const Explore = lazy(() => import("./pages/Explore/Explore"));
+const Settings = lazy(() => import("./pages/Settings/Settings"));
+const FollowedStreams = lazy(
 	() => import("./pages/FollowedStreams/FollowedStreams"),
 );
 
-const routing = (
+const App = () => (
 	<ThemeProvider theme={darkTheme}>
-		<BrowserRouter>
+		<HashRouter>
 			<CssBaseline />
 			<Header />
 			<Routes>
 				<Route
 					path={"/explore"}
 					element={
-						<React.Suspense fallback={<>...</>}>
+						<Suspense fallback={<>...</>}>
 							<Explore />
-						</React.Suspense>
+						</Suspense>
 					}
 				/>
 				<Route
 					path={"/settings"}
 					element={
-						<React.Suspense fallback={<>...</>}>
+						<Suspense fallback={<>...</>}>
 							<Settings />
-						</React.Suspense>
+						</Suspense>
 					}
 				/>
 				<Route
 					path="*"
 					element={
-						<React.Suspense fallback={<>...</>}>
+						<Suspense fallback={<>...</>}>
 							<FollowedStreams />
-						</React.Suspense>
+						</Suspense>
 					}
 				/>
 			</Routes>
 			<Footer />
-		</BrowserRouter>
+		</HashRouter>
 	</ThemeProvider>
 );
 
-const root = document.createElement("div");
-document.body.appendChild(root);
-ReactDOM.render(routing, root);
+const container = document.createElement("div");
+document.body.appendChild(container);
+const root = createRoot(container);
+root.render(<App />);
