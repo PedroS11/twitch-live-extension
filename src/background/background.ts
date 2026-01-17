@@ -24,7 +24,6 @@ import InstalledDetails = chrome.runtime.InstalledDetails;
 // Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1843898
 declare const browser: typeof chrome | undefined;
 const isFirefox = navigator.userAgent.includes("Firefox");
-console.log("Browser detected:", isFirefox ? "Firefox" : "Chrome/Other");
 
 // Main token storage key (must match localStorageConstants.ts)
 const TOKEN_KEY = "tle-token";
@@ -35,8 +34,6 @@ const handleMessageFirefox = (
 	_sender: chrome.runtime.MessageSender,
 	sendResponse: (response?: unknown) => void,
 ): boolean => {
-	console.log("Background received message (Firefox):", msg.type);
-
 	if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
 		chrome.alarms
 			.create(POOLING_ALARM_NAME, {
@@ -65,12 +62,10 @@ const handleMessageFirefox = (
 		// Store token directly to main storage so popup finds it when reopened
 		fetchToken(promptVerify)
 			.then(async (token) => {
-				console.log("Firefox: Token obtained, storing directly to main storage");
 				await chrome.storage.local.set({ [TOKEN_KEY]: token });
-				console.log("Firefox: Token stored successfully");
 			})
-			.catch((error) => {
-				console.error("Firefox: Error fetching token:", error);
+			.catch(() => {
+				// Error handling - token fetch failed
 			});
 
 		// Return false - we're using storage, not sendResponse
@@ -84,8 +79,6 @@ const handleMessageChrome = (
 	msg: BackgroundMessage,
 	sendResponse: (response?: unknown) => void,
 ): boolean => {
-	console.log("Background received message (Chrome):", msg.type);
-
 	if (msg.type === MESSAGE_TYPES.ENABLE_NOTIFICATIONS) {
 		chrome.alarms
 			.create(POOLING_ALARM_NAME, {
@@ -111,7 +104,6 @@ const handleMessageChrome = (
 		const promptVerify = msg.data?.promptVerify ?? false;
 		fetchToken(promptVerify)
 			.then((token) => {
-				console.log("token2", token);
 				sendResponse({ success: true, token });
 			})
 			.catch((error) => {
@@ -124,13 +116,15 @@ const handleMessageChrome = (
 
 // Register the message listener
 // Both Firefox and Chrome now use the same callback pattern, but Firefox uses storage workaround for FETCH_TOKEN
-chrome.runtime.onMessage.addListener((msg: BackgroundMessage, sender, sendResponse) => {
-	if (isFirefox) {
-		return handleMessageFirefox(msg, sender, sendResponse);
-	} else {
-		return handleMessageChrome(msg, sendResponse);
-	}
-});
+chrome.runtime.onMessage.addListener(
+	(msg: BackgroundMessage, sender, sendResponse) => {
+		if (isFirefox) {
+			return handleMessageFirefox(msg, sender, sendResponse);
+		} else {
+			return handleMessageChrome(msg, sendResponse);
+		}
+	},
+);
 
 chrome.alarms.onAlarm.addListener(async (alarm: chrome.alarms.Alarm) => {
 	const state: IdleState = await queryState(15);

@@ -14,7 +14,9 @@ import { sendFetchTokenMessage } from "../background/messageWrapper";
 
 export const refreshToken = async (promptPopup = false): Promise<string> => {
 	const token = await sendFetchTokenMessage(promptPopup);
-	await storeTokenOnStorage(token);
+	if (token) {
+		await storeTokenOnStorage(token);
+	}
 	return token;
 };
 
@@ -24,7 +26,9 @@ export const getToken = async (): Promise<string> => {
 
 		if (!tokenStorage) {
 			const token = await sendFetchTokenMessage(true);
-			await storeTokenOnStorage(token);
+			if (token) {
+				await storeTokenOnStorage(token);
+			}
 			return token;
 		}
 		return tokenStorage;
