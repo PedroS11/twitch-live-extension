@@ -6,6 +6,8 @@
   "scripts": {
     "start": "webpack --watch --progress --config webpack.dev.js",
     "build": "webpack --progress --config webpack.prod.js",
+    "build:browser": "yarn run build && BROWSER=chrome node scripts/manifest/generateManifest.mjs",
+    "build:firefox": "yarn run build && BROWSER=firefox node scripts/manifest/generateManifest.mjs",
     "dev": "webpack serve --config webpack.dev.js --open",
     "lint": "eslint --ext .js,.ts,.jsx,.tsx src",
     "format": "yarn run lint --fix & yarn prettier --write 'src/**/*.{js,jsx,ts,tsx}'",

@@ -13,10 +13,6 @@
     "default_title": "Twitch Live Extension",
     "default_icon": "icon.png"
   },
-  "background": {
-    "service_worker": "background.js",
-    "scripts": ["background.js"]
-  },
   "host_permissions": [
     "https://id.twitch.tv/oauth2/*",
     "https://api.twitch.tv/helix/*"
