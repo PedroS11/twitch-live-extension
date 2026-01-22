@@ -12,11 +12,6 @@
     "format": "yarn run lint --fix & yarn prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
     "prepare": "husky install"
   },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
-      "npm run format"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PedroS11/twitch-live-extension.git"
