@@ -4,17 +4,17 @@ import fs from "fs";
 import path from "path";
 import liveServer from "live-server";
 
+// Clean dist folder
 const distDir = path.resolve("dist");
+if (fs.existsSync(distDir)) {
+	fs.rmSync(distDir, { recursive: true });
+}
+fs.mkdirSync(distDir);
 
 // Copy public files
-function copyPublic() {
-	if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
-	for (const file of fs.readdirSync("public")) {
-		fs.copyFileSync(path.resolve("public", file), path.resolve(distDir, file));
-	}
+for (const file of fs.readdirSync("public")) {
+	fs.copyFileSync(`public/${file}`, `dist/${file}`);
 }
-
-copyPublic();
 
 // === 1️⃣ Build UI with context + watch ===
 const uiContext = await esbuild.context({

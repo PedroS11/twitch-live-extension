@@ -5,7 +5,9 @@ import path from "path";
 
 // Clean dist folder
 const distDir = path.resolve("dist");
-if (fs.existsSync(distDir)) fs.rmSync(distDir, { recursive: true });
+if (fs.existsSync(distDir)) {
+	fs.rmSync(distDir, { recursive: true });
+}
 fs.mkdirSync(distDir);
 
 // Copy public files
