@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Twitch Live Extension",
+  "description": "A browser extension that lists your live followed streamers and sends notifications when they start a new stream",
+  "version": "4.3.2",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Twitch Live Extension",
+    "default_icon": "icon.png"
+  },
+  "host_permissions": [
+    "https://id.twitch.tv/oauth2/*",
+    "https://api.twitch.tv/helix/*"
+  ],
+  "permissions": [
+    "identity",
+    "notifications",
+    "alarms",
+    "storage",
+    "idle"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
