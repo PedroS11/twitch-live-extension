@@ -11,10 +11,6 @@
 A browser extension that will help you find out when your followed streamers are live on Twitch
 and will send notifications when they go live.
 
-## Disclaimer
-
-> Firefox version is behind Chrome one and it will continue for a few more months until Firefox fully supports Manifest Version 3. Currently, it doesn't support [service_workers](https://github.com/mozilla/web-ext/issues/2532) that I use for authentication, went live notifications and the number on the badge icon. As soon as this feature is implemented, I'll release the recent version to Firefox too.
-
 ## Table of Contents
 
 * [How to Use ](#how-to-use)

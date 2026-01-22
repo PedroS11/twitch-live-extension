@@ -10,11 +10,13 @@ import {
 	TwitchUser,
 } from "../../domain/twitch/api";
 import { FollowedStream, TopStream } from "../../domain/twitch/service";
-import { fetchToken } from "../identityFlowAuth/identityFlowAuth";
+import { sendFetchTokenMessage } from "../background/messageWrapper";
 
 export const refreshToken = async (promptPopup = false): Promise<string> => {
-	const token = await fetchToken(promptPopup);
-	await storeTokenOnStorage(token);
+	const token = await sendFetchTokenMessage(promptPopup);
+	if (token) {
+		await storeTokenOnStorage(token);
+	}
 	return token;
 };
 
@@ -23,10 +25,10 @@ export const getToken = async (): Promise<string> => {
 		const tokenStorage = await getTokenFromStorage();
 
 		if (!tokenStorage) {
-			// As soon as Mozilla supports background messages returning data
-			// We can read the token as a background response instead of getting it from the storage
-			const token = await fetchToken(true);
-			await storeTokenOnStorage(token);
+			const token = await sendFetchTokenMessage(true);
+			if (token) {
+				await storeTokenOnStorage(token);
+			}
 			return token;
 		}
 		return tokenStorage;

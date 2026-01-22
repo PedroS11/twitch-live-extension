@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.3.2 (January 2026)
+
+### Functionalities:
+- Update code so Firefox can be used with the latest changes since version 3.3.0
+
 ## 4.3.1 (May 2025)
 
 ### Functionalities:
