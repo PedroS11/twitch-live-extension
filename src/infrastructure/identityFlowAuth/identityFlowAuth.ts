@@ -32,7 +32,6 @@ export const fetchToken = async (promptVerify = false): Promise<string> => {
 	);
 
 	const token = queryParams.get("access_token");
-
 	const state = queryParams.get("state");
 
 	if (!token) {
