@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.3.3 (November 2026)
+
+### Fixes:
+- Fix background alarms not being persisted between Firefox sessions
+
 ## 4.3.2 (January 2026)
 
 ### Functionalities:
