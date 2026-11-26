@@ -25,6 +25,51 @@ import { isFirefox } from "../infrastructure/utils/browserFinder";
 // Chrome uses chrome.runtime with sendResponse callback
 // Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1843898
 
+// ---------------------------------------------------------------------------
+// FIX: Firefox does not persist alarms between browser sessions (and its
+// background page is non-persistent), so the alarms must be re-created from
+// the saved settings every time the background script starts.
+// ---------------------------------------------------------------------------
+
+// Values are stored as strings ("true"/"false"), so compare against the string.
+const readSettings = async (): Promise<{
+	badgeEnabled: boolean;
+	notificationsEnabled: boolean;
+}> => {
+	const stored = await chrome.storage.local.get([
+		"tle-badge-icon-enable",
+		"tle-notifications-enable",
+	]);
+	const isOn = (value: unknown) => value === true || value === "true";
+	return {
+		badgeEnabled: isOn(stored["tle-badge-icon-enable"]),
+		notificationsEnabled: isOn(stored["tle-notifications-enable"]),
+	};
+};
+
+const ensureAlarm = async (name: string, periodInMinutes: number) => {
+	const existing = await chrome.alarms.get(name);
+	if (!existing) {
+		await chrome.alarms.create(name, {
+			periodInMinutes,
+		} as chrome.alarms.AlarmCreateInfo);
+	}
+};
+
+const restoreAlarms = async () => {
+	try {
+		const { badgeEnabled, notificationsEnabled } = await readSettings();
+		if (badgeEnabled) {
+			await ensureAlarm(BADGE_ICON_ALARM_NAME, 1);
+		}
+		if (notificationsEnabled) {
+			await ensureAlarm(POOLING_ALARM_NAME, POOLING_JUST_WENT_LIVE);
+		}
+	} catch (e) {
+		console.error("Failed to restore alarms", e);
+	}
+};
+
 // Firefox message handler - stores token directly to storage since popup gets suspended during auth
 const handleMessageFirefox = (
 	msg: BackgroundMessage,
@@ -143,3 +188,8 @@ chrome.notifications.onClicked.addListener(
 chrome.runtime.onInstalled.addListener(
 	async (details: InstalledDetails) => await processOnInstallEvents(details),
 );
+
+// FIX: re-create the alarms when the browser starts...
+chrome.runtime.onStartup.addListener(restoreAlarms);
+// ...and every time the background script is (re)loaded, e.g. woken up by an event
+restoreAlarms();
